@@ -1,0 +1,184 @@
+@import url(variables.css);
+@import url(../componentes/header.css);
+
+body{
+    font-family: sans-serif;
+    margin: 0;
+    background-color: var(--green3);
+}
+
+/*    FILTROS   */
+.filter{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: var(--filters-h);
+}
+
+.filter__filters{
+    display: flex;
+    gap: 15px;
+    background-color: var(--greenfil);
+    padding: 10px 15px;
+    border-radius: var(--radius);
+}
+
+.filter__select{
+    padding: 10px 10px;
+    width: 150px;
+    border-radius: var(--radius);
+    border: 1px solid var(--green);
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+
+    background: url('https://cdn0.iconfinder.com/data/icons/lightly-2-interface/24/chevron-down-512.png');
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
+    background-position: right;
+    background-origin: content-box;
+}
+
+.filter__btn{
+    height: var(--btn-height);
+    padding: var(--btn-pd);
+    border-radius: var(--radius);
+    border: 0;
+    background-color: var(--blue);
+    color: var(--blue3);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/*    LIBROS    */
+.books {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: var(--box-pd);
+}
+
+.books__container {
+    position: relative;
+}
+
+.books__book {
+    width: 260px;
+    height: 378px;
+    position: relative;
+    color: black;
+    text-decoration: none;
+}
+
+.books__img {
+    width: 100%;
+    height: 100%;
+}
+
+.books__info {
+    background-color: var(--yellow3);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.books__title {
+    font-weight: 600;
+}
+
+.books__autor {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.books__details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(243, 228, 12, 0.9);
+    padding: 35px;
+    box-sizing: border-box;
+    display: none;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 10px;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.books__book:hover .books__details {
+    display: flex;
+    opacity: 1;
+}
+
+.books__details p{
+    text-align: justify;
+    hyphens: auto;
+    z-index: 999;
+    margin: 0;
+}
+
+.books__language{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--greenfil);
+    padding: 5px 10px;
+    border-radius: 0 0 0 var(--radius);
+}
+
+
+@media screen and (max-width:1200px) {
+    .filter{
+        justify-content: center;
+        gap: 20px;
+        flex-direction: column;
+        margin: 30px 0;
+    }
+
+    .filter__filters{
+        max-width: 90vw;
+        overflow-x: scroll;
+    }
+
+    .filter__select{
+        min-width: 150px;
+    }
+}
+
+@media screen and (max-width:650px){
+    .books{
+        gap: 20px;
+    }
+
+    .books__book{
+        width: 200px;
+        height: 300px;
+    }
+
+    .books__details {
+        display: none !important;
+    }
+
+}

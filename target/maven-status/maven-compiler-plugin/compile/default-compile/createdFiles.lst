@@ -1,0 +1,16 @@
+MODELO\register_class.class
+my\proyecto_bvinem\servlets\subir_doc.class
+my\proyecto_bvinem\servlets\sv_documentos.class
+MODELO\Conexion.class
+my\proyecto_bvinem\servlets\mostrar_pdf.class
+MODELO\DocumentoClass.class
+MODELO\IdiomaClass.class
+my\proyecto_bvinem\servlets\cerrar_sesion.class
+MODELO\login_class.class
+MODELO\TipoClass.class
+my\proyecto_bvinem\servlets\filter_pag.class
+my\proyecto_bvinem\servlets\sv_login.class
+MODELO\AsignaturaClass.class
+my\proyecto_bvinem\servlets\sv_register.class
+MODELO\DocumentoDAO.class
+MODELO\FormDoc.class

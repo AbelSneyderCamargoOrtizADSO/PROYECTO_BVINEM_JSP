@@ -1,0 +1,36 @@
+.form__coment{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 100px;
+  background-color:  var(--bluefil);
+  border-radius: var(--radius) var(--radius) 0 0 ;
+  gap: 10px;
+}
+
+.form__title{
+  font-size: var(--title2-sz);
+  margin: 0;
+}
+
+.form__input{
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background: transparent;
+  border: 2px solid var(--blue);
+  color: var(--blue);
+  border-radius: var(--radius);
+  font-size: 15px;
+
+}
+
+.form__btn{
+  align-self: flex-end;
+  height: var(--btn-height);
+  padding: var(--btn-pd);
+  border-radius: var(--radius);
+  border: 0;
+  background-color: var(--blue);
+  color: var(--blue3);
+}

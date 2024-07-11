@@ -1,0 +1,126 @@
+@import url(variables.css);
+@import url(../componentes/header.css);
+
+body{
+    font-family: sans-serif;
+    margin: 0;
+    background-color: var(--yellow4);
+}
+
+/*    CONTAINER   */
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    max-width: var(--box-width);
+    margin: 30px auto;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.container__form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+    gap: 30px;
+    position: relative;
+}
+
+.container__form div{
+    width: 310px;
+}
+.container__inputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    background-color: var(--green2);
+    padding: 50px;
+    border-radius: var(--radius);
+}
+
+.container__input{
+    padding: 10px 10px 10px 15px;
+    width: 285px;
+    border: 0;
+    border-radius: var(--radius);
+    background-color: var(--green3);
+    height: var(--btn-h);
+}
+
+.container__select{
+    padding: 10px 10px 10px 15px;
+    width: 285px;
+    border: 0;
+    border-radius: var(--radius);
+    background-color: var(--green3);
+    height: var(--btn-h);
+    height: auto;
+    box-sizing: content-box;
+}
+
+.container__btn{
+    padding: var(--btn-pd);
+    height: var(--btn-height);
+    border-radius: var(--radius);
+    border: 0;
+    background-color: var(--green);
+    color: var(--green3);
+}
+
+.cerrar{
+    position: absolute;
+    color: crimson;
+    font-size: 25px;
+    border-radius: var(--radius);
+    top: 14px;
+    right: 14px;
+}
+
+
+/*    PREV    */
+.container__prev{
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.container__title{
+    font-size: var(--subtitle-sz);
+    margin: 0;
+    background-color: var(--green2);
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    color: var(--green);
+}
+
+.container__img{
+    width: 350px;
+}
+
+/*  RESPONSIVE  */
+@media screen and (max-width: 1050px){
+    .container__prev{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 650px){
+    .container{
+        margin-top: 40px;
+    }
+
+    .container__input{
+        width: 60vw;
+    }
+
+    .header__title{
+        display: none;
+    }
+}

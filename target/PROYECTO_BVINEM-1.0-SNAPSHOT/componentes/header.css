@@ -1,0 +1,149 @@
+/*    HEADER    */
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--header-h);
+  padding: var(--box-pd);
+  background-color: var(--greenh);
+  gap: 20px;
+  position: relative;
+}
+
+.header__img{
+  width: 65px;
+}
+
+.header__search{
+  border: 2px solid var(--green);
+  padding: var(--search-pd);
+  border-radius: var(--radius);
+  background: none;
+  width: 500px;
+}
+
+.header__search::placeholder{
+  color: var(--green);
+}
+
+.header__title{
+  color: var(--green);
+  font-size: clamp(25px, 4vw, 32px);
+}
+
+.header__user{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  cursor: pointer;
+  position: relative;
+}
+.header__menu{
+  padding: 10px 0;
+}
+
+.header__menu:hover .nav{
+  display: block;
+}
+
+.nav{
+  position: absolute;
+  top: 98%;
+  width: 180px;
+  height: auto;
+  background-color: var(--bluefil);
+  border-radius: var(--radius);
+  display: none;
+}
+
+.nav__list{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 0;
+  margin: 0;
+}
+
+.nav__link{
+  text-decoration: none;
+  padding: 10px;
+  color: var(--green);
+}
+
+.nav__link:hover{
+  text-decoration: underline;
+}
+
+
+
+.header__menu{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex-direction: row-reverse;
+}
+
+.header__btn{
+  height: var(--btn-height);
+  padding: var(--btn-pd);
+  border-radius: var(--radius);
+  border: 0;
+  background-color: var(--green);
+  color: var(--green3);
+  cursor: pointer;
+}
+
+.header__btn--resp{
+  display: none;
+}
+
+
+/*    RESPONSIVE    */
+@media screen and (max-width:1200px) {
+  :root{
+    --box-pd: 0 35px;
+  }
+
+  .header__search{
+    width: 35vw;
+  }
+
+  .header__img{
+    width: 55px;
+  }
+}
+
+@media screen and (max-width:650px){
+  :root{
+    --box-pd: 0 15px;
+  }
+
+  .header{
+    margin-bottom: 60px;
+  }
+  
+  .header__search{
+    width: 100vw;
+    position: absolute;
+    bottom: -40px;
+    left: 0;
+  }
+
+  .header__btn{
+    display: none;
+  }
+
+  .header__btn--resp{
+    display: inline;
+    font-size: 15px;
+    padding: 10px 15px;
+  }
+
+  .header__search{
+    order: 4;
+  }
+
+}

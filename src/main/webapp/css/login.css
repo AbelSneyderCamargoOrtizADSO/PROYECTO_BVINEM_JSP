@@ -1,0 +1,236 @@
+@import url(variables.css);
+
+body{
+    font-family: sans-serif;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+}
+
+.container{
+    margin: 0 auto;
+    width: 900px;
+    display: grid;
+    grid-template-columns: .5fr 1fr;
+    grid-template-areas: "roles formu"
+                        "roles formu";
+}
+
+/*      ROLES       */
+.roles__title{
+    font-size: var(--title-sz);
+    margin: 0;
+    color: var(--yellow);
+}
+
+.roles{
+    grid-area: roles;
+    background-color: var(--yellow3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 50px 0;
+}
+
+.roles__btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-radius: 50%;
+    padding: 15px 25px;
+    background-color: var(--green2);
+    border: 0;
+}
+
+.roles__btn--color1{
+    background-color: var(--yellow2);
+}
+
+.roles__btn--color2{
+    background-color: var(--blue2);
+}
+
+.btn__img{
+    width: 45px;
+}
+
+/*      FORM ESTUDIANTE        */
+.container__log{
+  grid-area: formu;
+  display: grid;
+  grid-template-rows: .45fr 1fr;
+  grid-template-areas: " icono "
+                        " form ";
+}
+
+.container__figure{
+    grid-area: icono;
+    background-color: var(--green1);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container__form{
+    grid-area: form;
+    background-color: var(--green2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    font-size: 16px;
+}
+
+.container__img{
+  width: 150px;
+}
+
+.form__title{
+  font-size: clamp(30px, 3vw, 36px);
+  color: var(--green3);
+}
+
+.form__input{
+    padding: 10px 100px 10px 15px;
+    border-radius: var(--radius);
+    border: 0;
+    background-color: var(--green3);
+    height: var(--btn-h);
+}
+
+.form__btn{
+    padding: 13px 30px;
+    border-radius: var(--radius);
+    background-color: var(--green);
+    color: var(--green3);
+}
+
+.form__link{
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--green);
+    margin-left: 20px;
+}
+
+
+/*      FORM DOCENTE        */
+.container__figure--doc{
+  background-color: var(--yellow1);
+}
+
+.container__form--doc{
+  background-color: var(--yellow2);
+}
+
+.form__input--doc{
+  background-color: var(--yellow4);
+}
+
+.form__title--doc{
+  color: var(--yellow4);
+  margin-top: 0;
+}
+
+.form__btn--doc{
+  background-color: var(--yellow);
+  color: var(--yellow4);
+}
+
+
+/*      FORM ADMIN        */
+.container__figure--admin{
+  background-color: var(--blue1);
+}
+
+.container__form--admin{
+  background-color: var(--blue2);
+}
+
+.form__input--admin{
+  background-color: var(--blue3);
+}
+
+.form__title--admin{
+  color: var(--blue3);
+  margin-top: 0;
+}
+
+.form__btn--admin{
+  background-color: var(--blue);
+  color: var(--blue3);
+}
+
+/*    CONTROLS    */
+.disable{
+  display: none;
+}
+.select{
+  transition: all .5s ease;
+  transform: translateX(70%);
+}
+
+@media screen and (max-width: 900px) {
+  .container{
+    width: 95vw;
+    margin: 30px 0;
+    grid-template-areas: "roles roles"
+                        "formu formu";
+  } 
+
+  .roles{
+    flex-direction: row;
+    gap: 20px;
+    padding: 50px 0;
+    flex-wrap: wrap;
+  }
+
+  .roles__title{
+    margin: 0 100%;
+  }
+
+  .roles__img{
+    display: none;
+  }
+
+  .container__figure{
+    display: none;  
+  } 
+  
+  .container__log{
+    grid-template-rows: 1fr;
+  }
+
+  .container__form--doc{
+    padding: 40px 0;
+  }
+
+  .container__form--admin{
+    padding: 40px 0;
+  }
+
+  .form__input{
+    width: 50vw;
+  }
+
+  .form__reg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .select{
+    transform: translateX(0);
+    filter: brightness(40%);
+  }
+}

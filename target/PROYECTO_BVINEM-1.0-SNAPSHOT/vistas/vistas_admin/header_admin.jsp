@@ -7,13 +7,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <header class="header">
-    <img src="../assets/escu.png" alt="" class="header__img">
+    <img src="${pageContext.request.contextPath}/assets/escu.png" alt="" class="header__img">
     <input type="search" class="header__search" placeholder="Buscar...">
     <div class="header__user">
         <div class="header__menu">
-            <img src="../assets/iconoadmin.png" alt="" class="header__img header__img--display">
+            <img src="${pageContext.request.contextPath}/assets/iconoadmin.png" alt="" class="header__img header__img--display">
         </div>
-        <form action="../cerrar_sesion" method="get">
+        <form action="${pageContext.request.contextPath}/cerrar_sesion" method="get">
             <button type="submit" class="header__btn">Cerrar sesión</button>
             <button type="submit" class="header__btn header__btn--resp"><i class="bi bi-box-arrow-right"></i></button>
         </form>

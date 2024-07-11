@@ -1,0 +1,99 @@
+/* 
+    Created on : 11/07/2024, 2:15:08 p. m.
+    Author     : Propietario
+*/
+
+@import url(variables.css);
+@import url(../componentes/header.css);
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: var(--yellow4);
+}
+
+.form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    margin-top: 40px
+}
+
+.form {
+    background: var(--green2);
+    padding: 30px 50px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 1000px;
+    width: 800px;
+}
+
+.form__title {
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.form__group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form__label {
+    display: block;
+    margin-bottom: 8px;
+    color: #666;
+    font-size: 16px;
+}
+
+.form__input,
+.form__textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.form__input:focus,
+.form__textarea:focus {
+    outline: none;
+}
+
+.form__textarea {
+    resize: vertical;
+    height: 120px;
+}
+
+.form__button {
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: var(--btn-pd);
+    height: var(--btn-height);
+    border-radius: var(--radius);
+    background-color: var(--green);
+    color: var(--green3);
+    border: 0;
+}
+
+.form__button:hover {
+    opacity: .8;
+}
+
+.form__button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#editor {
+    height: 400px;
+    background-color: var(--green3);
+    border: 0;
+    padding: 10px;
+}

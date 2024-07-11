@@ -1,0 +1,157 @@
+@import url(variables.css);
+@import url(../componentes/header.css);
+
+body{
+    font-family: sans-serif;
+    margin: 0;
+    background-color: var(--blue3);
+}
+
+/*    FILTROS   */
+.filter{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: var(--filters-h);
+}
+.filter__btn{
+    height: var(--btn-height);
+    padding: var(--btn-pd);
+    border-radius: var(--radius);
+    border: 0;
+    background-color: var(--green);
+    color: var(--green3);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.filter__title{
+    font-size: var(--title-sz);
+    color: var(--blue);
+}
+.filter__filters{
+    display: flex;
+    gap: 15px;
+    background-color: var(--bluefil);
+    padding: 10px 15px;
+    border-radius: var(--radius);
+}
+.filter__select{
+    padding: 10px 10px;
+    width: 150px;
+    border-radius: var(--radius);
+    border: 1px solid var(--blue);
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+
+    background: url('https://cdn0.iconfinder.com/data/icons/lightly-2-interface/24/chevron-down-512.png');
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
+    background-position: right;
+    background-origin: content-box;
+}
+
+/*    FOROS   */
+.foros{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 35px;
+    padding: var(--box-pd);
+}
+
+.foros__card{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bluefil);
+    border-radius: var(--radius);
+    padding: var(--card-pd);
+    text-decoration: none;
+    color: black;
+}
+
+.foros__card:hover{
+    cursor: pointer;
+    transition: all .5s ease-in-out;
+    transform: scale(1.05);
+}
+
+.card__info{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.card__icon{
+    width: 55px;
+    height: 55px;
+    border-radius: var(--radius);
+}
+
+.card__title{
+    line-height: 20px;
+    font-weight: 600;
+    color: var(--blue);
+}
+
+.card__text{
+    font-size: clamp(14px, 2vw, 16px);
+}
+
+.card__fecha{
+    font-weight: lighter;
+    font-size: 14px;
+}
+
+.card__tipo{
+    position: absolute;
+    right: 0;
+    top: -8px;
+}
+
+@media screen and (max-width:1200px){
+    :root{
+        --box-pd: 0 35px;
+    }
+
+    .filter{
+        flex-direction: column;
+        height: 230px;
+        margin: 20px 0;
+    }
+
+    .filter__title{
+        order: -1;
+    }
+
+    .filter__filters{
+        order: -1;
+    }
+
+    .filter__title{
+        margin: 0;
+    }
+}
+
+@media screen and (max-width:650px){
+    :root{
+        --box-pd: 0 15px;
+    }
+
+    .filter__filters{
+        max-width: 90vw;
+        overflow-x: scroll;
+    }
+
+    .filter__select{
+        min-width: 150px;
+    }
+
+    .foros{
+        grid-template-columns: repeat(auto-fit, minmax(80vw, 1fr));
+    }
+}

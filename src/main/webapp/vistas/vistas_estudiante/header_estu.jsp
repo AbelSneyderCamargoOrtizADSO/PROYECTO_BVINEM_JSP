@@ -12,6 +12,18 @@
     <div class="header__user">
         <div class="header__menu">
             <img src="${pageContext.request.contextPath}/assets/iconoestu.png" alt="" class="header__img header__img--display"> 
+            <i class="bi bi-caret-down-fill"></i>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li class="nav__list">
+                        <a href="${pageContext.request.contextPath}/vistas/subirforo.jsp" class="nav__link"><i class="bi bi-chat-square-text-fill"></i> Realizar foro</a>
+                    </li>
+                    <li class="nav__list">
+                        <a href="" class="nav__link"><i class="bi bi-envelope-paper-fill"></i>
+                            Realizar solicitud</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
         <form action="${pageContext.request.contextPath}/cerrar_sesion" method="get">
             <button type="submit" class="header__btn">Cerrar sesión</button>

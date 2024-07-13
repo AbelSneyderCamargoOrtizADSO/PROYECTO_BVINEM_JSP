@@ -12,6 +12,14 @@ body {
     background-color: var(--yellow4);
 }
 
+.header__search{
+    display: none;
+}
+
+.header__title{
+    display: block;
+}
+
 .form-container{
     display: flex;
     justify-content: center;
@@ -28,13 +36,15 @@ body {
     text-align: center;
     max-width: 1000px;
     width: 800px;
+    position: relative;
 }
 
 .form__title {
     margin-bottom: 25px;
-    color: #333;
-    font-size: 24px;
+    color: var(--green);
+    font-size: var(--title2-sz);
     font-weight: bold;
+    content: "fesfsefg";
 }
 
 .form__group {
@@ -45,7 +55,7 @@ body {
 .form__label {
     display: block;
     margin-bottom: 8px;
-    color: #666;
+    color: var(--green3);
     font-size: 16px;
 }
 
@@ -65,6 +75,22 @@ body {
     outline: none;
 }
 
+.form__group-select{
+    display: flex;
+    justify-content: stretch;
+    gap: 10px;
+}
+
+.form__select{
+    padding: 10px 10px 10px 15px;
+    border: 0;
+    border-radius: var(--radius);
+    background-color: var(--green3);
+    height: var(--btn-h);
+    height: auto;
+    box-sizing: content-box;
+    flex-grow: 1;
+}
 .form__textarea {
     resize: vertical;
     height: 120px;
@@ -93,7 +119,16 @@ body {
 
 #editor {
     height: 400px;
-    background-color: var(--green3);
+    background-color: #fff;
     border: 0;
     padding: 10px;
+}
+
+.cerrar{
+    position: absolute;
+    color: crimson;
+    font-size: 25px;
+    border-radius: var(--radius);
+    top: 14px;
+    right: 14px;
 }

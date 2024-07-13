@@ -9,6 +9,7 @@
 <header class="header">
     <img src="${pageContext.request.contextPath}/assets/escu.png" alt="" class="header__img">
     <input type="search" class="header__search" placeholder="Buscar...">
+    <h1 class="header__title"></h1>
     <div class="header__user">
         <div class="header__menu">
             <img src="${pageContext.request.contextPath}/assets/iconoestu.png" alt="" class="header__img header__img--display"> 
@@ -16,7 +17,7 @@
             <nav class="nav">
                 <ul class="nav__list">
                     <li class="nav__list">
-                        <a href="${pageContext.request.contextPath}/vistas/subirforo.jsp" class="nav__link"><i class="bi bi-chat-square-text-fill"></i> Realizar foro</a>
+                        <a href="${pageContext.request.contextPath}/subir_foro" class="nav__link"><i class="bi bi-chat-square-text-fill"></i> Realizar foro</a>
                     </li>
                     <li class="nav__list">
                         <a href="" class="nav__link"><i class="bi bi-envelope-paper-fill"></i>

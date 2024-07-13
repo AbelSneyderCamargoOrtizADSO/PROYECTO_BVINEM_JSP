@@ -9,6 +9,7 @@
 <header class="header">
     <img src="${pageContext.request.contextPath}/assets/escu.png" alt="" class="header__img">
     <input type="search" class="header__search" placeholder="Buscar...">
+    <h1 class="header__title"></h1>
     <div class="header__user">
         <div class="header__menu">
             <img src="${pageContext.request.contextPath}/assets/iconouser.png" alt="" class="header__img header__img--display">
@@ -18,6 +19,9 @@
                     <li class="nav__list">
                         <a href="${pageContext.request.contextPath}/subir_doc" class="nav__link"><i class="bi bi-file-earmark-arrow-up-fill"></i> Subir
                             documento</a>
+                    </li>
+                    <li class="nav__list">
+                        <a href="${pageContext.request.contextPath}/subir_foro" class="nav__link"><i class="bi bi-chat-square-text-fill"></i> Realizar foro</a>
                     </li>
                     <li class="nav__list">
                         <a href="solicitudes/soli.html" class="nav__link"><i class="bi bi-envelope-paper-fill"></i>

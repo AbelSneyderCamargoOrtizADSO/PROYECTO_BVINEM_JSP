@@ -7,6 +7,10 @@ body{
     background-color: var(--yellow4);
 }
 
+.header__title{
+    display: flex;
+}
+
 /*    CONTAINER   */
 .container{
     display: flex;

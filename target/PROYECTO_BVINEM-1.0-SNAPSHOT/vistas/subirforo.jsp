@@ -30,7 +30,7 @@
                 <form action="${pageContext.request.contextPath}/subir_foro" method="POST" class="form" id="foroForm">
                     <div class="form__group">
                         <label class="form__label" for="titulo">Título del Foro</label>
-                        <input class="form__input" type="text" id="titulo" name="titulo">
+                        <input class="form__input" type="text" id="titulo" name="titulo" maxlength="50">
                     </div>
                     <div class="form__group form__group-select">
                         <select class="form__select" name="asignatura" id="asignatura">
@@ -60,7 +60,7 @@
                         <textarea class="form__textarea" id="descripcion" name="descripcion" style="display:none;"></textarea>
                     </div>
 
-                    <a class="cerrar" href="${pageContext.request.contextPath}/sv_documentos"><i class="bi bi-x-circle-fill"></i></a>
+                    <a class="cerrar" href="${pageContext.request.contextPath}/sv_foros"><i class="bi bi-x-circle-fill"></i></a>
 
                     <button class="form__button" type="submit" id="submitBtn" name="enviar">Publicar</button>
                 </form>
@@ -77,10 +77,11 @@
 
             function valid() {
                 let tit = document.getElementById("titulo").value.trim();
-                let descrip = document.getElementById("descripcion").value;
+                // let descrip = document.getElementById("descripcion").value;
                 let asig = document.getElementById("asignatura").value;
                 let idioma = document.getElementById("idioma").value;
                 let tipo = document.getElementById("tipof").value;
+                var descrip = quill.getText().trim();
 
                 if (tit === "") {
                     Swal.fire({
@@ -91,7 +92,7 @@
                     return false;
                 }
 
-                if (descrip === '' || descrip === '<p><br></p>') {
+                if (descrip === '' || descrip === '<p><br></p>' || descrip.length === 0) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',

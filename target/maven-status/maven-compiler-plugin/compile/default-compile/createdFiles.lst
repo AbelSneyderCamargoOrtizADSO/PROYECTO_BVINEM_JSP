@@ -2,6 +2,7 @@ MODELO\register_class.class
 CONTROLADOR\servlets\sv_register.class
 CONTROLADOR\servlets\mostrar_pdf.class
 MODELO\Conexion.class
+MODELO\foros\ForoClass.class
 CONTROLADOR\servlets\foros\subir_foro.class
 CONTROLADOR\servlets\sv_documentos.class
 MODELO\DocumentoClass.class
@@ -14,6 +15,7 @@ MODELO\login_class.class
 MODELO\TipoClass.class
 CONTROLADOR\servlets\filter_pag.class
 CONTROLADOR\servlets\cerrar_sesion.class
+CONTROLADOR\servlets\foros\sv_foros.class
 MODELO\AsignaturaClass.class
 MODELO\DocumentoDAO.class
 MODELO\FormDoc.class

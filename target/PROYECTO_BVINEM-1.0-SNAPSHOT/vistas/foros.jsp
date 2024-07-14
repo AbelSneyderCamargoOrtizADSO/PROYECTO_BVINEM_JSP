@@ -36,38 +36,61 @@
             <section class="filter">
                 <a class="filter__btn" href="${pageContext.request.contextPath}/sv_documentos">🢀 Ir a biblioteca</a>
                 <h1 class="filter__title">FOROS</h1>
-                <div class="filter__filters">
-                    <select name="" id="" class="filter__select">
+                <form class="filter__filters" method="GET" action="sv_foros" id="filter__form">
+                    <select class="filter__select" name="asignatura">
                         <option value="">Asignatura</option>
+                        <c:forEach var="asignatura" items="${asignaturas}">
+                            <option value="${asignatura.id}">${asignatura.nombre}</option>
+                        </c:forEach>
                     </select>
-                    <select name="" id="" class="filter__select">
+
+                    <select class="filter__select" name="idioma">
                         <option value="">Idioma</option>
+                        <c:forEach var="idioma" items="${idiomas}">
+                            <option value="${idioma.id}">${idioma.nombre}</option>
+                        </c:forEach>
                     </select>
-                    <select name="" id="" class="filter__select">
+
+                    <select class="filter__select" name="tipof" id="tipof">
                         <option value="">Tipo</option>
+                        <c:forEach var="tipo" items="${tiposforo}">
+                            <option value="${tipo.id}">${tipo.nombre}</option>
+                        </c:forEach>
                     </select>
-                </div>
+
+                    <button class="filter__btn filter__btn-bg" type="submit">Filtrar</button>
+                </form>
             </section>
 
             <section class="foros">
-                <a class="foros__card" href="">
-                    <div class="card__info">
-                        <img src="assets/foro.jpg" alt="" class="card__icon">
-                        <p class="card__title">Lectura del Mes: Explora, Comparte y Analiza <br> <span class="card__fecha">24 de enero
-                                de 2024</span></p>
-
-                        <span class="card__tipo">Discusion</span>
-                    </div>
-                    <p class="card__text">¡Bienvenidos al Foro de Lectura del Mes! Cada mes, seleccionaremos un libro emocionante y
-                        educativo para que los
-                        estudiantes del INEM lo lean y discutan. Aquí, podrás compartir tus pensamientos, opiniones y análisis sobre
-                        el libro
-                        seleccionado. ¿Qué te pareció la historia? ¿Qué temas te llamaron la atención? ¿Hubo personajes que te
-                        identificaste o
-                        te sorprendieron? Únete a la conversación y forma parte de esta comunidad de lectura.</p>
-                </a>
+                <c:forEach var="foro" items="${foros}">
+                    <a class="foros__card" href="">
+                        <div class="card__info">
+                            <img src="assets/foro.jpg" alt="" class="card__icon">
+                            <p class="card__title">${foro.titulo} <br> <span class="card__fecha">${foro.fecha}</span></p>
+                            <span class="card__tipo">${foro.tipo}</span>
+                        </div>
+                        <p class="card__text">${foro.descripcionResumida}</p>
+                        <p class="card__tags">${foro.asignatura} - ${foro.idioma}</p>
+                    </a>
+                </c:forEach>
             </section>
         </main>
     </body>
+
+    <!-- EVITAR ENVIO DE FORMULARIO CON FILTROS VACIOS -->
+    <script>
+        document.getElementById('filter__form').addEventListener('submit', function (event) {
+            // Obtener todos los select del formulario
+            let selects = this.querySelectorAll('select'); // Aquí, this hace referencia al elemento al que se adjunto el evento addEventListener (es decir el formulario) 
+
+            // Iterar sobre los select y eliminar aquellos que están vacíos
+            selects.forEach(select => {
+                if (!select.value) {
+                    select.name = '';  // Eliminar el nombre del campo para que no sea enviado
+                }
+            });
+        });
+    </script>
 
 </html>

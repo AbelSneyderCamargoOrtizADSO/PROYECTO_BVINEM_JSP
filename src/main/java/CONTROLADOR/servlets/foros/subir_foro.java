@@ -106,6 +106,12 @@ public class subir_foro extends HttpServlet {
                 response.sendRedirect("subir_foro");
                 return;
             }
+            
+            if (tit.length() > 50) {
+                session.setAttribute("error", "El título debe tener maximo 50 caracteres");
+                response.sendRedirect("subir_foro");
+                return;
+            }
 
             if (descrip == null || descrip.trim().isEmpty() || descrip.equals("<p><br></p>")) {
                 session.setAttribute("error", "La descripción no puede estar vacía");
@@ -135,7 +141,7 @@ public class subir_foro extends HttpServlet {
 
             try {
                 forodao.SubirForo(tit, descrip, UserDoc, asig, idioma, tipo);
-                response.sendRedirect("sv_documentos");
+                response.sendRedirect("sv_foros");
             } catch (Exception error) {
                 error.printStackTrace();
                 response.getWriter().print("Error: " + error.getMessage());

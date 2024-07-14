@@ -26,6 +26,11 @@ body{
     align-items: center;
     justify-content: center;
 }
+.filter__btn-bg{
+    background-color: var(--blue);
+    color: var(--blue3);
+    cursor: pointer;
+}
 .filter__title{
     font-size: var(--title-sz);
     color: var(--blue);
@@ -54,6 +59,10 @@ body{
     background-position: right;
     background-origin: content-box;
 }
+.filter__select option{
+    background-color: var(--blue3);
+    padding: 50px;
+}
 
 /*    FOROS   */
 .foros{
@@ -71,6 +80,8 @@ body{
     padding: var(--card-pd);
     text-decoration: none;
     color: black;
+    hyphens: auto;
+    word-wrap: break-word;
 }
 
 .foros__card:hover{
@@ -95,7 +106,6 @@ body{
 .card__title{
     line-height: 20px;
     font-weight: 600;
-    color: var(--blue);
 }
 
 .card__text{
@@ -111,6 +121,13 @@ body{
     position: absolute;
     right: 0;
     top: -8px;
+}
+
+.card__tags{
+    font-weight: 600;
+    text-decoration: underline;
+    margin: 0;
+    color: var(--blue);
 }
 
 @media screen and (max-width:1200px){

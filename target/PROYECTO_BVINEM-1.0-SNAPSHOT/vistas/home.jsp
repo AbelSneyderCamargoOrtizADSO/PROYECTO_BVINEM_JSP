@@ -63,7 +63,7 @@
                     <button class="header__btn" type="submit">Filtrar</button>
                 </form>
 
-                <a class="filter__btn" href="${pageContext.request.contextPath}/vistas/foros.jsp">Ir a foros ➜</a>
+                <a class="filter__btn" href="${pageContext.request.contextPath}/sv_foros">Ir a foros ➜</a>
             </section>
 
             <section class="books">

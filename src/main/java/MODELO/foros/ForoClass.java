@@ -14,18 +14,33 @@ public class ForoClass {
     private String titulo;
     private String descripcion;
     private String fecha;
+    private int idiomaId;
     private String idioma;
     private String asignatura;
+    private int asignaturaId;
     private String tipo;
+    private int tipoId;
+    private String nombreUsuario;
+    private String rolUsuario;
 
-    public ForoClass(int id, String titulo, String descripcion, String fecha, String idioma, String asignatura, String tipo) {
+    public ForoClass(int id, String titulo, String descripcion, String fecha, String idioma, int idiomaId, String asignatura, int asignaturaId, String tipo, int tipoId, String nombreUsuario, String rolUsuario) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.idioma = idioma;
+        this.idiomaId = idiomaId;
         this.asignatura = asignatura;
+        this.asignaturaId = asignaturaId;
         this.tipo = tipo;
+        this.tipoId = tipoId;
+        this.nombreUsuario = nombreUsuario;
+        this.rolUsuario = rolUsuario;
+    }
+
+    // Constructor sin los IDs opcionales
+    public ForoClass(int id, String titulo, String descripcion, String fecha, String idioma, String asignatura, String tipo) {
+        this(id, titulo, descripcion, fecha, idioma, 0, asignatura, 0, tipo, 0, "", "");
     }
 
     public int getId() {
@@ -81,6 +96,14 @@ public class ForoClass {
         this.idioma = idioma;
     }
 
+    public int getIdiomaId() {
+        return idiomaId;
+    }
+
+    public void setIdiomaId(int idiomaId) {
+        this.idiomaId = idiomaId;
+    }
+
     public String getAsignatura() {
         return asignatura;
     }
@@ -89,11 +112,35 @@ public class ForoClass {
         this.asignatura = asignatura;
     }
 
+    public int getAsignaturaId() {
+        return asignaturaId;
+    }
+
+    public void setAsignaturaId(int asignaturaId) {
+        this.asignaturaId = asignaturaId;
+    }
+
     public String getTipo() {
         return tipo;
     }
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public int getTipoId() {
+        return tipoId;
+    }
+
+    public void setTipoId(int tipoId) {
+        this.tipoId = tipoId;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public String getRolUsuario() {
+        return rolUsuario;
     }
 }

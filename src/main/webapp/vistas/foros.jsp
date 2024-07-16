@@ -64,7 +64,7 @@
 
             <section class="foros">
                 <c:forEach var="foro" items="${foros}">
-                    <a class="foros__card" href="">
+                    <a class="foros__card" href="mostrar_foro?id=${foro.id}">
                         <div class="card__info">
                             <img src="assets/foro.jpg" alt="" class="card__icon">
                             <p class="card__title">${foro.titulo} <br> <span class="card__fecha">${foro.fecha}</span></p>

@@ -140,7 +140,7 @@ public class subir_foro extends HttpServlet {
             ForoDAO forodao = new ForoDAO();
 
             try {
-                forodao.SubirForo(tit, descrip, UserDoc, asig, idioma, tipo);
+                forodao.subirForo(tit, descrip, UserDoc, asig, idioma, tipo);
                 response.sendRedirect("sv_foros");
             } catch (Exception error) {
                 error.printStackTrace();

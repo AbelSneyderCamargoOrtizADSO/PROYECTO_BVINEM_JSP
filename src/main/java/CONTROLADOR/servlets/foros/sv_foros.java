@@ -67,9 +67,9 @@ public class sv_foros extends HttpServlet {
         
         List<ForoClass> foros;
         if (asignatura == null && idioma == null && tipo == null) {
-            foros = forodao.ListarForos();
+            foros = forodao.listarForos();
         } else {
-            foros = forodao.FiltrarForos(asignatura, idioma, tipo);
+            foros = forodao.filtrarForos(asignatura, idioma, tipo);
         }
 
         request.setAttribute("asignaturas", asignaturas);

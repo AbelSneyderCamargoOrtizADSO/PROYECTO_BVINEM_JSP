@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ForoDAO {
 
-    public void SubirForo(String tit, String descrip, int UserDoc, String asig, String idioma, String tipo) throws SQLException {
+    public void subirForo(String tit, String descrip, int UserDoc, String asig, String idioma, String tipo) throws SQLException {
 
         Conexion conexion = new Conexion();
         Connection conex = null;
@@ -45,7 +45,7 @@ public class ForoDAO {
         }
     }
 
-    public List<ForoClass> ListarForos() {
+    public List<ForoClass> listarForos() {
         List<ForoClass> foros = new ArrayList<>();
 
         // Crear una instancia de la clase de conexión
@@ -95,7 +95,7 @@ public class ForoDAO {
         return foros;
     }
 
-    public List<ForoClass> FiltrarForos(String asignatura, String idioma, String tipo) {
+    public List<ForoClass> filtrarForos(String asignatura, String idioma, String tipo) {
         List<ForoClass> foros = new ArrayList<>();
         Conexion conexion = new Conexion();
         Connection conex = null;
@@ -111,11 +111,17 @@ public class ForoDAO {
                 + "WHERE "
         );
 
-        if (asignatura != null && !asignatura.isEmpty()) sql.append("tb_foro.id_asig_fk = ? ");
-     
-        if (idioma != null && !idioma.isEmpty()) sql.append("tb_foro.id_idioma_fk = ? ");
-        
-        if (tipo != null && !tipo.isEmpty()) sql.append("tb_foro.id_tpfr_fk = ? ");
+        if (asignatura != null && !asignatura.isEmpty()) {
+            sql.append("tb_foro.id_asig_fk = ? ");
+        }
+
+        if (idioma != null && !idioma.isEmpty()) {
+            sql.append("tb_foro.id_idioma_fk = ? ");
+        }
+
+        if (tipo != null && !tipo.isEmpty()) {
+            sql.append("tb_foro.id_tpfr_fk = ? ");
+        }
 
         sql.append("ORDER BY tb_foro.fecha_creacion DESC");
 
@@ -127,14 +133,19 @@ public class ForoDAO {
             int index = 1;
 
             // Si el filtro de asignatura no es nulo ni vacío, se asigna al parámetro correspondiente en la consulta.
-            if (asignatura != null && !asignatura.isEmpty()) stat.setInt(index++, Integer.parseInt(asignatura));
-            
+            if (asignatura != null && !asignatura.isEmpty()) {
+                stat.setInt(index++, Integer.parseInt(asignatura));
+            }
+
             // Si el filtro de idioma no es nulo ni vacío, se asigna al siguiente parámetro en la consulta.
-            if (idioma != null && !idioma.isEmpty()) stat.setInt(index++, Integer.parseInt(idioma));
-            
+            if (idioma != null && !idioma.isEmpty()) {
+                stat.setInt(index++, Integer.parseInt(idioma));
+            }
+
             // Si el filtro de tipo no es nulo ni vacío, se asigna al siguiente parámetro en la consulta.
-            if (tipo != null && !tipo.isEmpty()) stat.setInt(index++, Integer.parseInt(tipo));
-            
+            if (tipo != null && !tipo.isEmpty()) {
+                stat.setInt(index++, Integer.parseInt(tipo));
+            }
 
             rs = stat.executeQuery();
 
@@ -157,4 +168,61 @@ public class ForoDAO {
 
         return foros;
     }
+
+    public ForoClass mostrarForoPorId(int id) {
+        ForoClass foro = null;
+        Conexion conexion = new Conexion();
+        Connection conex = null;
+        PreparedStatement stat = null;
+        ResultSet rs = null;
+
+        String sql = "SELECT tb_foro.*, tb_idiomas.nom_idioma AS idioma, tb_asignaturas.nom_asig AS asignatura, tb_tipo_foro.nom_tp_foro AS tipo, "
+                + "tb_usuarios.nom_usua, tb_usuarios.ape_usua, tb_rol.nom_rol "
+                + "FROM tb_foro "
+                + "JOIN tb_idiomas ON tb_foro.id_idioma_fk = tb_idiomas.id_idioma "
+                + "JOIN tb_asignaturas ON tb_foro.id_asig_fk = tb_asignaturas.id_asig "
+                + "JOIN tb_usuarios ON tb_foro.doc_usua_fk = tb_usuarios.doc_usua "
+                + "JOIN tb_rol ON tb_usuarios.id_rol_fk = tb_rol.id_rol "
+                + "JOIN tb_tipo_foro ON tb_foro.id_tpfr_fk = tb_tipo_foro.id_tp_foro "
+                + "WHERE tb_foro.id_foro = ?";
+
+        try {
+            // Obtener una conexión a la base de datos
+            conex = conexion.Conexion();
+
+            // Preparar la declaración SQL
+            stat = conex.prepareStatement(sql);
+
+            // Asignar el valor del parámetro
+            stat.setInt(1, id);
+
+            // Ejecutar la consulta y obtener el resultado
+            rs = stat.executeQuery();
+
+            if (rs.next()) {
+                int foroId = rs.getInt("id_foro");
+                String titulo = rs.getString("tit_foro");
+                String descripcion = rs.getString("descrip_foro");
+                String fecha = rs.getString("fecha_creacion");
+                String idioma = rs.getString("idioma");
+                int idiomaId = rs.getInt("id_idioma_fk");
+                String asignatura = rs.getString("asignatura");
+                int asignaturaId = rs.getInt("id_asig_fk");
+                String tipo = rs.getString("tipo");
+                int tipoId = rs.getInt("id_tpfr_fk");
+                String nombreUsuario = rs.getString("nom_usua") + " " + rs.getString("ape_usua");
+                String rolUsuario = rs.getString("nom_rol");
+
+                foro = new ForoClass(foroId, titulo, descripcion, fecha, idioma, idiomaId, asignatura, asignaturaId, tipo, tipoId, nombreUsuario, rolUsuario);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar
+            conexion.close(conex, stat, rs);
+        }
+
+        return foro;
+    }
+
 }

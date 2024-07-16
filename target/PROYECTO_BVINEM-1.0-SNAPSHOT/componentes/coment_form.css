@@ -5,7 +5,7 @@
   padding: 40px 100px;
   background-color:  var(--bluefil);
   border-radius: var(--radius) var(--radius) 0 0 ;
-  gap: 10px;
+  gap: 20px;
 }
 
 .form__title{
@@ -33,4 +33,5 @@
   border: 0;
   background-color: var(--blue);
   color: var(--blue3);
+  cursor: pointer;
 }

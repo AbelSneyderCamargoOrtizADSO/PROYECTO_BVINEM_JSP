@@ -212,8 +212,9 @@ public class ForoDAO {
                 int tipoId = rs.getInt("id_tpfr_fk");
                 String nombreUsuario = rs.getString("nom_usua") + " " + rs.getString("ape_usua");
                 String rolUsuario = rs.getString("nom_rol");
+                int usuarioDoc = rs.getInt("doc_usua_fk");
 
-                foro = new ForoClass(foroId, titulo, descripcion, fecha, idioma, idiomaId, asignatura, asignaturaId, tipo, tipoId, nombreUsuario, rolUsuario);
+                foro = new ForoClass(foroId, titulo, descripcion, fecha, idioma, idiomaId, asignatura, asignaturaId, tipo, tipoId, nombreUsuario, rolUsuario, usuarioDoc);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -223,6 +224,77 @@ public class ForoDAO {
         }
 
         return foro;
+    }
+
+    public void editarForo(int id, String descripcion) throws SQLException {
+        Conexion conexion = new Conexion();
+        Connection conex = null;
+        PreparedStatement stat = null;
+
+        try {
+            conex = conexion.Conexion();
+            String query = "UPDATE tb_foro SET descrip_foro = ? WHERE id_foro = ?";
+            stat = conex.prepareStatement(query);
+            stat.setString(1, descripcion);
+            stat.setInt(2, id);
+
+            stat.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            conexion.close(conex, stat, null);
+        }
+    }
+
+    public void eliminarForo(int id) throws SQLException {
+        Conexion conexion = new Conexion();
+        Connection conex = null;
+        PreparedStatement statRespuestas = null;
+        PreparedStatement statForo = null;
+
+        try {
+            conex = conexion.Conexion();
+            conex.setAutoCommit(false); // Desactivar el autocommit para manejar la transacción manualmente
+
+            // Eliminar respuestas asociadas al foro
+            String deleteRespuestas = "DELETE FROM tb_respuesta_foro WHERE id_foro_fk = ?";
+            statRespuestas = conex.prepareStatement(deleteRespuestas);
+            statRespuestas.setInt(1, id);
+            statRespuestas.executeUpdate();
+
+            // Eliminar el foro
+            String deleteForo = "DELETE FROM tb_foro WHERE id_foro = ?";
+            statForo = conex.prepareStatement(deleteForo);
+            statForo.setInt(1, id);
+            statForo.executeUpdate();
+
+            // Commit de la transacción
+            conex.commit();
+        } catch (SQLException e) {
+            if (conex != null) {
+                try {
+                    conex.rollback(); // Deshacer la transacción en caso de error
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+            throw e;
+        } finally {
+            // Cerrar los recursos utilizando el método close de la clase Conexion
+            if (statRespuestas != null || statForo != null) {
+                conexion.close(conex, statRespuestas, null);
+                conexion.close(conex, statForo, null);
+            }
+            if (conex != null) { // https://puntocomnoesunlenguaje.blogspot.com/2017/11/java-jdbc-transacciones.html
+                try {
+                    conex.setAutoCommit(true); // Restaurar el autocommit
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }

@@ -47,7 +47,7 @@ h2{
 }
 
 .present__text{
-    font-size: var(--text-sz);
+    font-size: 16px;
 }
 
 .present__figure{
@@ -217,11 +217,25 @@ h2{
     background-color: lightcoral;
     border-radius: 60%;
 }
+.eliminarForo{
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    background-color: lightcoral;
+    border-radius: 60%;
+}
 .eliminarRespu img {
     width: 20px;
 }
 
 .editarRespu{
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    background-color: lightgoldenrodyellow;
+    border-radius: 60%;
+}
+.editarForo{
     border: none;
     cursor: pointer;
     padding: 8px;
@@ -281,6 +295,9 @@ h2{
 }
 .margin-top{
     margin-top: 20px;
+}
+.margin-bottom{
+    margin-bottom: 20px;
 }
 .modal__button {
     align-self: flex-end;

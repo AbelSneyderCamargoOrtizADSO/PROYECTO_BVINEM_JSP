@@ -96,32 +96,25 @@ public class mostrar_foro extends HttpServlet {
             return;
         }
 
-        // Recuperar y castear a int el documento del usario
         String dni = (String) session.getAttribute("UserDoc");
-        int UserDoc = Integer.parseInt((String) dni);
+        int UserDoc = Integer.parseInt(dni);
 
-        // ENVIAR RESPUESTA
-        if (request.getParameter("enviarRespu") != null) {
-            String respu = request.getParameter("respuesta");
-            String idf = request.getParameter("foroId");
+        // EDITAR FORO
+        if (request.getParameter("editarForo") != null) {
+            String descripcion = request.getParameter("foroEditado");
+            String idf = request.getParameter("foroIdEdit");
 
-            if (respu == null || respu.trim().isEmpty() || respu.equals("<p><br></p>")) {
-                session.setAttribute("error", "La respuesta no puede estar vacía");
+            if (descripcion == null || descripcion.trim().isEmpty()) {
+                session.setAttribute("error", "La descripción del foro no puede estar vacía");
                 response.sendRedirect("mostrar_foro?id=" + idf);
                 return;
             }
 
-            if (idf == null || idf.trim().isEmpty()) {
-                session.setAttribute("error", "ID del foro vacio o no encontrado");
-                response.sendRedirect("mostrar_foro?id=" + idf);
-                return;
-            }
-
-            RespuestaForoDAO respuDAO = new RespuestaForoDAO();
+            ForoDAO foroDAO = new ForoDAO();
 
             try {
-                respuDAO.subirRespuesta(respu, idf, UserDoc);
-                session.setAttribute("success", "Respuesta de foro publicada correctamente");
+                foroDAO.editarForo(Integer.parseInt(idf), descripcion);
+                session.setAttribute("success", "Foro editado correctamente");
                 response.sendRedirect("mostrar_foro?id=" + idf);
             } catch (Exception error) {
                 error.printStackTrace();
@@ -129,47 +122,20 @@ public class mostrar_foro extends HttpServlet {
             }
         }
 
-        // ELIMINAR RESPUESTA
-        if (request.getParameter("eliminarRespu") != null) {
-            int respuestaId = Integer.parseInt(request.getParameter("respuestaId"));
+        // ELIMINAR FORO
+        if (request.getParameter("eliminarForo") != null) {
             String idf = request.getParameter("foroId");
 
-            RespuestaForoDAO respuestadao = new RespuestaForoDAO();
+            ForoDAO foroDAO = new ForoDAO();
 
             try {
-                respuestadao.eliminarRespuesta(respuestaId);
-                session.setAttribute("success", "Respuesta de foro eliminada correctamente");
-                response.sendRedirect("mostrar_foro?id=" + idf);
+                foroDAO.eliminarForo(Integer.parseInt(idf));
+                response.sendRedirect("sv_foros");
             } catch (Exception error) {
                 error.printStackTrace();
                 response.getWriter().print("Error: " + error.getMessage());
             }
         }
-
-        // EDITAR RESPUESTA
-        if (request.getParameter("editarRespu") != null) {
-            String respuestaEditada = request.getParameter("respuestaEditada");
-            String idf = request.getParameter("foroId");
-            int respuestaId = Integer.parseInt(request.getParameter("respuestaIdEdit"));
-
-            if (respuestaEditada == null || respuestaEditada.trim().isEmpty() || respuestaEditada.equals("<p><br></p>")) {
-                session.setAttribute("error", "La respuesta no puede estar vacía");
-                response.sendRedirect("mostrar_foro?id=" + idf);
-                return;
-            }
-
-            RespuestaForoDAO respuDAO = new RespuestaForoDAO();
-
-            try {
-                respuDAO.editarRespuesta(respuestaId, respuestaEditada);
-                session.setAttribute("success", "Respuesta de foro editada correctamente");
-                response.sendRedirect("mostrar_foro?id=" + idf);
-            } catch (Exception error) {
-                error.printStackTrace();
-                response.getWriter().print("Error: " + error.getMessage());
-            }
-        }
-
     }
 
     /**

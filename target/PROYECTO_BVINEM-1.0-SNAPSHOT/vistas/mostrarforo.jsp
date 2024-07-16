@@ -39,9 +39,9 @@
                     <div class="present__content">
                         <span class="present__fecha">${foro.fecha}</span>
                         <h1 class="present__title">${foro.titulo}</h1>
-                        <p class="present__text">
+                        <div class="present__text" id="presentText">
                             ${foro.descripcion}
-                        </p>
+                        </div>
                         <p class="present__tags">
                             <span>Etiquetas:</span>
                             <a href="${pageContext.request.contextPath}/sv_foros?asignatura=${foro.asignaturaId}" class="tag">${foro.asignatura}</a>
@@ -54,11 +54,21 @@
                         </p>
 
                         <a href="${pageContext.request.contextPath}/sv_foros" class="present__cerrar"><i class="bi bi-x-circle-fill"></i></a>
+
+                        <c:if test="${foro.usuarioDoc == sessionScope.UserDoc}">
+                            <div class="respu__crud margin-bottom">
+                                <form action="${pageContext.request.contextPath}/mostrar_foro" method="POST" class="form_eliminar">
+                                    <input type="hidden" name="foroId" value="${foro.id}">
+                                    <button type="button" class="eliminarForo" name="eliminarForo"><img src="assets/papelera.png" alt="Eliminar Foro"/></button>
+                                </form>
+                                <button class="editarForo" onclick="abrirModalEditarForo()"><img src="assets/editar.png" alt="Editar Foro"/></button>
+                            </div>
+                        </c:if>
                     </div>
                 </article>
 
                 <article class="respu">
-                    <form action="${pageContext.request.contextPath}/mostrar_foro" class="form__coment" id="respuForm" method="POST">
+                    <form action="${pageContext.request.contextPath}/sv_respuestas" class="form__coment" id="respuForm" method="POST">
                         <h2 class="form__title">Publica tu respuesta</h2>
                         <div class="form__group">
                             <div id="editor"></div>
@@ -83,7 +93,7 @@
 
                             <c:if test="${respuesta.usuarioId == sessionScope.UserDoc}">
                                 <div class="respu__crud">
-                                    <form action="${pageContext.request.contextPath}/mostrar_foro" method="POST" class="form_eliminar">
+                                    <form action="${pageContext.request.contextPath}/sv_respuestas" method="POST" class="form_eliminar">
                                         <input type="hidden" name="respuestaId" value="${respuesta.id}">
                                         <input type="hidden" name="foroId" value="${foro.id}">
                                         <button type="button" class="eliminarRespu" name="eliminarRespu"><img src="assets/papelera.png" alt="alt"/></button>
@@ -97,11 +107,24 @@
             </section>
         </main>
 
+        <div id="modalEditarForo" class="modal">
+            <div class="modal__content">
+                <span class="modal__close" onclick="cerrarModalEditarForo()">&times;</span>
+                <h2 class="modal__title">Editar Foro</h2>
+                <form id="editarForoForm" class="modal__form" action="${pageContext.request.contextPath}/mostrar_foro" method="POST">
+                    <div id="editorForo" class="modal__editor"></div>
+                    <textarea id="foroEditado" class="modal__textarea" name="foroEditado" style="display:none;"></textarea>
+                    <input type="hidden" name="foroIdEdit" id="foroIdEdit" value="${foro.id}">
+                    <button type="submit" class="form__btn margin-top" name="editarForo">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+
         <div id="modalEditarRespuesta" class="modal">
             <div class="modal__content">
                 <span class="modal__close" onclick="cerrarModal()">&times;</span>
                 <h2 class="modal__title">Editar Respuesta</h2>
-                <form id="editarRespuestaForm" class="modal__form" action="${pageContext.request.contextPath}/mostrar_foro" method="POST">
+                <form id="editarRespuestaForm" class="modal__form" action="${pageContext.request.contextPath}/sv_respuestas" method="POST">
                     <div id="editorRespuesta" class="modal__editor"></div>
                     <textarea id="respuestaEditada" class="modal__textarea" name="respuestaEditada" style="display:none;"></textarea>
                     <input type="hidden" name="respuestaIdEdit" id="respuestaIdEdit">
@@ -111,62 +134,34 @@
             </div>
         </div>
 
+
+
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="js/respuestasForo.js"></script>
         <script>
-                    // Mostrar SweetAlert si hay un mensaje de error en la sesión
-                    window.addEventListener('load', function () {
-                        const errorMessage = '<%= session.getAttribute("error")%>';
-                        if (errorMessage && errorMessage !== 'null') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: errorMessage,
-                            });
-            <% session.removeAttribute("error");%>
-                        }
-                        
-                        const successMessage = '<%= session.getAttribute("success")%>';
-                        if (successMessage && successMessage !== 'null') {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Éxito',
-                                text: successMessage,
-                            });
-            <% session.removeAttribute("success");%>
-                        }
-                    });
-        </script>
-
-        <script>
-            document.querySelectorAll('.eliminarRespu').forEach(button => {
-                button.addEventListener('click', function () {
-                    const form = this.closest('form'); // Encuentra el formulario más cercano
-                    
+            // Mostrar SweetAlert si hay un mensaje de error en la sesión
+            window.addEventListener('load', function () {
+                const errorMessage = '<%= session.getAttribute("error")%>';
+                if (errorMessage && errorMessage !== 'null') {
                     Swal.fire({
-                        title: '¿Estás seguro de eliminar esta respuesta?',
-                        text: "¡Esta acción no se puede deshacer!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Sí, eliminar',
-                        cancelButtonText: 'Cancelar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Se creal el input con name = "eliminarRespu" en true para que sea identificado en la condicional del servlet 
-                            const inputEliminar = document.createElement('input');
-                            inputEliminar.type = 'hidden';
-                            inputEliminar.name = 'eliminarRespu';
-                            inputEliminar.value = 'true';
-                            form.appendChild(inputEliminar);
-                            
-                            form.submit(); // Envía el formulario si el usuario confirma
-                        }
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorMessage,
                     });
-                });
+                    <% session.removeAttribute("error");%>
+                }
+
+                const successMessage = '<%= session.getAttribute("success")%>';
+                if (successMessage && successMessage !== 'null') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: successMessage,
+                    });
+                    <% session.removeAttribute("success");%>
+                }
             });
         </script>
+        <script src="js/foro.js"></script>
     </body>
 </html>

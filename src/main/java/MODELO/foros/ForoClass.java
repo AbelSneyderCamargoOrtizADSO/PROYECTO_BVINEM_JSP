@@ -22,8 +22,9 @@ public class ForoClass {
     private int tipoId;
     private String nombreUsuario;
     private String rolUsuario;
+    private int usuarioDoc;
 
-    public ForoClass(int id, String titulo, String descripcion, String fecha, String idioma, int idiomaId, String asignatura, int asignaturaId, String tipo, int tipoId, String nombreUsuario, String rolUsuario) {
+    public ForoClass(int id, String titulo, String descripcion, String fecha, String idioma, int idiomaId, String asignatura, int asignaturaId, String tipo, int tipoId, String nombreUsuario, String rolUsuario, int usuarioDoc) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -36,11 +37,12 @@ public class ForoClass {
         this.tipoId = tipoId;
         this.nombreUsuario = nombreUsuario;
         this.rolUsuario = rolUsuario;
+        this.usuarioDoc = usuarioDoc;
     }
 
     // Constructor sin los IDs opcionales
     public ForoClass(int id, String titulo, String descripcion, String fecha, String idioma, String asignatura, String tipo) {
-        this(id, titulo, descripcion, fecha, idioma, 0, asignatura, 0, tipo, 0, "", "");
+        this(id, titulo, descripcion, fecha, idioma, 0, asignatura, 0, tipo, 0, "", "", 0);
     }
 
     public int getId() {
@@ -142,5 +144,9 @@ public class ForoClass {
 
     public String getRolUsuario() {
         return rolUsuario;
+    }
+    
+    public int getUsuarioDoc() {
+        return usuarioDoc;
     }
 }

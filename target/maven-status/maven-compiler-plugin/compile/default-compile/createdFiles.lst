@@ -8,6 +8,7 @@ CONTROLADOR\servlets\sv_register.class
 CONTROLADOR\servlets\mostrar_pdf.class
 MODELO\Conexion.class
 MODELO\foros\ForoClass.class
+CONTROLADOR\servlets\foros\sv_respuestas.class
 CONTROLADOR\servlets\sv_documentos.class
 MODELO\DocumentoClass.class
 MODELO\foros\FormForo.class

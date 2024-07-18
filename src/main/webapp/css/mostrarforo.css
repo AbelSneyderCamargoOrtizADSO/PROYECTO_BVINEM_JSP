@@ -140,6 +140,11 @@ h2{
     max-width: var(--box-width);
     word-wrap: break-word;
 }
+.respu__card p > img{
+    max-width: 100%;
+    object-fit: cover;
+    height: auto;
+}
 .respu__card p, h2, h3{
     margin: 10px 0;
 }

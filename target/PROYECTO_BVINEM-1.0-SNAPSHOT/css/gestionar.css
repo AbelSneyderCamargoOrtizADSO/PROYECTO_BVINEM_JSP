@@ -1,0 +1,307 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 16/07/2024, 2:39:30 a. m.
+    Author     : Abelito
+*/
+
+@import url(../css/variables.css);
+@import url(../componentes/header.css);
+@import url(../componentes/pagination.css);
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--blueadmin);
+    margin: 0;
+    padding: 0;
+}
+
+.header__search{
+    display: none;
+}
+
+.header__title{
+    display: flex;
+}
+
+.container {
+    position: relative;
+    width: 80%;
+    margin: 20px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container__top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    text-align: center;
+    color: #4682b4;
+}
+
+.button {
+    padding: 10px 20px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    border: none;
+    font-size: 15px;
+}
+
+.button--primary {
+    background-color: #4682b4;
+    color: #ffffff;
+    height: var(--btn-height);
+    padding: var(--btn-pd);
+}
+
+.button--primary:hover {
+    background-color: #5a9bd4;
+}
+
+.button--edit {
+    background-color: #4682b4;
+    color: #ffffff;
+}
+
+.button--edit:hover {
+    background-color: #5a9bd4;
+}
+
+.button--delete {
+    background-color: #d9534f;
+    color: #ffffff;
+}
+
+.button--delete:hover {
+    background-color: #c9302c;
+}
+
+/* TABLA */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table__head, .table__body {
+    width: 100%;
+}
+
+.table__row {
+    border: 1px solid #dddddd;
+}
+
+.table__header, .table__cell {
+    padding: 12px;
+    text-align: left;
+}
+
+.table__cell-display{
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+}
+
+.table__header {
+    background-color: #4682b4;
+    color: #ffffff;
+}
+
+.table__row:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.table__row:nth-child(even) {
+    background-color: var(--blue3);
+}
+
+/*  MODAL  */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal__content {
+    background-color: #ffffff;
+    margin: 6% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal__close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal__title{
+    text-align: center;
+}
+
+.modal__close:hover,
+.modal__close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form__label {
+    margin-top: 20px;
+    color: #4682b4;
+}
+
+.form__input {
+    padding: 10px 15px;
+    margin-top: 5px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form__button {
+    margin-top: 20px;
+    align-self: center;
+    height: var(--btn-height);
+    padding: var(--btn-pd);
+    background-color: #4682b4;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form__button:hover {
+    background-color: #5a9bd4;
+}
+
+.display-none{
+    display: none;
+}
+
+/* FORMULARIO DE BUSCAR DOCENTE */
+.form__doc {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form__group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.form__input--pd {
+    padding: 10px;
+    border: none;
+    outline: none;
+    width: 200px;
+    margin: 0;
+    font-size: 14px;
+}
+
+.button--secondary{
+    height: var(--btn-height);
+}
+
+.button--icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.button--icon svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+
+.svg-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.container__cerrar{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 25px;
+    color: crimson;
+    float: right;
+}
+
+@media (max-width: 1200px) {
+    
+    .container__top{
+        flex-direction: column;
+    }
+    .table{
+        width: 100%;
+    }
+    
+/*    .table, .table__head, .table__row, .table__cell, .table__header {
+    }*/
+    .table__body{
+        width: 100%;
+    }
+    
+    .table__head {
+        display: none;
+    }
+    
+    .table__row {
+        margin-bottom: 15px;
+    }
+    
+    .table__cell {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        border-bottom: 1px solid #dddddd;
+    }
+    
+    .table__cell::before {
+        content: attr(data-label);
+
+        font-weight: bold;
+        background-color: #4682b4;
+        color: #ffffff;
+        height: 100%;
+        width: 20vw;
+    }
+}

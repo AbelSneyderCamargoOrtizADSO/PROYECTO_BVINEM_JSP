@@ -1,0 +1,27 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 17/07/2024, 8:57:43 p. m.
+    Author     : Abelito
+*/
+
+.pagination {
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+}
+
+.pagination__button {
+    background-color: var(--blue3);
+    border: none;
+    padding: 10px 20px;
+    margin: 0 3px;
+    cursor: pointer;
+}
+
+.pagination__button.active {
+    background-color: var(--blue2);
+    color: white;
+}

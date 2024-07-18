@@ -64,6 +64,14 @@
                                 <button class="editarForo" onclick="abrirModalEditarForo()"><img src="assets/editar.png" alt="Editar Foro"/></button>
                             </div>
                         </c:if>
+                        <c:if test="${rol == '3'}">
+                            <div class="respu__crud margin-bottom">
+                                <form action="${pageContext.request.contextPath}/mostrar_foro" method="POST" class="form_eliminar">
+                                    <input type="hidden" name="foroId" value="${foro.id}">
+                                    <button type="button" class="eliminarForo" name="eliminarForo"><img src="assets/papelera.png" alt="Eliminar Foro"/></button>
+                                </form>
+                            </div>
+                        </c:if>
                     </div>
                 </article>
 
@@ -99,6 +107,15 @@
                                         <button type="button" class="eliminarRespu" name="eliminarRespu"><img src="assets/papelera.png" alt="alt"/></button>
                                     </form>
                                     <button class="editarRespu" onclick="abrirModal(${respuesta.id})"><img src="assets/editar.png" alt="alt"/></button>
+                                </div>
+                            </c:if>
+                            <c:if test="${rol == '3'}">
+                                <div class="respu__crud">
+                                    <form action="${pageContext.request.contextPath}/sv_respuestas" method="POST" class="form_eliminar">
+                                        <input type="hidden" name="respuestaId" value="${respuesta.id}">
+                                        <input type="hidden" name="foroId" value="${foro.id}">
+                                        <button type="button" class="eliminarRespu" name="eliminarRespu"><img src="assets/papelera.png" alt="alt"/></button>
+                                    </form>
                                 </div>
                             </c:if>
                         </div>

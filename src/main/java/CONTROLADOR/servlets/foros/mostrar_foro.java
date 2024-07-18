@@ -104,7 +104,7 @@ public class mostrar_foro extends HttpServlet {
             String descripcion = request.getParameter("foroEditado");
             String idf = request.getParameter("foroIdEdit");
 
-            if (descripcion == null || descripcion.trim().isEmpty()) {
+            if (descripcion == null || descripcion.trim().isEmpty() || descripcion.equals("<p><br></p>")) {
                 session.setAttribute("error", "La descripción del foro no puede estar vacía");
                 response.sendRedirect("mostrar_foro?id=" + idf);
                 return;

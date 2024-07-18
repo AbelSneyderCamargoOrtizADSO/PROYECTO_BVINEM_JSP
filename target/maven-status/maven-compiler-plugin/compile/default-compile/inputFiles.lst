@@ -1,5 +1,6 @@
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\foros\FormForo.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\register_class.java
+C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\usuarios\UsuarioClass.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\foros\sv_foros.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\mostrar_pdf.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\DocumentoDAO.java
@@ -10,6 +11,8 @@ C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MO
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\cerrar_sesion.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\sv_register.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\DocumentoClass.java
+C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\usuarios\DocenteDAO.java
+C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\usuarios\sv_docente.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\IdiomaClass.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\FormDoc.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\login_class.java

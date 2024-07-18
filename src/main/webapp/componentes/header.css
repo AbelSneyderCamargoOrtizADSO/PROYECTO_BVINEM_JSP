@@ -10,6 +10,10 @@
     position: relative;
 }
 
+.header-admin{
+    background-color: var(--blue2);
+}
+
 .header__img{
     width: 65px;
 }
@@ -98,7 +102,10 @@
     color: var(--green3);
     cursor: pointer;
 }
-
+.header__btn-admin{
+    background-color: var(--blue);
+    color: var(--blue3);
+}
 .header__btn--resp{
     display: none;
 }

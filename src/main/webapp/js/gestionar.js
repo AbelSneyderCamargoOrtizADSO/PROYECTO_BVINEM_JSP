@@ -71,6 +71,7 @@ const manejarModal = () => {
         modalDocente.style.display = "block";
         btnAccionDocente.name = 'regDocente';
         document.getElementById("labelPassDocente").textContent = "Contraseña:";
+        document.getElementById("modalTituloDocente").textContent = "Registrar docente";
         document.getElementById("contrasenaDocente").classList.add("obligatorio");
     };
 
@@ -122,6 +123,7 @@ function editarDocente(docUsu, nombre, apellido, correo) {
     modal.style.display = "block";
     btnAccionDocente.name = 'editDocente';
     document.getElementById("labelPassDocente").textContent = "Nueva contraseña:";
+    document.getElementById("modalTituloDocente").textContent = "Editar docente";
     document.getElementById("contrasenaDocente").classList.remove("obligatorio");
 }
 
@@ -179,6 +181,14 @@ const manejarEliminacionUsuario = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tipoUsuario = urlParams.get('tipoUsuario');
+
+    if (tipoUsuario === 'estudiante') {
+        document.getElementById('agregarDocenteBtn').style.display = 'none';
+    } else {
+        document.getElementById('agregarDocenteBtn').style.display = 'inline-block';
+    }
     manejarModal();
     manejarEliminacionUsuario();
 });

@@ -43,6 +43,13 @@ body {
     align-items: center;
 }
 
+.top__btns{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
 /* TABLA */
 .table {
     width: 100%;
@@ -82,13 +89,21 @@ body {
     background-color: var(--blue3);
 }
 
+.table__row--bg:nth-child(odd){
+    background-color: #f9f9f9;
+}
+
+.table__row--bg:nth-child(even){
+    background-color: var(--green3);
+}
+
 /* BOTONES */
 .button {
     padding: 10px 20px;
     margin: 10px 0;
     cursor: pointer;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     border: none;
     font-size: 15px;
 }
@@ -97,11 +112,10 @@ body {
     background-color: #4682b4;
     color: #ffffff;
     height: var(--btn-height);
-    padding: var(--btn-pd);
 }
 
 .button--primary:hover {
-    background-color: #5a9bd4;
+    opacity: .8;
 }
 
 .button--edit {
@@ -134,6 +148,10 @@ body {
 .delete{
     color: #d9534f;
     font-weight: 700;
+}
+
+.green{
+    background-color: var(--greenh);
 }
 
 /*  MODAL  */
@@ -281,8 +299,8 @@ body {
 /**/
 .disable{
     opacity: 0.5;
-    pointer-events: none; 
-    cursor: not-allowed; 
+    pointer-events: none;
+    cursor: not-allowed;
 }
 
 @media (max-width: 1240px) {
@@ -345,6 +363,10 @@ body {
         display: flex;
         align-items: center;
     }
+
+    .table__cell--bg::before{
+        background-color: var(--greenh);
+    }
 }
 
 @media (max-width: 430px) {
@@ -358,7 +380,7 @@ body {
     .table{
         font-size: 14px;
     }
-    
+
     .table__btn{
         padding: 10px 15px;
     }

@@ -29,9 +29,11 @@
                 <a href="${pageContext.request.contextPath}/sv_foros" class="container__cerrar"><i class="bi bi-x-circle-fill"></i></a>
 
                 <div class="container__top">
-                    <button id="mostrarDocentesBtn" class="button button--primary">Mostrar Docentes</button>
-                    <button id="mostrarEstudiantesBtn" class="button button--primary">Mostrar Estudiantes</button>
-                    <button id="agregarDocenteBtn" class="button button--primary">Registrar Docente</button>
+                    <div class="top__btns">
+                        <button id="mostrarDocentesBtn" class="button button--primary top__btn">Docentes</button>
+                        <button id="mostrarEstudiantesBtn" class="button button--primary green top__btn">Estudiantes</button>
+                    </div>
+                    <button id="agregarDocenteBtn" class="button button--primary"><img src="assets/adduser.png" alt="alt"/></button>
                     <!--<button id="agregarEstudianteBtn" class="button button--primary">Registrar Estudiante</button>-->
 
                     <!-- Formulario de busqueda -->
@@ -105,24 +107,24 @@
                     <table id="tablaEstudiantes" class="table" style="${tipoUsuario == 'estudiante' ? '' : 'display:none;'}">
                         <thead class="table__head">
                             <tr class="table__row">
-                                <th class="table__header">Documento de usuario</th>
-                                <th class="table__header">Nombres</th>
-                                <th class="table__header">Apellidos</th>
-                                <th class="table__header">Correo</th>
-                                <th class="table__header">Fecha de registro</th>
-                                <th class="table__header">Estado</th>
-                                <th class="table__header">Acciones</th>
+                                <th class="table__header green">Documento de usuario</th>
+                                <th class="table__header green">Nombres</th>
+                                <th class="table__header green">Apellidos</th>
+                                <th class="table__header green">Correo</th>
+                                <th class="table__header green">Fecha de registro</th>
+                                <th class="table__header green">Estado</th>
+                                <th class="table__header green">Acciones</th>
                             </tr>
                         </thead>
                         <tbody class="table__body">
                             <c:forEach var="usuario" items="${usuarios}">
-                                <tr class="table__row">
-                                    <td class="table__cell" data-label="Documento de usuario">${usuario.docUsu}</td>
-                                    <td class="table__cell" data-label="Nombres">${usuario.nombre}</td>
-                                    <td class="table__cell" data-label="Apellidos">${usuario.apellido}</td>
-                                    <td class="table__cell" data-label="Correo">${usuario.correo}</td>
-                                    <td class="table__cell" data-label="Fecha de registro">${usuario.fechaRegistro}</td>
-                                    <td class="table__cell" data-label="Estado">
+                                <tr class="table__row table__row--bg">
+                                    <td class="table__cell table__cell--bg" data-label="Documento de usuario">${usuario.docUsu}</td>
+                                    <td class="table__cell table__cell--bg" data-label="Nombres">${usuario.nombre}</td>
+                                    <td class="table__cell table__cell--bg" data-label="Apellidos">${usuario.apellido}</td>
+                                    <td class="table__cell table__cell--bg" data-label="Correo">${usuario.correo}</td>
+                                    <td class="table__cell table__cell--bg" data-label="Fecha de registro">${usuario.fechaRegistro}</td>
+                                    <td class="table__cell table__cell--bg" data-label="Estado">
                                         <c:choose>
                                             <c:when test="${usuario.estadoId == 1}">
                                                 <p>Habilitado</p>
@@ -132,7 +134,7 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
-                                    <td class="table__cell table__cell-display" data-label="Acciones">
+                                    <td class="table__cell table__cell-display table__cell--bg" data-label="Acciones">
                                         <button class="table__btn button button--edit" onclick="editarEstudiante('${usuario.docUsu}', '${usuario.nombre}', '${usuario.apellido}', '${usuario.correo}', '${tipoUsuario}')">Editar</button>
                                         <form action="${pageContext.request.contextPath}/sv_usuario" method="POST">
                                             <input type="hidden" name="docEstudiante" value="${usuario.docUsu}">
@@ -186,7 +188,7 @@
             <div id="modalEstudiante" class="modal">
                 <div class="modal__content">
                     <span class="modal__close">&times;</span>
-                    <h2 id="modalTituloEstudiante" class="modal__title">Registrar Estudiante</h2>
+                    <h2 id="modalTituloEstudiante" class="modal__title">Editar Estudiante</h2>
                     <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" id="formEstudiante" class="form form__valid">
                         <label for="nuevoIdUserEstudiante" class="form__label">Documento de Usuario</label>
                         <input type="text" id="nuevoIdUserEstudiante" class="form__input solo-numeros obligatorio" name="nuevoDoc">

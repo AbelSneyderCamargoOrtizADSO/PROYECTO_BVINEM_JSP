@@ -173,41 +173,31 @@ public class sv_usuario extends HttpServlet {
         }
 
         // EDITAR USUARIO
-        if (request.getParameter("editDocente") != null) {
-            int docDocente = Integer.parseInt(docUsuStr);
-            try {
+        try {
+            if (request.getParameter("editDocente") != null) {
+                int docDocente = Integer.parseInt(docUsuStr);
                 usuarioDAO.editarUsuario(docDocente, usuario, "tb_docente", true);
                 session.setAttribute("success", "Datos del docente actualizados correctamente");
                 response.sendRedirect("sv_usuario?tipoUsuario=docente");
                 return;
-            } catch (SQLException e) {
-                if (e.getErrorCode() == 1062) { // Código de error para clave duplicada en MySQL
-                    session.setAttribute("error", "El documento de usuario ya está en uso.");
-                    response.sendRedirect("sv_usuario?tipoUsuario=docente");
-                    return;
-                } else {
-                    e.printStackTrace();
-                    return;
-                }
-            }
-        } else if (request.getParameter("editEstudiante") != null) {
-            int docEstudiante = Integer.parseInt(docUsuStr);
-            try {
+            } else if (request.getParameter("editEstudiante") != null){
+                int docEstudiante = Integer.parseInt(docUsuStr);
                 usuarioDAO.editarUsuario(docEstudiante, usuario, "tb_estudiante", false);
                 session.setAttribute("success", "Datos del estudiante actualizados correctamente");
                 response.sendRedirect("sv_usuario?tipoUsuario=estudiante");
                 return;
-            } catch (SQLException e) {
-                if (e.getErrorCode() == 1062) { // Código de error para clave duplicada en MySQL
-                    session.setAttribute("error", "El documento de usuario ya está en uso.");
-                    response.sendRedirect("sv_usuario?tipoUsuario=estudiante");
-                    return;
-                } else {
-                    e.printStackTrace();
-                    return;
-                }
+            }
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 1062) { // Código de error para clave duplicada en MySQL
+                session.setAttribute("error", "El documento de usuario ya está en uso.");
+                response.sendRedirect("sv_usuario");
+                return;
+            } else {
+                e.printStackTrace();
+                return;
             }
         }
+        
 
         // REGISTRAR O AGREGAR USUARIO
         try {

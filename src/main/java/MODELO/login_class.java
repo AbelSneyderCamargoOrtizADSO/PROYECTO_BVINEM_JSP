@@ -24,12 +24,15 @@ public class login_class {
         
         try {
             conex = conexion.Conexion();
+            
+            // Hash
+            String hashedPassword = HashUtil.hashPassword(pass);
                 
             String query = "SELECT * FROM `tb_usuarios` where doc_usua = ? and password = ? AND id_rol_fk = ?";
 
             stat = conex.prepareStatement(query);
             stat.setString(1, dni);
-            stat.setString(2, pass);
+            stat.setString(2, hashedPassword);
             stat.setString(3, rol);
             rs = stat.executeQuery();
             

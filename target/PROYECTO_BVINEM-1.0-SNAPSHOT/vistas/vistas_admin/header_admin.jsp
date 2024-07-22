@@ -17,7 +17,7 @@
             <nav class="nav">
                 <ul class="nav__list">
                     <li class="nav__list">
-                        <a href="${pageContext.request.contextPath}/sv_docente" class="nav__link"><i class="bi bi-person-fill-gear"></i> Gestionar docentes</a>
+                        <a href="${pageContext.request.contextPath}/sv_usuario" class="nav__link"><i class="bi bi-person-fill-gear"></i> Gestionar docentes</a>
                     </li>
 
                 </ul>

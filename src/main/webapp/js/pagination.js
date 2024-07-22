@@ -4,11 +4,14 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    const rowsPerPage = 4;
+    const rowsPerPage = 8;
     const table = document.getElementById('tablaDocentes');
     const rows = Array.from(table.querySelectorAll('tbody tr'));
     const pagination = document.getElementById('pagination');
     const totalPages = Math.ceil(rows.length / rowsPerPage);
+    const maxButtonsToShow = 3; // Número de botones a mostrar siempre
+
+    let currentPage = 1;
 
     function displayRows(page) {
         const start = (page - 1) * rowsPerPage;
@@ -19,28 +22,63 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function setupPagination() {
+    function createPageButton(page) {
+        const btn = document.createElement('button');
+        btn.textContent = page;
+        btn.classList.add('pagination__button');
+        if (page === currentPage) btn.classList.add('active');
+        btn.addEventListener('click', () => {
+            currentPage = page;
+            displayRows(page);
+            updatePageButtons();
+        });
+        return btn;
+    }
+
+    function updatePageButtons() {
         pagination.innerHTML = '';
-        for (let i = 1; i <= totalPages; i++) {
-            const btn = document.createElement('button');
-            btn.textContent = i;
-            btn.classList.add('pagination__button');
-            btn.addEventListener('click', () => {
-                displayRows(i);
-                document.querySelectorAll('.pagination__button').forEach(button => {
-                    button.classList.remove('active');
-                });
-                btn.classList.add('active');
-            });
+
+        const prevButton = document.createElement('button');
+        prevButton.textContent = '<';
+        prevButton.classList.add('pagination__button');
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayRows(currentPage);
+                updatePageButtons();
+            }
+        });
+        pagination.appendChild(prevButton);
+
+        let startPage = Math.max(1, currentPage - Math.floor(maxButtonsToShow / 2));
+        let endPage = startPage + maxButtonsToShow - 1;
+
+        if (endPage > totalPages) {
+            endPage = totalPages;
+            startPage = Math.max(1, endPage - maxButtonsToShow + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const btn = createPageButton(i);
             pagination.appendChild(btn);
         }
 
-        // Seleccionar la primera página por defecto
-        if (pagination.firstChild) {
-            pagination.firstChild.classList.add('active');
-        }
+        const nextButton = document.createElement('button');
+        nextButton.textContent = '>';
+        nextButton.classList.add('pagination__button');
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayRows(currentPage);
+                updatePageButtons();
+            }
+        });
+        pagination.appendChild(nextButton);
     }
 
-    setupPagination();
-    displayRows(1); // Mostrar la primera página por defecto
+    displayRows(currentPage);
+    updatePageButtons();
 });
+

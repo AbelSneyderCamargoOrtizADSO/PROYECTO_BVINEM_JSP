@@ -26,6 +26,7 @@ body {
     display: flex;
 }
 
+/* CONTAINER */
 .container {
     position: relative;
     width: 80%;
@@ -40,50 +41,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.title {
-    text-align: center;
-    color: #4682b4;
-}
-
-.button {
-    padding: 10px 20px;
-    margin: 10px 0;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-    border: none;
-    font-size: 15px;
-}
-
-.button--primary {
-    background-color: #4682b4;
-    color: #ffffff;
-    height: var(--btn-height);
-    padding: var(--btn-pd);
-}
-
-.button--primary:hover {
-    background-color: #5a9bd4;
-}
-
-.button--edit {
-    background-color: #4682b4;
-    color: #ffffff;
-}
-
-.button--edit:hover {
-    background-color: #5a9bd4;
-}
-
-.button--delete {
-    background-color: #d9534f;
-    color: #ffffff;
-}
-
-.button--delete:hover {
-    background-color: #c9302c;
 }
 
 /* TABLA */
@@ -125,6 +82,60 @@ body {
     background-color: var(--blue3);
 }
 
+/* BOTONES */
+.button {
+    padding: 10px 20px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    border: none;
+    font-size: 15px;
+}
+
+.button--primary {
+    background-color: #4682b4;
+    color: #ffffff;
+    height: var(--btn-height);
+    padding: var(--btn-pd);
+}
+
+.button--primary:hover {
+    background-color: #5a9bd4;
+}
+
+.button--edit {
+    background-color: #4682b4;
+    color: #ffffff;
+}
+
+.button--edit:hover {
+    background-color: #5a9bd4;
+}
+
+.button--enable {
+    background-color: #f0ad4e; /* Amarillo dorado */
+    color: #ffffff;
+}
+
+.button--enable:hover {
+    background-color: #ec971f;
+}
+
+.button--delete {
+    background-color: #d9534f;
+    color: #ffffff;
+}
+
+.button--delete:hover {
+    background-color: #c9302c;
+}
+
+.delete{
+    color: #d9534f;
+    font-weight: 700;
+}
+
 /*  MODAL  */
 .modal {
     display: none;
@@ -143,7 +154,8 @@ body {
     margin: 6% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 40%;
+    width: 800px;
+    max-width: 80vw;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -166,9 +178,11 @@ body {
     cursor: pointer;
 }
 
+/* FORMULARIO */
 .form {
     display: flex;
     flex-direction: column;
+    padding: 20px;
 }
 
 .form__label {
@@ -206,7 +220,7 @@ body {
 }
 
 /* FORMULARIO DE BUSCAR DOCENTE */
-.form__doc {
+.form__search {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -264,44 +278,92 @@ body {
     float: right;
 }
 
-@media (max-width: 1200px) {
-    
+/**/
+.disable{
+    opacity: 0.5;
+    pointer-events: none; 
+    cursor: not-allowed; 
+}
+
+@media (max-width: 1240px) {
+
+    .container{
+        padding: 30px 20px;
+        margin: 30px auto;
+        width: 94vw;
+        box-sizing: border-box;
+    }
+
     .container__top{
         flex-direction: column;
+        flex-wrap: wrap;
     }
+
+    .button--secondary{
+        margin-left: 10px;
+    }
+
+    .form__search{
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0;
+    }
+
     .table{
         width: 100%;
     }
-    
-/*    .table, .table__head, .table__row, .table__cell, .table__header {
-    }*/
+
     .table__body{
         width: 100%;
     }
-    
+
     .table__head {
         display: none;
     }
-    
+
     .table__row {
         margin-bottom: 15px;
     }
-    
+
     .table__cell {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 0;
         border-bottom: 1px solid #dddddd;
+        padding-right: 10px;
     }
-    
+
     .table__cell::before {
         content: attr(data-label);
-
         font-weight: bold;
         background-color: #4682b4;
         color: #ffffff;
-        height: 100%;
-        width: 20vw;
+        height: 30px;
+        width: 120px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media (max-width: 430px) {
+
+    .container{
+        padding: 30px 10px;
+        margin: 30px 0;
+        width: 100vw;
+    }
+
+    .table{
+        font-size: 14px;
+    }
+    
+    .table__btn{
+        padding: 10px 15px;
+    }
+
+    .table__cell::before {
+        width: 75px;
     }
 }

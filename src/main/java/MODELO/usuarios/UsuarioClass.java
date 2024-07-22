@@ -16,15 +16,20 @@ public class UsuarioClass {
     private String correo;
     private String fechaRegistro;
     private String pass;
+    private int estadoId;
+    private int rol;
+
+    public UsuarioClass() {
+    }
 
     // Constructor
-    public UsuarioClass(int docUsu, String nombre, String apellido, String correo, String fechaRegistro, String pass) {
+    public UsuarioClass(int docUsu, String nombre, String apellido, String correo, String fechaRegistro, int estadoId) {
         this.docUsu = docUsu;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
         this.fechaRegistro = fechaRegistro;
-        this.pass = pass;
+        this.estadoId = estadoId;
     }
 
     // Getters y Setters
@@ -74,6 +79,22 @@ public class UsuarioClass {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public int getEstadoId() {
+        return estadoId;
+    }
+
+    public void setEstadoId(int estadoId) {
+        this.estadoId = estadoId;
+    }
+    
+    public int getRol() {
+        return rol;
+    }
+
+    public void setRol(int rol) {
+        this.rol = rol;
     }
 
     // Métodos get: Utilizados para obtener el valor de una variable privada.

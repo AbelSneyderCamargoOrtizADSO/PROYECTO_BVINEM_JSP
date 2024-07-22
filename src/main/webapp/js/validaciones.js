@@ -40,3 +40,50 @@ document.querySelectorAll('.solo-letras').forEach(input => {
     input.addEventListener('keydown', soloLetras);
 });
 
+// VALIDACION DE CAMPOS
+document.addEventListener('DOMContentLoaded', function () {
+    const formularios = document.querySelectorAll('.form__valid');
+
+    formularios.forEach(formulario => {
+        formulario.addEventListener('submit', function (event) {
+            const campos = formulario.querySelectorAll('.obligatorio');
+            const esValido = validarCampos(campos);
+
+            if (!esValido) {
+                event.preventDefault(); 
+            }
+        });
+    });
+
+    function validarCampos(campos) {
+        for (const campo of campos) {
+            const valor = campo.value.trim();
+            const nombreCampo = campo.previousElementSibling ? campo.previousElementSibling.textContent : campo.getAttribute('name');
+            const nombreCampoName = campo.getAttribute('name');
+            
+            if (!valor) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Campo vacío',
+                    text: `El campo ${nombreCampo} es obligatorio.`,
+                });
+                return false; // Detiene la validación y muestra el mensaje de error
+            }
+            
+            if (nombreCampoName === 'correo' && !validarEmail(valor)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Correo inválido',
+                    text: `El campo ${nombreCampo} no es un correo válido.`,
+                });
+                return false; // Detiene la validación y muestra el mensaje de error
+            }
+        }
+        return true; // Si todos los campos estan completos, retorna true
+    }
+
+    function validarEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+});

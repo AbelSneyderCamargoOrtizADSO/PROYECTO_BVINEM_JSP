@@ -100,11 +100,13 @@ main{
 }
 
 .form__input{
-    padding: 10px 100px 10px 15px;
+    padding: 10px 10px 10px 15px;
     border-radius: var(--radius);
     border: 0;
     background-color: var(--green3);
     height: var(--btn-h);
+    width: 270px;
+    max-width: 70vw;
 }
 
 .form__btn{
@@ -215,10 +217,6 @@ main{
 
   .container__form--admin{
     padding: 40px 0;
-  }
-
-  .form__input{
-    width: 50vw;
   }
 
   .form__reg{

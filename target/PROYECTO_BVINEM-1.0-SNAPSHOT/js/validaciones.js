@@ -58,14 +58,16 @@ document.addEventListener('DOMContentLoaded', function () {
     function validarCampos(campos) {
         for (const campo of campos) {
             const valor = campo.value.trim();
-            const nombreCampo = campo.previousElementSibling ? campo.previousElementSibling.textContent : campo.getAttribute('name');
+            const nombreCampo = campo.previousElementSibling && campo.previousElementSibling.tagName.toLowerCase() === 'label' 
+                ? campo.previousElementSibling.textContent 
+                : campo.getAttribute('placeholder');
             const nombreCampoName = campo.getAttribute('name');
             
             if (!valor) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Campo vacío',
-                    text: `El campo ${nombreCampo} es obligatorio.`,
+                    text: `El campo ${nombreCampo} es obligatorio`,
                 });
                 return false; // Detiene la validación y muestra el mensaje de error
             }
@@ -74,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 Swal.fire({
                     icon: 'error',
                     title: 'Correo inválido',
-                    text: `El campo ${nombreCampo} no es un correo válido.`,
+                    text: `El campo ${nombreCampo} no es un correo válido`,
                 });
                 return false; // Detiene la validación y muestra el mensaje de error
             }

@@ -6,6 +6,8 @@ package CONTROLADOR.servlets;
 
 import MODELO.Conexion;
 import MODELO.login_class;
+import MODELO.usuarios.UsuarioClass;
+import MODELO.usuarios.Validador;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
@@ -64,10 +66,10 @@ public class sv_login extends HttpServlet {
             throws ServletException, IOException {
         if (request.getParameter("ingresarEstu") != null || request.getParameter("ingresarDocen") != null || request.getParameter("ingresarAdmin") != null) {
 
-            String dni = request.getParameter("dni");
+            String dniStr = request.getParameter("dni");
             String pass = request.getParameter("password");
             String rol = null;
-            
+
             if (request.getParameter("ingresarEstu") != null) {
                 rol = "1"; // Estudiante
             } else if (request.getParameter("ingresarDocen") != null) {
@@ -76,33 +78,52 @@ public class sv_login extends HttpServlet {
                 rol = "3"; // Administrador
             }
 
-            HttpSession session = request.getSession();
+            // VALIDACIONES
+            String errorMessage = Validador.validarLogin(dniStr, pass);
 
-            if (dni == null || dni.equals("")) {
-                request.setAttribute("error", "El documento de identidad no puede estar vacio"); // request para que sea accesible solo en la solicitud actual
+            if (errorMessage != null) {
+                request.setAttribute("error", errorMessage);
+                // response.sendRedirect("sv_usuario");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
                 return;
             }
 
-            if (pass == null || pass.equals("")) {
-                request.setAttribute("error", "La contraseña no puede estar vacia"); // request para que sea accesible solo en la solicitud actual
-                request.getRequestDispatcher("index.jsp").forward(request, response);
-                return;
-            }
+            int dni = Integer.parseInt(dniStr);
+            // Crear instancia de UsuarioClass
+            UsuarioClass usuario = new UsuarioClass();
+            usuario.setDocUsu(dni);
+            usuario.setPass(pass);
+            usuario.setRol(Integer.parseInt(rol));
 
             login_class validar = new login_class();
 
             try {
-                if (validar.validarUsuario(dni, pass, rol)) {
-                    session.setAttribute("logueado", "1");
-                    session.setAttribute("rol", rol);
-                    session.setAttribute("UserDoc", dni); // Se guarda el dni en la sesion para ser consultado luego
-                    response.sendRedirect("sv_documentos");
-                } else {
-                    request.setAttribute("error", "Usuario o contraseña no válidos");
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                String resultadoValidacion = validar.validarUsuario(usuario);
+                switch (resultadoValidacion) {
+                    case "valido":
+                        HttpSession session = request.getSession();
+                        session.setAttribute("logueado", "1");
+                        session.setAttribute("rol", rol);
+                        session.setAttribute("UserDoc", dniStr);
+                        response.sendRedirect("sv_documentos");
+                        break;
+                    case "inhabilitado":
+                        request.setAttribute("error", "Usuario inhabilitado");
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                        break;
+                    case "contraseña_incorrecta":
+                        request.setAttribute("error", "Contraseña incorrecta");
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                        break;
+                    case "usuario_no_encontrado":
+                        request.setAttribute("error", "Usuario no encontrado");
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                        break;
+                    default:
+                        request.setAttribute("error", "Ha ocurrido un error inesperado, intenta nuevamente");
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                        break;
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("error", "Error al conectar con la base de datos");

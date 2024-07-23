@@ -19,6 +19,17 @@ public class Validador {
      * @param documento El documento a validar.
      * @return Mensaje de error si hay algún problema, de lo contrario null.
      */
+    
+    public static String validarLogin(String documento, String pass) { // los metodos estaticos son llamados sin necesidad de instancias un objeto de la clase
+        if (documento == null || documento.trim().isEmpty()) {
+            return "El documento no puede estar vacío";
+        }
+        if (pass == null || pass.trim().isEmpty()) {
+            return "La contraseña no puede estar vacía";
+        }
+        return null; // No hay errores
+    }
+    
     public static String validarDocumento(String documento) { // los metodos estaticos son llamados sin necesidad de instancias un objeto de la clase
         if (documento == null || documento.trim().isEmpty()) {
             return "El documento no puede estar vacío";

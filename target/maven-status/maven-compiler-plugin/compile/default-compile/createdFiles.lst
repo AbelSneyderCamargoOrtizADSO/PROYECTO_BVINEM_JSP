@@ -1,4 +1,3 @@
-MODELO\register_class.class
 MODELO\HashUtil.class
 CONTROLADOR\servlets\foros\mostrar_foro.class
 CONTROLADOR\servlets\foros\subir_foro.class

@@ -16,7 +16,6 @@
     </head>
 
     <body>
-        <input type="hidden" id="mensajeerror" value="<%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>">
         <main>
             <section class="container">
                 <div class="roles">
@@ -91,16 +90,30 @@
 
         </main>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        <script type="text/javascript">
-            var mensajeError = document.getElementById("mensajeerror").value;
-            if (mensajeError) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: mensajeError
-                });
-            }
+        
+        <script>
+            // Mostrar SweetAlert si hay un mensaje de error en la sesión
+            window.addEventListener('load', function () {
+                const errorMessage = '<%= request.getAttribute("error")%>';
+                if (errorMessage && errorMessage !== 'null') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorMessage,
+                    });
+                    <% request.removeAttribute("error");%>
+                }
+                
+                const successMessage = '<%= request.getAttribute("success")%>';
+                if (successMessage && successMessage !== 'null') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: successMessage,
+                    });
+                    <% request.removeAttribute("success");%>
+                }
+            });
         </script>
 
         <script>

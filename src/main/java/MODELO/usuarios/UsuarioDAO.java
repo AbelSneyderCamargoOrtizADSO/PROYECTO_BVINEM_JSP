@@ -42,9 +42,17 @@ public class UsuarioDAO {
             statUsuario.executeUpdate();
 
             // Insertar en la tabla adicional (tb_docente o tb_estudiante)
-            String queryAdicional = "INSERT INTO " + tablaAdicional + " (doc_usua_fk) VALUES (?)";
-            statAdicional = conex.prepareStatement(queryAdicional);
-            statAdicional.setInt(1, usuario.getDocUsu());
+            String queryAdicional;
+            if ("tb_estudiante".equals(tablaAdicional) && usuario.getGrado() != null) {
+                queryAdicional = "INSERT INTO " + tablaAdicional + " (id_grado_fk, doc_usua_fk) VALUES (?, ?)";
+                statAdicional = conex.prepareStatement(queryAdicional);
+                statAdicional.setString(1, usuario.getGrado());
+                statAdicional.setInt(2, usuario.getDocUsu());
+            } else {
+                queryAdicional = "INSERT INTO " + tablaAdicional + " (doc_usua_fk) VALUES (?)";
+                statAdicional = conex.prepareStatement(queryAdicional);
+                statAdicional.setInt(1, usuario.getDocUsu());
+            }
             statAdicional.executeUpdate();
 
             conex.commit();

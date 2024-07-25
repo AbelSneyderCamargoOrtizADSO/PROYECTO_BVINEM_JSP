@@ -18,6 +18,7 @@ public class UsuarioClass {
     private String pass;
     private int estadoId;
     private int rol;
+    private String grado;
 
     public UsuarioClass() {
     }
@@ -95,6 +96,14 @@ public class UsuarioClass {
 
     public void setRol(int rol) {
         this.rol = rol;
+    }
+    
+    public String getGrado() {
+        return grado;
+    }
+
+    public void setGrado(String grado) {
+        this.grado = grado;
     }
 
     // Métodos get: Utilizados para obtener el valor de una variable privada.

@@ -19,7 +19,6 @@ public class Validador {
      * @param documento El documento a validar.
      * @return Mensaje de error si hay algún problema, de lo contrario null.
      */
-    
     public static String validarLogin(String documento, String pass) { // los metodos estaticos son llamados sin necesidad de instancias un objeto de la clase
         if (documento == null || documento.trim().isEmpty()) {
             return "El documento no puede estar vacío";
@@ -29,7 +28,7 @@ public class Validador {
         }
         return null; // No hay errores
     }
-    
+
     public static String validarDocumento(String documento) { // los metodos estaticos son llamados sin necesidad de instancias un objeto de la clase
         if (documento == null || documento.trim().isEmpty()) {
             return "El documento no puede estar vacío";
@@ -82,6 +81,16 @@ public class Validador {
         return null; // No hay errores
     }
 
+    public static String validarGrado(String grado) {
+        if (grado == null || grado.trim().isEmpty()) {
+            return "El grado del estudiante no puede estar vacìo";
+        }
+        if (!grado.matches("^[0-9]+$")) {
+            return "Solo se aceptan números en el grado";
+        }
+        return null; // No hay errores
+    }
+
     public static String validarCorreoEnUso(String correo, int docActual) {
         Conexion conexion = new Conexion();
         Connection conex = null;
@@ -109,6 +118,36 @@ public class Validador {
 
         if (existe) {
             return "El correo ya está en uso.";
+        }
+        return null; // No hay errores
+    }
+
+    public static String validarDocumentoEnUso(String documento) {
+        Conexion conexion = new Conexion();
+        Connection conex = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        boolean existe = false;
+
+        try {
+            conex = conexion.Conexion();
+            String query = "SELECT 1 FROM tb_usuarios WHERE doc_usua = ?";
+            statement = conex.prepareStatement(query);
+            statement.setString(1, documento);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                existe = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Error al verificar el documento: " + e.getMessage();
+        } finally {
+            conexion.close(conex, statement, resultSet);
+        }
+
+        if (existe) {
+            return "El documento ya está en uso.";
         }
         return null; // No hay errores
     }

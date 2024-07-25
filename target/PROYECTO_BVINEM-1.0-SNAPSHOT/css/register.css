@@ -104,6 +104,12 @@ body{
     margin-left: 20px;
 }
 
+.form__select{
+    padding: 0px 0px 0px 10px;
+    height: 44px;
+    width: 295px;
+}
+
 .error{
   background-color: red;
 }
@@ -137,7 +143,7 @@ body{
     display: none;
   }
 
-  .form__input{
+  .form__input, .form__select{
     width: 70vw;
   }
 

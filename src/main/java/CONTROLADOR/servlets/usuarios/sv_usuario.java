@@ -55,17 +55,24 @@ public class sv_usuario extends HttpServlet {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 
         String tipoUsuario = request.getParameter("tipoUsuario");
+        int rol;
         if (tipoUsuario == null || tipoUsuario.isEmpty()) {
             tipoUsuario = "docente"; // Valor por defecto si no se proporciona el parámetro
+        }
+        
+        if ("estudiante".equals(tipoUsuario)) {
+            rol = 1; // Rol para estudiantes
+        } else {
+            rol = 2; // Rol para docentes
         }
 
         String docUsuario = request.getParameter("docUsuario");
 
         List<UsuarioClass> usuarios;
         if (docUsuario == null) {
-            usuarios = usuarioDAO.listarUsuarios("tb_" + tipoUsuario);
+            usuarios = usuarioDAO.listarUsuarios(rol);
         } else {
-            usuarios = usuarioDAO.buscarUsuarioPorDocumento("tb_" + tipoUsuario, docUsuario);
+            usuarios = usuarioDAO.buscarUsuarioPorDocumento(rol, docUsuario);
         }
 
         request.setAttribute("usuarios", usuarios);
@@ -176,13 +183,13 @@ public class sv_usuario extends HttpServlet {
         try {
             if (request.getParameter("editDocente") != null) {
                 int docDocente = Integer.parseInt(docUsuStr);
-                usuarioDAO.editarUsuario(docDocente, usuario, "tb_docente", true);
+                usuarioDAO.editarUsuario(docDocente, usuario, true);
                 session.setAttribute("success", "Datos del docente actualizados correctamente");
                 response.sendRedirect("sv_usuario?tipoUsuario=docente");
                 return;
             } else if (request.getParameter("editEstudiante") != null){
                 int docEstudiante = Integer.parseInt(docUsuStr);
-                usuarioDAO.editarUsuario(docEstudiante, usuario, "tb_estudiante", false);
+                usuarioDAO.editarUsuario(docEstudiante, usuario, false);
                 session.setAttribute("success", "Datos del estudiante actualizados correctamente");
                 response.sendRedirect("sv_usuario?tipoUsuario=estudiante");
                 return;
@@ -204,7 +211,7 @@ public class sv_usuario extends HttpServlet {
             if (request.getParameter("regDocente") != null) {
                 // Configurar el rol de docente (asumimos que es 2)
                 usuario.setRol(2);
-                usuarioDAO.agregarUsuario(usuario, "tb_docente");
+                usuarioDAO.agregarUsuario(usuario);
                 session.setAttribute("success", "Docente registrado exitosamente");
                 response.sendRedirect("sv_usuario");
             }

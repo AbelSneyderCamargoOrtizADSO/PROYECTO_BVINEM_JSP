@@ -71,7 +71,7 @@ public class sv_register extends HttpServlet {
             UsuarioDAO usuariodao =  new UsuarioDAO();
 
             try {
-                usuariodao.agregarUsuario(usuario, "tb_estudiante");
+                usuariodao.agregarUsuario(usuario);
                 request.setAttribute("success", "Estudiante registrado exitosamente, ahora puedes iniciar sesión");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             } catch (Exception error) {

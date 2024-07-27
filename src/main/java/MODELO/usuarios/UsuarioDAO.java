@@ -16,22 +16,20 @@ import java.util.List;
  */
 public class UsuarioDAO {
 
-    public void agregarUsuario(UsuarioClass usuario, String tablaAdicional) throws SQLException {
+    public void agregarUsuario(UsuarioClass usuario) throws SQLException {
         Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement statUsuario = null;
-        PreparedStatement statAdicional = null;
 
         try {
             conex = conexion.Conexion();
-            conex.setAutoCommit(false);
 
             // Encriptar la contraseña antes de guardarla
             String hashedPassword = HashUtil.hashPassword(usuario.getPass());
             usuario.setPass(hashedPassword);
 
             // Insertar en tb_usuarios
-            String queryUsuario = "INSERT INTO tb_usuarios (doc_usua, nom_usua, ape_usua, correo_usua, password, id_rol_fk, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, NOW())";
+            String queryUsuario = "INSERT INTO tb_usuarios (doc_usua, nom_usua, ape_usua, correo_usua, password, id_rol_fk, fecha_registro, id_grado_fk) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)";
             statUsuario = conex.prepareStatement(queryUsuario);
             statUsuario.setInt(1, usuario.getDocUsu());
             statUsuario.setString(2, usuario.getNombre());
@@ -39,36 +37,24 @@ public class UsuarioDAO {
             statUsuario.setString(4, usuario.getCorreo());
             statUsuario.setString(5, usuario.getPass());
             statUsuario.setInt(6, usuario.getRol());
-            statUsuario.executeUpdate();
-
-            // Insertar en la tabla adicional (tb_docente o tb_estudiante)
-            String queryAdicional;
-            if ("tb_estudiante".equals(tablaAdicional) && usuario.getGrado() != null) {
-                queryAdicional = "INSERT INTO " + tablaAdicional + " (id_grado_fk, doc_usua_fk) VALUES (?, ?)";
-                statAdicional = conex.prepareStatement(queryAdicional);
-                statAdicional.setString(1, usuario.getGrado());
-                statAdicional.setInt(2, usuario.getDocUsu());
+            System.out.println(usuario.getRol());
+            if (usuario.getRol() == 1) {
+                statUsuario.setString(7, usuario.getGrado());
             } else {
-                queryAdicional = "INSERT INTO " + tablaAdicional + " (doc_usua_fk) VALUES (?)";
-                statAdicional = conex.prepareStatement(queryAdicional);
-                statAdicional.setInt(1, usuario.getDocUsu());
+                statUsuario.setNull(7, java.sql.Types.VARCHAR);
             }
-            statAdicional.executeUpdate();
 
-            conex.commit();
+            statUsuario.executeUpdate();
+            
         } catch (SQLException e) {
-            if (conex != null) {
-                conex.rollback();
-            }
             e.printStackTrace();
             throw e;
         } finally {
             conexion.close(conex, statUsuario, null);
-            conexion.close(null, statAdicional, null);
         }
     }
 
-    public void editarUsuario(int docAnterior, UsuarioClass usuario, String tablaAdicional, boolean actualizarDocumentos) throws SQLException {
+    public void editarUsuario(int docAnterior, UsuarioClass usuario, boolean actualizarDocumentos) throws SQLException {
         Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement statement = null;
@@ -105,13 +91,6 @@ public class UsuarioDAO {
                 statement.setInt(2, docAnterior);
                 statement.executeUpdate();
             }
-
-            // Actualizar en la tabla adicional (tb_docente o tb_estudiante)
-            String queryAdicional = "UPDATE " + tablaAdicional + " SET doc_usua_fk = ? WHERE doc_usua_fk = ?";
-            statement = conex.prepareStatement(queryAdicional);
-            statement.setInt(1, usuario.getDocUsu());
-            statement.setInt(2, docAnterior);
-            statement.executeUpdate();
 
             // Actualizar en tb_usuarios
             String queryUsuario;
@@ -185,7 +164,7 @@ public class UsuarioDAO {
         cambiarEstadoUsuario(docente, 1);
     }
 
-    private List<UsuarioClass> mostrarUsuarios(String query, String parametro) {
+    private List<UsuarioClass> mostrarUsuarios(String query, int parametro1, String parametro2) {
         List<UsuarioClass> usuarios = new ArrayList<>();
         Conexion conexion = new Conexion();
         Connection conex = null;
@@ -196,8 +175,9 @@ public class UsuarioDAO {
             conex = conexion.Conexion();
             stat = conex.prepareStatement(query);
 
-            if (parametro != null) {
-                stat.setString(1, parametro);
+            stat.setInt(1, parametro1);
+            if (parametro2 != null) {
+                stat.setString(2, parametro2);
             }
 
             rs = stat.executeQuery();
@@ -221,19 +201,13 @@ public class UsuarioDAO {
         return usuarios;
     }
 
-    public List<UsuarioClass> listarUsuarios(String tablaAdicional) {
-        String query = "SELECT tb_usuarios.*, " + tablaAdicional + ".doc_usua_fk "
-                + "FROM " + tablaAdicional + " "
-                + "JOIN tb_usuarios ON " + tablaAdicional + ".doc_usua_fk = tb_usuarios.doc_usua "
-                + "ORDER BY tb_usuarios.fecha_registro DESC";
-        return mostrarUsuarios(query, null);
+    public List<UsuarioClass> listarUsuarios(int rol) {
+        String query = "SELECT * FROM tb_usuarios WHERE id_rol_fk = ? ORDER BY fecha_registro DESC";
+        return mostrarUsuarios(query, rol, null);
     }
 
-    public List<UsuarioClass> buscarUsuarioPorDocumento(String tablaAdicional, String docUsuario) {
-        String query = "SELECT tb_usuarios.*, " + tablaAdicional + ".doc_usua_fk "
-                + "FROM " + tablaAdicional + " "
-                + "JOIN tb_usuarios ON " + tablaAdicional + ".doc_usua_fk = tb_usuarios.doc_usua "
-                + "WHERE tb_usuarios.doc_usua LIKE ?";
-        return mostrarUsuarios(query, docUsuario + "%");
+    public List<UsuarioClass> buscarUsuarioPorDocumento(int rol, String docUsuario) {
+        String query = "SELECT * FROM tb_usuarios WHERE id_rol_fk = ? AND doc_usua LIKE ?";
+        return mostrarUsuarios(query,rol, docUsuario + "%");
     }
 }

@@ -4,10 +4,10 @@ CONTROLADOR\servlets\foros\subir_foro.class
 MODELO\usuarios\UsuarioClass.class
 MODELO\TipoClass.class
 CONTROLADOR\servlets\filter_pag.class
+CONTROLADOR\servlets\usuarios\sv_estu.class
 CONTROLADOR\servlets\usuarios\sv_usuario.class
 MODELO\foros\TipoForoClass.class
 CONTROLADOR\servlets\buscador.class
-CONTROLADOR\servlets\sv_register.class
 CONTROLADOR\servlets\mostrar_pdf.class
 MODELO\Conexion.class
 MODELO\foros\ForoClass.class

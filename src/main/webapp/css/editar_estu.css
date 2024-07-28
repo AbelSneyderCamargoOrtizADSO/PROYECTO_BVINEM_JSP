@@ -1,0 +1,109 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 27/07/2024, 3:38:29 p. m.
+    Author     : Abelito
+*/
+@import url(variables.css);
+@import url(../componentes/header.css);
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--green3);
+    margin: 0;
+    padding: 0;
+}
+
+.header__search{
+    display: none;
+}
+
+.header__title{
+    display: flex;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.formulario {
+    position: relative;
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 350px;
+}
+
+.form__cerrar{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 25px;
+    color: crimson;
+    float: right;
+}
+
+.formulario__titulo {
+    font-size: 24px;
+    color: var(--green);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.formulario__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formulario__grupo {
+    margin-bottom: 15px;
+}
+
+.formulario__label {
+    margin-bottom: 5px;
+    color: var(--green1);
+    font-weight: bold;
+    position: relative;
+}
+
+.formulario__input,
+.formulario__select {
+    padding: 10px;
+    border: 1px solid var(--green2);
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.formulario__input:focus,
+.formulario__select:focus {
+    border-color: var(--greenh);
+    outline: none;
+}
+
+.formulario__boton {
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: var(--btn-pd);
+    height: var(--btn-height);
+    border-radius: var(--radius);
+    background-color: var(--green);
+    color: var(--green3);
+    border: 0;
+}
+
+.formulario__boton:hover {
+    opacity: .8;
+}
+
+.formulario__boton:disabled{
+    opacity: .5;
+    cursor: not-allowed;
+}

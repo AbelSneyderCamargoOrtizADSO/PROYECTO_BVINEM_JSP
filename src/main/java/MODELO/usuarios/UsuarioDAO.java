@@ -29,7 +29,7 @@ public class UsuarioDAO {
             usuario.setPass(hashedPassword);
 
             // Insertar en tb_usuarios
-            String queryUsuario = "INSERT INTO tb_usuarios (doc_usua, nom_usua, ape_usua, correo_usua, password, id_rol_fk, fecha_registro, id_grado_fk) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)";
+            String queryUsuario = "INSERT INTO tb_usuarios (doc_usua, nom_usua, ape_usua, correo_usua, password, id_rol_fk, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, NOW())";
             statUsuario = conex.prepareStatement(queryUsuario);
             statUsuario.setInt(1, usuario.getDocUsu());
             statUsuario.setString(2, usuario.getNombre());
@@ -37,12 +37,6 @@ public class UsuarioDAO {
             statUsuario.setString(4, usuario.getCorreo());
             statUsuario.setString(5, usuario.getPass());
             statUsuario.setInt(6, usuario.getRol());
-            System.out.println(usuario.getRol());
-            if (usuario.getRol() == 1) {
-                statUsuario.setString(7, usuario.getGrado());
-            } else {
-                statUsuario.setNull(7, java.sql.Types.VARCHAR);
-            }
 
             statUsuario.executeUpdate();
             

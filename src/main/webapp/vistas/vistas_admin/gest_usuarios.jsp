@@ -9,7 +9,8 @@
 <!DOCTYPE html>
 <%
     if (session == null || session.getAttribute("logueado") == null) {
-        response.sendRedirect("index.jsp");
+        request.setAttribute("error", "Por favor, inicie sesión.");
+        request.getRequestDispatcher("../../index.jsp").forward(request, response);
         return;
     }
 %>
@@ -205,7 +206,6 @@
                         <label for="contrasenaEstudiante" class="form__label" id="labelPassEstudiante">Contraseña</label>
                         <input type="password" id="contrasenaEstudiante" class="form__input obligatorio" name="password">
 
-                        <input type="hidden" name="regEstudiante" value="true">
                         <button type="submit" class="button button--primary form__button" id="btnAccionEstudiante">Guardar</button>
                     </form>
                 </div>

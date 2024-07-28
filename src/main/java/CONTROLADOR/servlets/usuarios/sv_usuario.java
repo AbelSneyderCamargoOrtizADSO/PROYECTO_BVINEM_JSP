@@ -97,12 +97,6 @@ public class sv_usuario extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute("logueado") == null) {
-            request.setAttribute("error", "Sesión expirada. Por favor, vuelva a iniciar sesión.");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
-        }
-
         // Instanciamos las clases
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         UsuarioClass usuario = new UsuarioClass();
@@ -151,6 +145,7 @@ public class sv_usuario extends HttpServlet {
 
         // VALIDACIONES - Validar los datos del formulario usando la clase Validador
         String errorMessage = Validador.validarDocumento(NewdocUsuStr);
+        if (errorMessage == null && !(NewdocUsuStr.equals(docUsuStr))) errorMessage = Validador.validarDocumentoEnUso(NewdocUsuStr);
         if (errorMessage == null) errorMessage = Validador.validarNombre(nombres);
         if (errorMessage == null) errorMessage = Validador.validarApellido(apellidos);       
         if (errorMessage == null) errorMessage = Validador.validarCorreo(correo);        
@@ -164,7 +159,7 @@ public class sv_usuario extends HttpServlet {
 
         if (errorMessage != null) {
             session.setAttribute("error", errorMessage);
-            response.sendRedirect("sv_usuario");
+            response.sendRedirect(request.getHeader("Referer"));
             return;
         }
 
@@ -187,22 +182,22 @@ public class sv_usuario extends HttpServlet {
                 session.setAttribute("success", "Datos del docente actualizados correctamente");
                 response.sendRedirect("sv_usuario?tipoUsuario=docente");
                 return;
-            } else if (request.getParameter("editEstudiante") != null){
+            } else if (request.getParameter("editEstudiante") != null || request.getParameter("estudianteEdit") != null){
                 int docEstudiante = Integer.parseInt(docUsuStr);
                 usuarioDAO.editarUsuario(docEstudiante, usuario, false);
                 session.setAttribute("success", "Datos del estudiante actualizados correctamente");
-                response.sendRedirect("sv_usuario?tipoUsuario=estudiante");
-                return;
+                session.setAttribute("UserDoc", NewdocUsuStr);
+
+                if (request.getParameter("editEstudiante") != null) {
+                    response.sendRedirect("sv_usuario?tipoUsuario=estudiante");
+                } else if (request.getParameter("estudianteEdit") != null) {
+                    response.sendRedirect("sv_estu");
+                }
             }
         } catch (SQLException e) {
-            if (e.getErrorCode() == 1062) { // Código de error para clave duplicada en MySQL
-                session.setAttribute("error", "El documento de usuario ya está en uso.");
-                response.sendRedirect("sv_usuario");
-                return;
-            } else {
-                e.printStackTrace();
-                return;
-            }
+            e.printStackTrace();
+            response.getWriter().print("Error: " + e.getMessage());
+            return;
         }
         
 
@@ -215,25 +210,17 @@ public class sv_usuario extends HttpServlet {
                 session.setAttribute("success", "Docente registrado exitosamente");
                 response.sendRedirect("sv_usuario");
             }
-//            else if (request.getParameter("regEstudiante") != null) {
-//                // Configurar el rol de estudiante (asumimos que es 3)
-//                usuario.setRol(3);
-//                usuarioDAO.agregarUsuario(usuario, "tb_estudiante");
-//                session.setAttribute("success", "Estudiante registrado exitosamente");
-//                response.sendRedirect("sv_usuario");
-//
-//            }
-        } catch (SQLException e) {
-            if (e.getErrorCode() == 1062) { // Código de error para clave duplicada en MySQL
-                session.setAttribute("error", "El documento de usuario ya está en uso.");
-                response.sendRedirect("sv_usuario");
-                return;
-
-            } else {
-                e.printStackTrace();
-                response.getWriter().print("Error: " + e.getMessage());
-                return;
+            else if (request.getParameter("regEstudiante") != null) {
+                // Configurar el rol de estudiante (asumimos que es 3)
+                usuario.setRol(1);
+                usuarioDAO.agregarUsuario(usuario);
+                request.setAttribute("success", "Estudiante registrado exitosamente, ahora puedes iniciar sesión");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.getWriter().print("Error: " + e.getMessage());
+            return;
         }
     }
 

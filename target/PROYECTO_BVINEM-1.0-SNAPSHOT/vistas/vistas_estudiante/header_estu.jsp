@@ -20,8 +20,8 @@
                         <a href="${pageContext.request.contextPath}/subir_foro" class="nav__link"><i class="bi bi-chat-square-text-fill"></i> Realizar foro</a>
                     </li>
                     <li class="nav__list">
-                        <a href="" class="nav__link"><i class="bi bi-envelope-paper-fill"></i>
-                            Realizar solicitud</a>
+                        <a href="${pageContext.request.contextPath}/sv_estu" class="nav__link"><i class="bi bi-pen-fill"></i>
+                            Editar mis datos</a>
                     </li>
                 </ul>
             </nav>

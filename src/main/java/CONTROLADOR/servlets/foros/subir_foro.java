@@ -8,8 +8,10 @@ import MODELO.AsignaturaClass;
 import MODELO.FormDoc;
 import MODELO.IdiomaClass;
 import MODELO.foros.FormForo;
+import MODELO.foros.ForoClass;
 import MODELO.foros.ForoDAO;
 import MODELO.foros.TipoForoClass;
+import MODELO.usuarios.Validador;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -89,66 +91,48 @@ public class subir_foro extends HttpServlet {
             return;
         }
 
-        // Recuperar y castear a int el documento del usario
-        String dni = (String) session.getAttribute("UserDoc");
+        ForoDAO forodao = new ForoDAO();
+        ForoClass foro = new ForoClass();
+
+        // VARIABLES
+        String dni = (String) session.getAttribute("UserDoc"); // Recuperar y castear a int el documento del usario
         int UserDoc = Integer.parseInt((String) dni);
+        String tit = request.getParameter("titulo");
+        String descrip = request.getParameter("descripcion");
+        String asig = request.getParameter("asignatura");
+        String idioma = request.getParameter("idioma");
+        String tipo = request.getParameter("tipof");
+        
+        // VALIDACIONES
+        String errorMessage = Validador.validarTitulo(tit);
+        if (errorMessage == null) errorMessage = Validador.validarDescripcion(descrip);
+        if (errorMessage == null) errorMessage = Validador.validarAsignatura(asig);
+        if (errorMessage == null) errorMessage = Validador.validarIdioma(idioma);
+        if (errorMessage == null) errorMessage = Validador.validarTipoForo(tipo);
+
+        if (errorMessage != null) {
+            session.setAttribute("error", errorMessage);
+            response.sendRedirect("subir_foro");
+            return;
+        }
+
+        // ASIGNAMOS LOS SETTERS
+        foro.setUsuarioDoc(UserDoc);
+        foro.setTitulo(tit);
+        foro.setDescripcion(descrip);
+        foro.setAsignaturaId(Integer.parseInt(asig));
+        foro.setIdiomaId(Integer.parseInt(idioma));
+        foro.setTipoId(Integer.parseInt(tipo));
 
         if (request.getParameter("enviar") != null) {
-            // TRAEMOS O TOMAMOS LOS DATOS INGRESADOS MEDIANTE getParameter TOMANDO COMO REFERENCIA EL NAME DE CADA INPUT
-            String tit = request.getParameter("titulo");
-            String descrip = request.getParameter("descripcion");
-            String asig = request.getParameter("asignatura");
-            String idioma = request.getParameter("idioma");
-            String tipo = request.getParameter("tipof");
-
-            if (tit == null || tit.trim().isEmpty()) {
-                session.setAttribute("error", "El título no puede estar vacío");
-                response.sendRedirect("subir_foro");
-                return;
-            }
-            
-            if (tit.length() > 50) {
-                session.setAttribute("error", "El título debe tener maximo 50 caracteres");
-                response.sendRedirect("subir_foro");
-                return;
-            }
-
-            if (descrip == null || descrip.trim().isEmpty() || descrip.equals("<p><br></p>")) {
-                session.setAttribute("error", "La descripción no puede estar vacía");
-                response.sendRedirect("subir_foro");
-                return;
-            }
-
-            if (asig == null || asig.trim().isEmpty()) {
-                session.setAttribute("error", "Por favor, seleccione la asignatura");
-                response.sendRedirect("subir_foro");
-                return;
-            }
-
-            if (idioma == null || idioma.trim().isEmpty()) {
-                session.setAttribute("error", "Por favor, seleccione el idioma");
-                response.sendRedirect("subir_foro");
-                return;
-            }
-
-            if (tipo == null || tipo.trim().isEmpty()) {
-                session.setAttribute("error", "Por favor, seleccione el tipo de foro");
-                response.sendRedirect("subir_foro");
-                return;
-            }
-
-            ForoDAO forodao = new ForoDAO();
-
             try {
-                forodao.subirForo(tit, descrip, UserDoc, asig, idioma, tipo);
+                forodao.subirForo(foro);
                 response.sendRedirect("sv_foros");
             } catch (Exception error) {
                 error.printStackTrace();
                 response.getWriter().print("Error: " + error.getMessage());
             }
-
         }
-
     }
 
     /**

@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -52,10 +53,18 @@ public class sv_foros extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("logueado") == null) {
+            request.setAttribute("error", "Por favor, inicie sesión.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        }
+
         ForoDAO forodao = new ForoDAO();
         FormDoc formDoc = new FormDoc();
         FormForo formForo = new FormForo();
-        
+
         // SELECT FILTROS
         String asignatura = request.getParameter("asignatura");
         String idioma = request.getParameter("idioma");
@@ -64,12 +73,23 @@ public class sv_foros extends HttpServlet {
         List<AsignaturaClass> asignaturas = formDoc.obtenerAsignaturas();
         List<IdiomaClass> idiomas = formDoc.obtenerIdiomas();
         List<TipoForoClass> tiposforo = formForo.obtenerTiposForo();
-        
+
+        ForoClass filtro = new ForoClass();
+        if (asignatura != null && !asignatura.isEmpty()) {
+            filtro.setAsignaturaId(Integer.parseInt(asignatura));
+        }
+        if (idioma != null && !idioma.isEmpty()) {
+            filtro.setIdiomaId(Integer.parseInt(idioma));
+        }
+        if (tipo != null && !tipo.isEmpty()) {
+            filtro.setTipoId(Integer.parseInt(tipo));
+        }
+
         List<ForoClass> foros;
         if (asignatura == null && idioma == null && tipo == null) {
             foros = forodao.listarForos();
         } else {
-            foros = forodao.filtrarForos(asignatura, idioma, tipo);
+            foros = forodao.filtrarForos(filtro);
         }
 
         request.setAttribute("asignaturas", asignaturas);

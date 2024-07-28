@@ -17,9 +17,11 @@
             <nav class="nav">
                 <ul class="nav__list">
                     <li class="nav__list">
-                        <a href="${pageContext.request.contextPath}/sv_usuario" class="nav__link"><i class="bi bi-person-fill-gear"></i> Gestionar docentes</a>
+                        <a href="${pageContext.request.contextPath}/sv_usuario" class="nav__link"><i class="bi bi-person-fill-gear"></i> Gestionar usuarios</a>
                     </li>
-
+                    <li class="nav__list">
+                        <a href="${pageContext.request.contextPath}/subir_foro" class="nav__link"><i class="bi bi-chat-square-text-fill"></i> Realizar foro</a>
+                    </li>
                 </ul>
             </nav>
         </div>

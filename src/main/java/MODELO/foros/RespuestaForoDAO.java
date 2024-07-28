@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class RespuestaForoDAO {
 
-    public void subirRespuesta(String contenido, String idf, int UserDoc) throws SQLException {
+    public void subirRespuesta(RespuestaClass respuesta) throws SQLException {
 
         Conexion conexion = new Conexion();
         Connection conex = null;
@@ -26,9 +26,9 @@ public class RespuestaForoDAO {
 
             String query = "insert into tb_respuesta_foro(contenido, fecha_public, id_foro_fk, doc_usua_fk) values(?,NOW(),?,?)";
             stat = conex.prepareStatement(query);
-            stat.setString(1, contenido);
-            stat.setInt(2, Integer.parseInt(idf));
-            stat.setInt(3, UserDoc);
+            stat.setString(1, respuesta.getContenido());
+            stat.setInt(2, respuesta.getIdForo());
+            stat.setInt(3, respuesta.getUsuarioId());
 
             stat.executeUpdate();
 
@@ -40,7 +40,7 @@ public class RespuestaForoDAO {
         }
     }
 
-    public List<RespuestaClass> mostrarRespuestasPorForo(int foroId) throws SQLException {
+    public List<RespuestaClass> mostrarRespuestasPorForo(ForoClass foro) throws SQLException {
         List<RespuestaClass> respuestas = new ArrayList<>();
         Conexion conexion = new Conexion();
         Connection conex = null;
@@ -50,17 +50,15 @@ public class RespuestaForoDAO {
         try {
             conex = conexion.Conexion();
 
-            String query = "SELECT tb_respuesta_foro.*, tb_usuarios.nom_usua, tb_usuarios.ape_usua, tb_rol.nom_rol,  tb_grado.nom_grado "
+            String query = "SELECT tb_respuesta_foro.*, tb_usuarios.nom_usua, tb_usuarios.ape_usua, tb_rol.nom_rol "
                     + "FROM tb_respuesta_foro "
                     + "JOIN tb_usuarios ON tb_respuesta_foro.doc_usua_fk = tb_usuarios.doc_usua "
                     + "JOIN tb_rol ON tb_usuarios.id_rol_fk = tb_rol.id_rol "
-                    + "LEFT JOIN tb_estudiante ON tb_usuarios.doc_usua = tb_estudiante.doc_usua_fk "
-                    + "LEFT JOIN tb_grado ON tb_estudiante.id_grado_fk = tb_grado.id_grado "
                     + "WHERE tb_respuesta_foro.id_foro_fk = ? "
                     + "ORDER BY tb_respuesta_foro.fecha_public DESC";
 
             stat = conex.prepareStatement(query);
-            stat.setInt(1, foroId);
+            stat.setInt(1, foro.getId());
 
             rs = stat.executeQuery();
 
@@ -70,10 +68,9 @@ public class RespuestaForoDAO {
                 String fechaPublic = rs.getString("fecha_public");
                 String nombreUsuario = rs.getString("nom_usua") + " " + rs.getString("ape_usua");
                 String rolUsuario = rs.getString("nom_rol");
-                String gradoEstu = rs.getString("nom_grado");
                 int usuarioId = rs.getInt("doc_usua_fk");
 
-                RespuestaClass respuesta = new RespuestaClass(idRespu, contenido, fechaPublic, nombreUsuario, rolUsuario, gradoEstu, usuarioId);
+                RespuestaClass respuesta = new RespuestaClass(idRespu, contenido, fechaPublic, nombreUsuario, rolUsuario, usuarioId);
                 respuestas.add(respuesta);
             }
 
@@ -87,7 +84,7 @@ public class RespuestaForoDAO {
         return respuestas;
     }
 
-    public void editarRespuesta(int respuestaId, String contenido) throws SQLException {
+    public void editarRespuesta(RespuestaClass respuesta) throws SQLException {
         Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
@@ -96,8 +93,8 @@ public class RespuestaForoDAO {
             conex = conexion.Conexion();
             String query = "UPDATE tb_respuesta_foro SET contenido = ? WHERE id_respu = ?";
             stat = conex.prepareStatement(query);
-            stat.setString(1, contenido);
-            stat.setInt(2, respuestaId);
+            stat.setString(1, respuesta.getContenido());
+            stat.setInt(2, respuesta.getId());
 
             stat.executeUpdate();
         } catch (SQLException e) {
@@ -108,7 +105,7 @@ public class RespuestaForoDAO {
         }
     }
     
-    public void eliminarRespuesta(int respuestaId) throws SQLException {
+    public void eliminarRespuesta(RespuestaClass respuesta) throws SQLException {
         Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
@@ -117,7 +114,7 @@ public class RespuestaForoDAO {
             conex = conexion.Conexion();
             String query = "DELETE FROM tb_respuesta_foro WHERE id_respu = ?";
             stat = conex.prepareStatement(query);
-            stat.setInt(1, respuestaId);
+            stat.setInt(1, respuesta.getId());
 
             stat.executeUpdate();
         } catch (SQLException e) {

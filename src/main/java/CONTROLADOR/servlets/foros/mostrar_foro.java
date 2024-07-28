@@ -50,15 +50,27 @@ public class mostrar_foro extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("logueado") == null) {
+            request.setAttribute("error", "Por favor, inicie sesión.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        }
+
+        ForoDAO foroDAO = new ForoDAO();
+        ForoClass foro = new ForoClass();
+
         String id = request.getParameter("id"); // id del foro
 
         if (id != null && !id.isEmpty()) {
-            ForoDAO foroDAO = new ForoDAO();
-            ForoClass foro = foroDAO.mostrarForoPorId(Integer.parseInt(id));
+            foro.setId(Integer.parseInt(id));
+            foro = foroDAO.mostrarForoPorId(foro);
+
             if (foro != null) {
                 RespuestaForoDAO respuestaDAO = new RespuestaForoDAO();
                 try {
-                    List<RespuestaClass> respuestas = respuestaDAO.mostrarRespuestasPorForo(Integer.parseInt(id));
+                    List<RespuestaClass> respuestas = respuestaDAO.mostrarRespuestasPorForo(foro);
                     request.setAttribute("foro", foro);
                     request.setAttribute("respuestas", respuestas);
                 } catch (Exception e) {
@@ -90,52 +102,43 @@ public class mostrar_foro extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        if (session == null) {
-            request.setAttribute("error", "Sesión expirada. Por favor, vuelva a iniciar sesión.");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
+        ForoDAO foroDAO = new ForoDAO();
+        ForoClass foro = new ForoClass();
+
+        // VARIABLES
+        String descripcion = request.getParameter("foroEditado");
+        String idf = request.getParameter("foroId");
+
+        foro.setId(Integer.parseInt(idf));
+        foro.setDescripcion(descripcion);
+
+        // Obtén el parámetro de acción
+        String action = request.getParameter("action");
+
+        try {
+            switch (action) {
+                case "editarForo":
+                    if (descripcion == null || descripcion.trim().isEmpty() || descripcion.equals("<p><br></p>")) {
+                        session.setAttribute("error", "La descripción del foro no puede estar vacía");
+                        response.sendRedirect("mostrar_foro?id=" + idf);
+                        return;
+                    }
+
+                    foroDAO.editarForo(foro);
+                    session.setAttribute("success", "Foro editado correctamente");
+                    response.sendRedirect("mostrar_foro?id=" + idf);
+                    break;
+
+                case "eliminarForo":
+                    foroDAO.eliminarForo(foro);
+                    response.sendRedirect("sv_foros");
+                    break;
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+            response.getWriter().print("Error: " + error.getMessage());
         }
 
-        String dni = (String) session.getAttribute("UserDoc");
-        int UserDoc = Integer.parseInt(dni);
-
-        // EDITAR FORO
-        if (request.getParameter("editarForo") != null) {
-            String descripcion = request.getParameter("foroEditado");
-            String idf = request.getParameter("foroIdEdit");
-
-            if (descripcion == null || descripcion.trim().isEmpty() || descripcion.equals("<p><br></p>")) {
-                session.setAttribute("error", "La descripción del foro no puede estar vacía");
-                response.sendRedirect("mostrar_foro?id=" + idf);
-                return;
-            }
-
-            ForoDAO foroDAO = new ForoDAO();
-
-            try {
-                foroDAO.editarForo(Integer.parseInt(idf), descripcion);
-                session.setAttribute("success", "Foro editado correctamente");
-                response.sendRedirect("mostrar_foro?id=" + idf);
-            } catch (Exception error) {
-                error.printStackTrace();
-                response.getWriter().print("Error: " + error.getMessage());
-            }
-        }
-
-        // ELIMINAR FORO
-        if (request.getParameter("eliminarForo") != null) {
-            String idf = request.getParameter("foroId");
-
-            ForoDAO foroDAO = new ForoDAO();
-
-            try {
-                foroDAO.eliminarForo(Integer.parseInt(idf));
-                response.sendRedirect("sv_foros");
-            } catch (Exception error) {
-                error.printStackTrace();
-                response.getWriter().print("Error: " + error.getMessage());
-            }
-        }
     }
 
     /**

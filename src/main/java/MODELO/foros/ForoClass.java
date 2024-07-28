@@ -23,26 +23,19 @@ public class ForoClass {
     private String nombreUsuario;
     private String rolUsuario;
     private int usuarioDoc;
+    
+    public ForoClass() {
+        
+    }
 
-    public ForoClass(int id, String titulo, String descripcion, String fecha, String idioma, int idiomaId, String asignatura, int asignaturaId, String tipo, int tipoId, String nombreUsuario, String rolUsuario, int usuarioDoc) {
+    public ForoClass(int id, String titulo, String descripcion, String fecha, String idioma, String asignatura, String tipo) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.idioma = idioma;
-        this.idiomaId = idiomaId;
         this.asignatura = asignatura;
-        this.asignaturaId = asignaturaId;
         this.tipo = tipo;
-        this.tipoId = tipoId;
-        this.nombreUsuario = nombreUsuario;
-        this.rolUsuario = rolUsuario;
-        this.usuarioDoc = usuarioDoc;
-    }
-
-    // Constructor sin los IDs opcionales
-    public ForoClass(int id, String titulo, String descripcion, String fecha, String idioma, String asignatura, String tipo) {
-        this(id, titulo, descripcion, fecha, idioma, 0, asignatura, 0, tipo, 0, "", "", 0);
     }
 
     public int getId() {
@@ -141,12 +134,24 @@ public class ForoClass {
     public String getNombreUsuario() {
         return nombreUsuario;
     }
+    
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
 
     public String getRolUsuario() {
         return rolUsuario;
     }
     
+    public void setRolUsuario(String rolUsuario) {
+        this.rolUsuario = rolUsuario;
+    }
+    
     public int getUsuarioDoc() {
         return usuarioDoc;
+    }
+    
+    public void setUsuarioDoc(int usuarioDoc) {
+        this.usuarioDoc = usuarioDoc;
     }
 }

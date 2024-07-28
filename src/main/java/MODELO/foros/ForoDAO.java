@@ -17,8 +17,7 @@ import java.util.List;
  */
 public class ForoDAO {
 
-    public void subirForo(String tit, String descrip, int UserDoc, String asig, String idioma, String tipo) throws SQLException {
-
+    public void subirForo(ForoClass foro) throws SQLException {
         Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
@@ -28,12 +27,12 @@ public class ForoDAO {
 
             String query = "insert into tb_foro(tit_foro, descrip_foro, fecha_creacion, id_asig_fk, doc_usua_fk, id_idioma_fk, id_tpfr_fk) values(?,?,NOW(),?,?,?,?)";
             stat = conex.prepareStatement(query);
-            stat.setString(1, tit);
-            stat.setString(2, descrip);
-            stat.setInt(3, Integer.parseInt(asig));
-            stat.setInt(4, UserDoc);
-            stat.setInt(5, Integer.parseInt(idioma));
-            stat.setInt(6, Integer.parseInt(tipo));
+            stat.setString(1, foro.getTitulo());
+            stat.setString(2, foro.getDescripcion());
+            stat.setInt(3, foro.getAsignaturaId());
+            stat.setInt(4, foro.getUsuarioDoc());
+            stat.setInt(5, foro.getIdiomaId());
+            stat.setInt(6, foro.getTipoId());
 
             stat.executeUpdate();
 
@@ -95,7 +94,7 @@ public class ForoDAO {
         return foros;
     }
 
-    public List<ForoClass> filtrarForos(String asignatura, String idioma, String tipo) {
+    public List<ForoClass> filtrarForos(ForoClass filtro) {
         List<ForoClass> foros = new ArrayList<>();
         Conexion conexion = new Conexion();
         Connection conex = null;
@@ -108,19 +107,19 @@ public class ForoDAO {
                 + "JOIN tb_idiomas ON tb_foro.id_idioma_fk = tb_idiomas.id_idioma "
                 + "JOIN tb_asignaturas ON tb_foro.id_asig_fk = tb_asignaturas.id_asig "
                 + "JOIN tb_tipo_foro ON tb_foro.id_tpfr_fk = tb_tipo_foro.id_tp_foro "
-                + "WHERE "
+                + "WHERE 1=1 "
         );
 
-        if (asignatura != null && !asignatura.isEmpty()) {
-            sql.append("tb_foro.id_asig_fk = ? ");
+        if (filtro.getAsignaturaId() > 0) {
+            sql.append("AND tb_foro.id_asig_fk = ? ");
         }
 
-        if (idioma != null && !idioma.isEmpty()) {
-            sql.append("tb_foro.id_idioma_fk = ? ");
+        if (filtro.getIdiomaId() > 0) {
+            sql.append("AND tb_foro.id_idioma_fk = ? ");
         }
 
-        if (tipo != null && !tipo.isEmpty()) {
-            sql.append("tb_foro.id_tpfr_fk = ? ");
+        if (filtro.getTipoId() > 0) {
+            sql.append("AND tb_foro.id_tpfr_fk = ? ");
         }
 
         sql.append("ORDER BY tb_foro.fecha_creacion DESC");
@@ -133,18 +132,18 @@ public class ForoDAO {
             int index = 1;
 
             // Si el filtro de asignatura no es nulo ni vacío, se asigna al parámetro correspondiente en la consulta.
-            if (asignatura != null && !asignatura.isEmpty()) {
-                stat.setInt(index++, Integer.parseInt(asignatura));
+            if (filtro.getAsignaturaId() > 0) {
+                stat.setInt(index++, filtro.getAsignaturaId());
             }
 
             // Si el filtro de idioma no es nulo ni vacío, se asigna al siguiente parámetro en la consulta.
-            if (idioma != null && !idioma.isEmpty()) {
-                stat.setInt(index++, Integer.parseInt(idioma));
+            if (filtro.getIdiomaId() > 0) {
+                stat.setInt(index++, filtro.getIdiomaId());
             }
 
             // Si el filtro de tipo no es nulo ni vacío, se asigna al siguiente parámetro en la consulta.
-            if (tipo != null && !tipo.isEmpty()) {
-                stat.setInt(index++, Integer.parseInt(tipo));
+            if (filtro.getTipoId() > 0) {
+                stat.setInt(index++, filtro.getTipoId());
             }
 
             rs = stat.executeQuery();
@@ -169,8 +168,7 @@ public class ForoDAO {
         return foros;
     }
 
-    public ForoClass mostrarForoPorId(int id) {
-        ForoClass foro = null;
+    public ForoClass mostrarForoPorId(ForoClass foro) {
         Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
@@ -194,27 +192,24 @@ public class ForoDAO {
             stat = conex.prepareStatement(sql);
 
             // Asignar el valor del parámetro
-            stat.setInt(1, id);
+            stat.setInt(1, foro.getId());
 
             // Ejecutar la consulta y obtener el resultado
             rs = stat.executeQuery();
 
             if (rs.next()) {
-                int foroId = rs.getInt("id_foro");
-                String titulo = rs.getString("tit_foro");
-                String descripcion = rs.getString("descrip_foro");
-                String fecha = rs.getString("fecha_creacion");
-                String idioma = rs.getString("idioma");
-                int idiomaId = rs.getInt("id_idioma_fk");
-                String asignatura = rs.getString("asignatura");
-                int asignaturaId = rs.getInt("id_asig_fk");
-                String tipo = rs.getString("tipo");
-                int tipoId = rs.getInt("id_tpfr_fk");
-                String nombreUsuario = rs.getString("nom_usua") + " " + rs.getString("ape_usua");
-                String rolUsuario = rs.getString("nom_rol");
-                int usuarioDoc = rs.getInt("doc_usua_fk");
-
-                foro = new ForoClass(foroId, titulo, descripcion, fecha, idioma, idiomaId, asignatura, asignaturaId, tipo, tipoId, nombreUsuario, rolUsuario, usuarioDoc);
+                foro.setTitulo(rs.getString("tit_foro"));
+                foro.setDescripcion(rs.getString("descrip_foro"));
+                foro.setFecha(rs.getString("fecha_creacion"));
+                foro.setIdioma(rs.getString("idioma"));
+                foro.setIdiomaId(rs.getInt("id_idioma_fk"));
+                foro.setAsignatura(rs.getString("asignatura"));
+                foro.setAsignaturaId(rs.getInt("id_asig_fk"));
+                foro.setTipo(rs.getString("tipo"));
+                foro.setTipoId(rs.getInt("id_tpfr_fk"));
+                foro.setNombreUsuario(rs.getString("nom_usua") + " " + rs.getString("ape_usua"));
+                foro.setRolUsuario(rs.getString("nom_rol"));
+                foro.setUsuarioDoc(rs.getInt("doc_usua_fk"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -226,7 +221,7 @@ public class ForoDAO {
         return foro;
     }
 
-    public void editarForo(int id, String descripcion) throws SQLException {
+    public void editarForo(ForoClass foro) throws SQLException {
         Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
@@ -235,8 +230,8 @@ public class ForoDAO {
             conex = conexion.Conexion();
             String query = "UPDATE tb_foro SET descrip_foro = ? WHERE id_foro = ?";
             stat = conex.prepareStatement(query);
-            stat.setString(1, descripcion);
-            stat.setInt(2, id);
+            stat.setString(1, foro.getDescripcion());
+            stat.setInt(2, foro.getId());
 
             stat.executeUpdate();
         } catch (SQLException e) {
@@ -247,7 +242,7 @@ public class ForoDAO {
         }
     }
 
-    public void eliminarForo(int id) throws SQLException {
+    public void eliminarForo(ForoClass foro) throws SQLException {
         Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement statRespuestas = null;
@@ -260,40 +255,26 @@ public class ForoDAO {
             // Eliminar respuestas asociadas al foro
             String deleteRespuestas = "DELETE FROM tb_respuesta_foro WHERE id_foro_fk = ?";
             statRespuestas = conex.prepareStatement(deleteRespuestas);
-            statRespuestas.setInt(1, id);
+            statRespuestas.setInt(1, foro.getId());
             statRespuestas.executeUpdate();
 
             // Eliminar el foro
             String deleteForo = "DELETE FROM tb_foro WHERE id_foro = ?";
             statForo = conex.prepareStatement(deleteForo);
-            statForo.setInt(1, id);
+            statForo.setInt(1, foro.getId());
             statForo.executeUpdate();
 
             // Commit de la transacción
             conex.commit();
         } catch (SQLException e) {
             if (conex != null) {
-                try {
-                    conex.rollback(); // Deshacer la transacción en caso de error
-                } catch (SQLException rollbackEx) {
-                    rollbackEx.printStackTrace();
-                }
+                conex.rollback(); // Deshacer la transacción en caso de error
             }
             e.printStackTrace();
             throw e;
-        } finally {
-            // Cerrar los recursos utilizando el método close de la clase Conexion
-            if (statRespuestas != null || statForo != null) {
-                conexion.close(conex, statRespuestas, null);
-                conexion.close(conex, statForo, null);
-            }
-            if (conex != null) { // https://puntocomnoesunlenguaje.blogspot.com/2017/11/java-jdbc-transacciones.html
-                try {
-                    conex.setAutoCommit(true); // Restaurar el autocommit
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+        } finally { // https://puntocomnoesunlenguaje.blogspot.com/2017/11/java-jdbc-transacciones.html
+            conexion.close(conex, statRespuestas, null);
+            conexion.close(conex, statForo, null);
         }
     }
 

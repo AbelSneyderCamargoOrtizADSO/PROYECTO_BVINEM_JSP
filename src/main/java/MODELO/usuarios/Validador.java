@@ -152,4 +152,43 @@ public class Validador {
         return null; // No hay errores
     }
 
+    // FOROS
+    public static String validarTitulo(String tit) {
+        if (tit == null || tit.trim().isEmpty()) {
+            return "El título no puede estar vacío";
+        }
+        if (tit.length() > 50) {
+            return "El título debe tener maximo 50 caracteres";
+        }
+        return null; 
+    }
+
+    public static String validarDescripcion(String descrip) {
+        if (descrip == null || descrip.trim().isEmpty() || descrip.equals("<p><br></p>")) {
+            return "La descripción no puede estar vacía";
+        }
+        return null; 
+    }
+
+    public static String validarAsignatura(String asig) {
+        if (asig == null || asig.trim().isEmpty()) {
+            return "Por favor, seleccione la asignatura";
+        }
+        return null; 
+    }
+
+    public static String validarIdioma(String idioma) {
+        if (idioma == null || idioma.trim().isEmpty()) {
+            return "Por favor, seleccione el idioma";
+        }
+        return null; 
+    }
+
+    public static String validarTipoForo(String tipo) {
+        if (tipo == null || tipo.trim().isEmpty()) {
+            return "Por favor, seleccione el tipo de foro";
+        }
+        return null; 
+    }
+
 }

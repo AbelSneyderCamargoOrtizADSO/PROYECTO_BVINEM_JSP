@@ -23,32 +23,35 @@
             <c:when test="${rol == '2'}">
                 <jsp:include page="vistas_docente/header_docen.jsp" />
             </c:when>
+            <c:when test="${rol == '3' || rol == '4'}">
+                <jsp:include page="vistas_admin/header_admin.jsp" />
+            </c:when>
         </c:choose>
 
         <main>
             <div class="form-container">
-                <form action="${pageContext.request.contextPath}/subir_foro" method="POST" class="form" id="foroForm">
+                <form action="${pageContext.request.contextPath}/subir_foro" method="POST" class="form form__valid" id="foroForm">
                     <div class="form__group">
                         <label class="form__label" for="titulo">Título del Foro</label>
-                        <input class="form__input" type="text" id="titulo" name="titulo" maxlength="50">
+                        <input class="form__input obligatorio" type="text" id="titulo" name="titulo" maxlength="50">
                     </div>
                     <div class="form__group form__group-select">
-                        <select class="form__select" name="asignatura" id="asignatura">
-                            <option value="">Seleccione la asignatura</option>
+                        <select class="form__select obligatorio" name="asignatura" id="asignatura">
+                            <option value="" disabled selected>Seleccione la asignatura</option>
                             <c:forEach var="asignatura" items="${asignaturas}">
                                 <option value="${asignatura.id}">${asignatura.nombre}</option>
                             </c:forEach>
                         </select>
-
-                        <select class="form__select" name="idioma" id="idioma">
-                            <option value="">Seleccione el idioma</option>
+                        
+                        <select class="form__select obligatorio" name="idioma" id="idioma">
+                            <option value="" disabled selected>Seleccione el idioma</option>
                             <c:forEach var="idioma" items="${idiomas}">
                                 <option value="${idioma.id}">${idioma.nombre}</option>
                             </c:forEach>
                         </select>
 
-                        <select class="form__select" name="tipof" id="tipof">
-                            <option value="">Seleccione el tipo de foro</option>
+                        <select class="form__select obligatorio" name="tipof" id="tipof">
+                            <option value="" disabled selected>Seleccione el tipo de foro</option>
                             <c:forEach var="tipo" items="${tiposforo}">
                                 <option value="${tipo.id}">${tipo.nombre}</option>
                             </c:forEach>
@@ -71,81 +74,6 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-            var quill = new Quill('#editor', {
-                theme: 'snow'
-            });
-
-            function valid() {
-                let tit = document.getElementById("titulo").value.trim();
-                // let descrip = document.getElementById("descripcion").value;
-                let asig = document.getElementById("asignatura").value;
-                let idioma = document.getElementById("idioma").value;
-                let tipo = document.getElementById("tipof").value;
-                var descrip = quill.getText().trim();
-
-                if (tit === "") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'El título no puede estar vacío',
-                    });
-                    return false;
-                }
-
-                if (descrip === '' || descrip === '<p><br></p>' || descrip.length === 0) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'La descripción no puede estar vacía',
-                    });
-                    return false;
-                }
-
-                if (asig === "") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Por favor, seleccione la asignatura',
-                    });
-                    return false;
-                }
-
-                if (idioma === "") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Por favor, seleccione el idioma',
-                    });
-                    return false;
-                }
-
-                if (tipo === "") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Por favor, seleccione el tipo de foro',
-                    });
-                    return false;
-                }
-
-                return true;
-            }
-
-
-            document.getElementById('foroForm').addEventListener('submit', function () {
-
-                document.getElementById('descripcion').value = quill.root.innerHTML;
-
-                if (!valid()) {
-                    event.preventDefault();
-                }
-            });
-
-            let titulo = document.querySelector(".header__title");
-            titulo.textContent = "Crear Nuevo Foro";
-        </script>
-
-        <script>
             // Mostrar SweetAlert si hay un mensaje de error en la sesión
             window.addEventListener('load', function () {
                 const errorMessage = '<%= session.getAttribute("error")%>';
@@ -158,6 +86,18 @@
             <% session.removeAttribute("error");%>
                 }
             });
+            
+            let titulo = document.querySelector(".header__title");
+            titulo.textContent = "Crear Nuevo Foro";
+            
+            var quill = new Quill('#editor', {
+                theme: 'snow'
+            });
+            
+            document.getElementById('foroForm').addEventListener('submit', function () {
+                document.getElementById('descripcion').value = quill.root.innerHTML;
+            });
         </script>
+        <script src="js/validaciones.js"></script>
     </body>
 </html>

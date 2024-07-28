@@ -27,7 +27,7 @@
             <c:when test="${rol == '2'}">
                 <jsp:include page="vistas_docente/header_docen.jsp" />
             </c:when>
-            <c:when test="${rol == '3'}">
+            <c:when test="${rol == '3' || rol == '4'}">
                 <jsp:include page="vistas_admin/header_admin.jsp" />
             </c:when>
         </c:choose>

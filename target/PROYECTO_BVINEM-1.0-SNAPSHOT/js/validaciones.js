@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const valor = campo.value.trim();
             const nombreCampo = campo.previousElementSibling && campo.previousElementSibling.tagName.toLowerCase() === 'label' 
                 ? campo.previousElementSibling.textContent 
-                : campo.getAttribute('placeholder');
+                : (campo.getAttribute('placeholder') || campo.getAttribute('name'));
             const nombreCampoName = campo.getAttribute('name');
             
             if (!valor) {

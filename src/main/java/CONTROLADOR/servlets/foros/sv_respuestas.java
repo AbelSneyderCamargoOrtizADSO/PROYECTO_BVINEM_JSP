@@ -4,7 +4,9 @@
  */
 package CONTROLADOR.servlets.foros;
 
+import MODELO.foros.RespuestaClass;
 import MODELO.foros.RespuestaForoDAO;
+import MODELO.usuarios.Validador;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -71,78 +73,72 @@ public class sv_respuestas extends HttpServlet {
             return;
         }
 
+        RespuestaForoDAO respuDAO = new RespuestaForoDAO();
+        RespuestaClass respuesta = new RespuestaClass();
+
+        // VARIABLES
         // Recuperar y castear a int el documento del usario
         String dni = (String) session.getAttribute("UserDoc");
         int UserDoc = Integer.parseInt((String) dni);
-
-        // ENVIAR RESPUESTA
-        if (request.getParameter("enviarRespu") != null) {
-            String respu = request.getParameter("respuesta");
-            String idf = request.getParameter("foroId");
-
-            if (respu == null || respu.trim().isEmpty() || respu.equals("<p><br></p>")) {
-                session.setAttribute("error", "La respuesta no puede estar vacía");
-                response.sendRedirect("mostrar_foro?id=" + idf);
-                return;
-            }
-
-            if (idf == null || idf.trim().isEmpty()) {
-                session.setAttribute("error", "ID del foro vacio o no encontrado");
-                response.sendRedirect("mostrar_foro?id=" + idf);
-                return;
-            }
-
-            RespuestaForoDAO respuDAO = new RespuestaForoDAO();
-
-            try {
-                respuDAO.subirRespuesta(respu, idf, UserDoc);
-                session.setAttribute("success", "Respuesta de foro publicada correctamente");
-                response.sendRedirect("mostrar_foro?id=" + idf);
-            } catch (Exception error) {
-                error.printStackTrace();
-                response.getWriter().print("Error: " + error.getMessage());
-            }
+        String respuestaIdStr = request.getParameter("respuestaId");
+        if (respuestaIdStr != null && !respuestaIdStr.trim().isEmpty()) {
+            int respuestaId = Integer.parseInt(respuestaIdStr);
+            respuesta.setId(respuestaId);
         }
+        String respu = request.getParameter("respuesta");
+        String idforo = request.getParameter("foroId");
 
-        // ELIMINAR RESPUESTA
-        if (request.getParameter("eliminarRespu") != null) {
-            int respuestaId = Integer.parseInt(request.getParameter("respuestaId"));
-            String idf = request.getParameter("foroId");
+        // ASIGNAMOS LOS SETTERS
+        respuesta.setContenido(respu);
+        respuesta.setIdForo(Integer.parseInt(idforo));
+        respuesta.setUsuarioId(UserDoc);
 
-            RespuestaForoDAO respuestadao = new RespuestaForoDAO();
+        // Acción a realizar
+        String action = request.getParameter("action");
 
-            try {
-                respuestadao.eliminarRespuesta(respuestaId);
-                session.setAttribute("success", "Respuesta de foro eliminada correctamente");
-                response.sendRedirect("mostrar_foro?id=" + idf);
-            } catch (Exception error) {
-                error.printStackTrace();
-                response.getWriter().print("Error: " + error.getMessage());
+        try {
+            switch (action) {
+                case "enviarRespu":
+                    if (respu == null || respu.trim().isEmpty() || respu.equals("<p><br></p>")) {
+                        session.setAttribute("error", "La respuesta no puede estar vacía");
+                        response.sendRedirect("mostrar_foro?id=" + idforo);
+                        return;
+                    }
+                    if (idforo == null || idforo.trim().isEmpty()) {
+                        session.setAttribute("error", "ID del foro vacio o no encontrado");
+                        response.sendRedirect("mostrar_foro?id=" + idforo);
+                        return;
+                    }
+                    respuDAO.subirRespuesta(respuesta);
+                    session.setAttribute("success", "Respuesta de foro publicada correctamente");
+                    response.sendRedirect("mostrar_foro?id=" + idforo);
+                    break;
+
+                case "editarRespu":
+                    if (respu == null || respu.trim().isEmpty() || respu.equals("<p><br></p>")) {
+                        session.setAttribute("error", "La respuesta no puede estar vacía");
+                        response.sendRedirect("mostrar_foro?id=" + idforo);
+                        return;
+                    }
+                    respuDAO.editarRespuesta(respuesta);
+                    session.setAttribute("success", "Respuesta de foro editada correctamente");
+                    response.sendRedirect("mostrar_foro?id=" + idforo);
+                    break;
+
+                case "eliminarRespu":
+                    respuDAO.eliminarRespuesta(respuesta);
+                    session.setAttribute("success", "Respuesta de foro eliminada correctamente");
+                    response.sendRedirect("mostrar_foro?id=" + idforo);
+                    break;
+
+                default:
+                    session.setAttribute("error", "Acción no reconocida");
+                    response.sendRedirect("mostrar_foro?id=" + idforo);
+                    break;
             }
-        }
-
-        // EDITAR RESPUESTA
-        if (request.getParameter("editarRespu") != null) {
-            String respuestaEditada = request.getParameter("respuestaEditada");
-            String idf = request.getParameter("foroId");
-            int respuestaId = Integer.parseInt(request.getParameter("respuestaIdEdit"));
-
-            if (respuestaEditada == null || respuestaEditada.trim().isEmpty() || respuestaEditada.equals("<p><br></p>")) {
-                session.setAttribute("error", "La respuesta no puede estar vacía");
-                response.sendRedirect("mostrar_foro?id=" + idf);
-                return;
-            }
-
-            RespuestaForoDAO respuDAO = new RespuestaForoDAO();
-
-            try {
-                respuDAO.editarRespuesta(respuestaId, respuestaEditada);
-                session.setAttribute("success", "Respuesta de foro editada correctamente");
-                response.sendRedirect("mostrar_foro?id=" + idf);
-            } catch (Exception error) {
-                error.printStackTrace();
-                response.getWriter().print("Error: " + error.getMessage());
-            }
+        } catch (Exception error) {
+            error.printStackTrace();
+            response.getWriter().print("Error: " + error.getMessage());
         }
     }
 

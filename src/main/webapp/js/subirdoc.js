@@ -4,6 +4,9 @@
  */
 import { aprobImage } from "./validaciones.js";
 
+let titulo = document.querySelector(".header__title");
+titulo.textContent = "Subir documento";
+
 const inputImage = document.getElementById('inputImagen');
 const imagePreview = document.getElementById('previsualizacionMiniatura');
 

@@ -4,20 +4,25 @@
  */
 package CONTROLADOR.servlets;
 
+import MODELO.BusquedaClass;
+import MODELO.DocumentoClass;
+import MODELO.foros.ForoClass;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Abelito
  */
-@WebServlet(name = "buscador", urlPatterns = {"/buscador"})
-public class buscador extends HttpServlet {
+@WebServlet(name = "sv_busqueda", urlPatterns = {"/sv_busqueda"})
+public class sv_busqueda extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,19 +35,6 @@ public class buscador extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet buscador</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet buscador at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -57,7 +49,31 @@ public class buscador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession(false);
+        
+        if (session == null || session.getAttribute("logueado") == null) {
+            request.setAttribute("error", "Por favor, inicie sesión.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        }
+        
+        String query = request.getParameter("query");
+        String tipo = request.getParameter("tipo");
+
+        BusquedaClass busqueda = new BusquedaClass();
+        List<DocumentoClass> resultadosLibros = null;
+        List<ForoClass> resultadosForos = null;
+
+        if ("libros".equalsIgnoreCase(tipo)) {
+            resultadosLibros = busqueda.buscarDocumentos(query);
+        } else if ("foros".equalsIgnoreCase(tipo)) {
+            resultadosForos = busqueda.buscarForos(query);
+        }
+
+        request.setAttribute("resultadosLibros", resultadosLibros);
+        request.setAttribute("resultadosForos", resultadosForos);
+        request.setAttribute("tipo", tipo);
+        request.getRequestDispatcher("vistas/busqueda.jsp").forward(request, response);
     }
 
     /**

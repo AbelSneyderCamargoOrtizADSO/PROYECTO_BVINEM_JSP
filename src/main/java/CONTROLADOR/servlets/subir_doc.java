@@ -59,6 +59,18 @@ public class subir_doc extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        
+        if (session == null || session.getAttribute("logueado") == null) {
+            request.setAttribute("error", "Por favor, inicie sesión.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        } else if(session.getAttribute("rol") == "1" || session.getAttribute("rol") == "3"){
+            session.setAttribute("error", "Solo se permite el ingreso de docentes");
+            response.sendRedirect("sv_documentos");
+            return;
+        }
+        
         FormDoc formDoc = new FormDoc();
 
         List<AsignaturaClass> asignaturas = formDoc.obtenerAsignaturas();

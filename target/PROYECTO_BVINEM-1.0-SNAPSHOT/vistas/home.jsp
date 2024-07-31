@@ -57,7 +57,7 @@
                             <option value="${tipo.id}">${tipo.nombre}</option>
                         </c:forEach>
                     </select>
-                    <button class="header__btn" type="submit">Filtrar</button>
+                    <button class="filter__btn filter__btn-bg" type="submit">Filtrar</button>
                 </form>
 
                 <a class="filter__btn" href="${pageContext.request.contextPath}/sv_foros">Ir a foros ➜</a>
@@ -94,7 +94,16 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             // Mostrar SweetAlert si hay un mensaje de error en la sesión
-            window.addEventListener('load', function () {
+            window.addEventListener('load', function () {  
+                const errorMessage = '<%= session.getAttribute("error")%>';
+                if (errorMessage && errorMessage !== 'null') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorMessage,
+                    });
+                    <% session.removeAttribute("error");%>
+                }
                 const successMessage = '<%= session.getAttribute("success")%>';
                 if (successMessage && successMessage !== 'null') {
                     Swal.fire({

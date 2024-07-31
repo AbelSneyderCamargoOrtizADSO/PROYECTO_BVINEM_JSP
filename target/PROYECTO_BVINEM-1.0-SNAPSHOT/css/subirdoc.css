@@ -11,6 +11,10 @@ body{
     display: flex;
 }
 
+.header__search{
+    display: none;
+}
+
 /*    CONTAINER   */
 .container{
     display: flex;

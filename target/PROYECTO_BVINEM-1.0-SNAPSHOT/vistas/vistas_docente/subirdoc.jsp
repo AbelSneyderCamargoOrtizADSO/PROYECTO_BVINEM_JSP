@@ -18,17 +18,14 @@
     </head>
 
     <body>
-        <header class="header">
-            <img src="${pageContext.request.contextPath}/assets/escu.png" alt="" class="header__img">
-            <h1 class="header__title">Subir Documento</h1>
-            <div class="header__user">
-                <img src="${pageContext.request.contextPath}/assets/iconouser.png" alt="" class="header__img header__img--display">
-                <form action="${pageContext.request.contextPath}/cerrar_sesion" method="get">
-                    <button type="submit" class="header__btn">Cerrar sesión</button>
-                    <button type="submit" class="header__btn header__btn--resp"><i class="bi bi-box-arrow-right"></i></button>
-                </form>
-            </div>
-        </header>
+        <c:choose>
+            <c:when test="${rol == '2'}">
+                <jsp:include page="header_docen.jsp" />
+            </c:when>
+            <c:when test="${rol == '4'}">
+                <jsp:include page="../vistas_admin/header_admin.jsp" />
+            </c:when>
+        </c:choose>
 
         <main>
             <section class="container">
@@ -80,9 +77,7 @@
                     <h2 class="container__title">Previsualización de miniatura</h2>
                     <img alt="" class="container__img" id="previsualizacionMiniatura">
                 </div>
-
             </section>
-
         </main>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -96,7 +91,7 @@
                         title: 'Error',
                         text: errorMessage,
                     });
-            <% session.removeAttribute("error");%>
+                    <% session.removeAttribute("error");%>
                 }
             });
         </script>

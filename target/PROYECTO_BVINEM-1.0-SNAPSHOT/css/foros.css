@@ -34,6 +34,7 @@ body{
 .filter__title{
     font-size: var(--title-sz);
     color: var(--blue);
+    text-align: center;
 }
 .filter__filters{
     display: flex;
@@ -70,6 +71,7 @@ body{
     grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     gap: 35px;
     padding: var(--box-pd);
+    width: calc(100% - 180px);
 }
 
 .foros__card{

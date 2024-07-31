@@ -54,6 +54,10 @@ body{
     justify-content: center;
 }
 
+.filter__btn-bg{
+    background-color: var(--green);
+}
+
 /*    LIBROS    */
 .books {
     display: flex;
@@ -164,6 +168,22 @@ body{
     border-radius: 60%;
 }
 
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.margin-right{
+    margin-right: 30px;
+}
+
+.empty{
+    text-align: center;
+}
+
 @media screen and (max-width:1200px) {
     .filter{
         justify-content: center;
@@ -194,6 +214,10 @@ body{
 
     .books__details {
         display: none !important;
+    }
+
+    .margin-right{
+        margin-right: 0;
     }
 
 }

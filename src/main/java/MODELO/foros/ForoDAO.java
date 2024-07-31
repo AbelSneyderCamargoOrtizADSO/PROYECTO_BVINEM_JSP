@@ -16,9 +16,14 @@ import java.util.List;
  * @author Abelito
  */
 public class ForoDAO {
+    
+    private Conexion conexion;
+    
+    public ForoDAO() {
+        this.conexion = new Conexion();
+    }
 
     public void subirForo(ForoClass foro) throws SQLException {
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
 
@@ -46,9 +51,6 @@ public class ForoDAO {
 
     public List<ForoClass> listarForos() {
         List<ForoClass> foros = new ArrayList<>();
-
-        // Crear una instancia de la clase de conexión
-        Conexion conexion = new Conexion();
 
         // Inicializar las variables de conexión, declaración y resultados en null
         Connection conex = null;
@@ -96,7 +98,6 @@ public class ForoDAO {
 
     public List<ForoClass> filtrarForos(ForoClass filtro) {
         List<ForoClass> foros = new ArrayList<>();
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
         ResultSet rs = null;
@@ -169,7 +170,6 @@ public class ForoDAO {
     }
 
     public ForoClass mostrarForoPorId(ForoClass foro) {
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
         ResultSet rs = null;
@@ -222,7 +222,6 @@ public class ForoDAO {
     }
 
     public void editarForo(ForoClass foro) throws SQLException {
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
 
@@ -243,7 +242,6 @@ public class ForoDAO {
     }
 
     public void eliminarForo(ForoClass foro) throws SQLException {
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement statRespuestas = null;
         PreparedStatement statForo = null;

@@ -56,6 +56,7 @@ body{
 
 .filter__btn-bg{
     background-color: var(--green);
+    cursor: pointer;
 }
 
 /*    LIBROS    */

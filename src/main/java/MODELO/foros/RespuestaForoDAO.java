@@ -14,10 +14,13 @@ import java.util.List;
  * @author Abelito
  */
 public class RespuestaForoDAO {
+    private Conexion conexion;
+    
+    public RespuestaForoDAO() {
+        this.conexion = new Conexion();
+    }
 
     public void subirRespuesta(RespuestaClass respuesta) throws SQLException {
-
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
 
@@ -42,7 +45,6 @@ public class RespuestaForoDAO {
 
     public List<RespuestaClass> mostrarRespuestasPorForo(ForoClass foro) throws SQLException {
         List<RespuestaClass> respuestas = new ArrayList<>();
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
         ResultSet rs = null;
@@ -85,7 +87,6 @@ public class RespuestaForoDAO {
     }
 
     public void editarRespuesta(RespuestaClass respuesta) throws SQLException {
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
 
@@ -106,7 +107,6 @@ public class RespuestaForoDAO {
     }
     
     public void eliminarRespuesta(RespuestaClass respuesta) throws SQLException {
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
 

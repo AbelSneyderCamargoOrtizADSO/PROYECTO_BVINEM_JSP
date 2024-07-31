@@ -78,6 +78,6 @@
             });  
         </script>
         <script src="js/editar_estu.js"></script>
-        <script src="js/validaciones.js"></script>
+        <script src="js/validaciones.js" type="module"></script>
     </body>
 </html>

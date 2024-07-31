@@ -50,6 +50,16 @@ public class sv_estu extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
+        
+        if (session == null || session.getAttribute("logueado") == null) {
+            request.setAttribute("error", "Por favor, inicie sesión.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        } else if(session.getAttribute("rol") != "1"){
+            session.setAttribute("error", "No tienes permiso para acceder");
+            response.sendRedirect("sv_documentos");
+            return;
+        }
         String dniStr = (String) session.getAttribute("UserDoc");
 
         UsuarioDAO usuarioDAO = new UsuarioDAO();

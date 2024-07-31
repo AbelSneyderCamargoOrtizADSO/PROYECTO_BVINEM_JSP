@@ -23,7 +23,7 @@ const soloLetras = (event) => {
         return;
     }
 
-    if (/[A-Za-z\s]/.test(event.key)) {
+    if (/[A-Za-zÁ-ÿ\s]/.test(event.key)) {
         return;
     }
 
@@ -40,6 +40,19 @@ document.querySelectorAll('.solo-letras').forEach(input => {
     input.addEventListener('keydown', soloLetras);
 });
 
+// LIMITAR CAMPOS
+const limitedInputs = document.querySelectorAll('input[maxlength], textarea[maxlength]');
+
+limitedInputs.forEach(input => {
+    const limit = input.getAttribute('maxlength');
+
+    input.addEventListener('input', () => {
+        if (input.value.length > limit) {
+            input.value = input.value.slice(0, limit);
+        }
+    });
+});
+
 // VALIDACION DE CAMPOS
 document.addEventListener('DOMContentLoaded', function () {
     const formularios = document.querySelectorAll('.form__valid');
@@ -50,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const esValido = validarCampos(campos);
 
             if (!esValido) {
-                event.preventDefault(); 
+                event.preventDefault();
             }
         });
     });
@@ -58,11 +71,11 @@ document.addEventListener('DOMContentLoaded', function () {
     function validarCampos(campos) {
         for (const campo of campos) {
             const valor = campo.value.trim();
-            const nombreCampo = campo.previousElementSibling && campo.previousElementSibling.tagName.toLowerCase() === 'label' 
-                ? campo.previousElementSibling.textContent 
-                : (campo.getAttribute('placeholder') || campo.getAttribute('name'));
+            const nombreCampo = campo.previousElementSibling && campo.previousElementSibling.tagName.toLowerCase() === 'label'
+                    ? campo.previousElementSibling.textContent
+                    : (campo.getAttribute('placeholder') || campo.getAttribute('name'));
             const nombreCampoName = campo.getAttribute('name');
-            
+
             if (!valor) {
                 Swal.fire({
                     icon: 'error',
@@ -71,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 return false; // Detiene la validación y muestra el mensaje de error
             }
-            
+
             if (nombreCampoName === 'correo' && !validarEmail(valor)) {
                 Swal.fire({
                     icon: 'error',
@@ -87,5 +100,48 @@ document.addEventListener('DOMContentLoaded', function () {
     function validarEmail(email) {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
+    }
+});
+
+// VALIDACIONES DE ARCHIVOS
+const inputImage = document.getElementById('inputImagen');
+const inputPDF = document.getElementById('inputPdf');
+
+
+// IMAGENES
+export let aprobImage = false;
+inputImage.addEventListener('change', () => {
+    const file = inputImage.files[0]; // Obtiene el primer archivo seleccionado
+    if (file) {
+        const extensiones = /(\.jpg|\.jpeg|\.png)$/i;
+        const nombreArchivo = file.name;
+
+        if (!extensiones.test(nombreArchivo)) {
+            alert('Por favor, sube un archivo en formato .jpg, .jpeg, o .png.');
+            inputImage.value = '';
+            aprobImage = false;
+        } else if (file.size > 1024 * 1024) {
+            alert('El archivo es demasiado grande. Por favor, sube una imagen de máximo 1 MB.');
+            inputImage.value = '';
+            aprobImage = false;
+        } else {
+            aprobImage = true;
+        }
+    }
+});
+
+// ARCHIVOS 
+inputPDF.addEventListener('change', () => {
+    const file = inputPDF.files[0]; // Obtiene el primer archivo seleccionado
+    if (file) {
+        const extensiones = /(\.pdf)$/i;
+        const nombreArchivo = file.name;
+        if (!extensiones.test(nombreArchivo)) {
+            alert('Por favor, sube un archivo en formato .pdf.');
+            inputPDF.value = '';
+        } else if (file.size > 3 * 1024 * 1024) { // 3 MB en bytes
+            alert('El archivo es demasiado grande. Por favor, sube un documento de máximo 3 MB.');
+            inputPDF.value = '';
+        }
     }
 });

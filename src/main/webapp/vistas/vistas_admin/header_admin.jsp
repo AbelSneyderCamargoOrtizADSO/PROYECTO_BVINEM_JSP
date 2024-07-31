@@ -12,7 +12,12 @@
     <h1 class="header__title"></h1>
     <div class="header__user">
         <div class="header__menu">
-            <img src="${pageContext.request.contextPath}/assets/iconoadmin.png" alt="" class="header__img header__img--display">
+            <c:if test="${rol == '3'}">
+                <img src="${pageContext.request.contextPath}/assets/iconoadmin.png" alt="" class="header__img header__img--display">
+            </c:if>
+            <c:if test="${rol == '4'}">
+                <img src="${pageContext.request.contextPath}/assets/iconosuperadmin.png" alt="" class="header__img header__img--display">
+            </c:if>
             <i class="bi bi-caret-down-fill"></i>
             <nav class="nav">
                 <ul class="nav__list">

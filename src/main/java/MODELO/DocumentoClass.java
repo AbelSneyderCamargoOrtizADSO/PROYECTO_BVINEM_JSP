@@ -4,6 +4,8 @@
  */
 package MODELO;
 
+import java.io.InputStream;
+
 /**
  *
  * @author Abelito
@@ -15,11 +17,21 @@ public class DocumentoClass {
     private String autor;
     private String descripcion;
     private String year;
+    private int idiomaId;
     private String idioma;
+    private int asignaturaId;
     private String asignatura;
+    private int tipoId;
     private String tipo;
+    private String miniaturaPath;
+    private InputStream archivoPDF;
+    private int userDoc;
+    
+    public DocumentoClass() {
 
-    public DocumentoClass(int id, String titulo, String autor, String descripcion, String year, String idioma, String asignatura, String tipo) {
+    }
+
+    public DocumentoClass(int id, String titulo, String autor, String descripcion, String year, String idioma, String asignatura, String tipo, String miniaturaPath, int userDoc) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -28,6 +40,8 @@ public class DocumentoClass {
         this.idioma = idioma;
         this.asignatura = asignatura;
         this.tipo = tipo;
+        this.miniaturaPath = miniaturaPath;
+        this.userDoc = userDoc;
     }
 
     public int getId() {
@@ -69,6 +83,14 @@ public class DocumentoClass {
     public void setYear(String year) {
         this.year = year;
     }
+    
+    public int getIdiomaId() {
+        return idiomaId;
+    }
+
+    public void setIdiomaId(int idiomaId) {
+        this.idiomaId = idiomaId;
+    }
 
     public String getIdioma() {
         return idioma;
@@ -76,6 +98,14 @@ public class DocumentoClass {
 
     public void setIdioma(String idioma) {
         this.idioma = idioma;
+    }
+    
+    public int getAsignaturaId() {
+        return asignaturaId;
+    }
+
+    public void setAsignaturaId(int asignaturaId) {
+        this.asignaturaId = asignaturaId;
     }
 
     public String getAsignatura() {
@@ -85,6 +115,14 @@ public class DocumentoClass {
     public void setAsignatura(String asignatura) {
         this.asignatura = asignatura;
     }
+    
+    public int getTipoId() {
+        return tipoId;
+    }
+
+    public void setTipoId(int tipoId) {
+        this.tipoId = tipoId;
+    }
 
     public String getTipo() {
         return tipo;
@@ -92,6 +130,30 @@ public class DocumentoClass {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+    
+    public String getMiniaturaPath() {
+        return miniaturaPath;
+    }
+
+    public void setMiniaturaPath(String miniaturaPath) {
+        this.miniaturaPath = miniaturaPath;
+    }
+    
+    public InputStream getArchivoPDF() {
+        return archivoPDF;
+    }
+
+    public void setArchivoPDF(InputStream archivoPDF) {
+        this.archivoPDF = archivoPDF;
+    }
+    
+    public int getUserDoc() {
+        return userDoc;
+    }
+
+    public void setUserDoc(int userDoc) {
+        this.userDoc = userDoc;
     }
 
 }

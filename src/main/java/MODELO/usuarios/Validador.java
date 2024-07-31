@@ -5,6 +5,7 @@
 package MODELO.usuarios;
 
 import MODELO.Conexion;
+import java.io.InputStream;
 import java.sql.*;
 
 /**
@@ -186,9 +187,23 @@ public class Validador {
 
     public static String validarTipoForo(String tipo) {
         if (tipo == null || tipo.trim().isEmpty()) {
-            return "Por favor, seleccione el tipo de foro";
+            return "Por favor, seleccione el tipo";
         }
         return null; 
     }
-
+    
+    // DOCUMENTOS - LIBROS
+    public static String validarAutor(String autor) {
+        if (autor == null || autor.trim().isEmpty()) {
+            return "Por favor, ingrese el autor";
+        }
+        return null; 
+    }
+    
+    public static String validarYear(String year) {
+        if (year == null || year.trim().isEmpty()) {
+            return "Por favor, ingrese el año de publicación";
+        }
+        return null; 
+    }
 }

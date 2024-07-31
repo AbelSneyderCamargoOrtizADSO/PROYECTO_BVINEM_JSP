@@ -107,6 +107,13 @@ public class sv_login extends HttpServlet {
                         session.setAttribute("UserDoc", dniStr);
                         response.sendRedirect("sv_documentos");
                         break;
+                    case "superadmin":
+                        HttpSession sessionSuperadmin = request.getSession();
+                        sessionSuperadmin.setAttribute("logueado", "1");
+                        sessionSuperadmin.setAttribute("rol", "4");
+                        sessionSuperadmin.setAttribute("UserDoc", dniStr);
+                        response.sendRedirect("sv_documentos");
+                        break;
                     case "inhabilitado":
                         request.setAttribute("error", "Usuario inhabilitado");
                         request.getRequestDispatcher("index.jsp").forward(request, response);

@@ -27,35 +27,40 @@ public class login_class {
             conex = conexion.Conexion();
 
             // Verificar si el usuario existe
-            String queryUsuario = "SELECT id_estado_fk, password FROM `tb_usuarios` WHERE doc_usua = ? AND id_rol_fk = ?";
+            String queryUsuario = "SELECT id_estado_fk, password, id_rol_fk FROM tb_usuarios WHERE doc_usua = ?";
             stat = conex.prepareStatement(queryUsuario);
             stat.setInt(1, usuario.getDocUsu());
-            stat.setInt(2, usuario.getRol());
             rs = stat.executeQuery();
 
             if (rs.next()) {
                 // Usuario encontrado, verificar la contraseña
                 int estado = rs.getInt("id_estado_fk");
                 String storedPassword = rs.getString("password");
+                int rol = rs.getInt("id_rol_fk");
                 String hashedPassword = HashUtil.hashPassword(usuario.getPass());
-
-                if (!storedPassword.equals(hashedPassword)) {
+                
+                if (!storedPassword.equals(hashedPassword) && (rol == usuario.getRol() || rol == 4 && usuario.getRol() == 3)) {
                     return "contraseña_incorrecta";
                 }
 
-                if (estado == 1) {
-                    return "valido";
-                } else {
+                if (estado != 1) {
                     return "inhabilitado";
                 }
+
+                if (rol == usuario.getRol()) {
+                    return "valido";
+                } else if (rol == 4 && usuario.getRol() == 3) {
+                    return "superadmin";
+                } else {
+                    return "usuario_no_encontrado";
+                }
+
             } else {
                 // Usuario no encontrado
                 return "usuario_no_encontrado";
             }
-
         } finally {
             conexion.close(conex, stat, rs);
         }
     }
-
 }

@@ -75,16 +75,10 @@ public class sv_foros extends HttpServlet {
         List<TipoForoClass> tiposforo = formForo.obtenerTiposForo();
 
         ForoClass filtro = new ForoClass();
-        if (asignatura != null && !asignatura.isEmpty()) {
-            filtro.setAsignaturaId(Integer.parseInt(asignatura));
-        }
-        if (idioma != null && !idioma.isEmpty()) {
-            filtro.setIdiomaId(Integer.parseInt(idioma));
-        }
-        if (tipo != null && !tipo.isEmpty()) {
-            filtro.setTipoId(Integer.parseInt(tipo));
-        }
-
+        if (asignatura != null) filtro.setAsignaturaId(Integer.parseInt(asignatura));
+        if (idioma != null) filtro.setIdiomaId(Integer.parseInt(idioma));
+        if (tipo != null) filtro.setTipoId(Integer.parseInt(tipo));
+        
         List<ForoClass> foros;
         if (asignatura == null && idioma == null && tipo == null) {
             foros = forodao.listarForos();

@@ -5,10 +5,12 @@
 package CONTROLADOR.servlets;
 
 import MODELO.AsignaturaClass;
+import MODELO.DocumentoClass;
 import MODELO.DocumentoDAO;
 import MODELO.FormDoc;
 import MODELO.IdiomaClass;
 import MODELO.TipoClass;
+import MODELO.usuarios.Validador;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +31,7 @@ import javax.servlet.http.Part;
  * @author Abelito
  */
 @WebServlet(name = "subir_doc", urlPatterns = {"/subir_doc"})
-@MultipartConfig(maxFileSize = 50177215)
+@MultipartConfig(maxFileSize = 10177215)
 public class subir_doc extends HttpServlet {
 
     /**
@@ -93,87 +95,107 @@ public class subir_doc extends HttpServlet {
             return;
         }
 
+        // VARIABLES
         String dni = (String) session.getAttribute("UserDoc"); // Recuperar el ID del usuario de la sesión
-
         int UserDoc = Integer.parseInt((String) dni);
+        String tit = request.getParameter("titulo");
+        String autor = request.getParameter("autor");
+        String descrip = request.getParameter("descripcion");
+        String year_publi = request.getParameter("año");
+        String asig = request.getParameter("asignatura");
+        String idioma = request.getParameter("idioma");
+        String tipo = request.getParameter("tipo");
+        
+        // Manejar el archivo PDF
+        // Declaración de la variable inputStream para almacenar el flujo de entrada del archivo PDF.
+        InputStream inputStream = null;
+        try {
+            // Obtiene la parte del archivo PDF de la solicitud HTTP, usando el nombre del campo del formulario "documentoPDF".
+            Part filePart = request.getPart("documentoPDF");
 
-        if (request.getParameter("submit") != null) {
-
-            // TRAEMOS O TOMAMOS LOS DATOS INGRESADOS MEDIANTE getParameter TOMANDO COMO REFERENCIA EL NAME DE CADA INPUT
-            String tit = request.getParameter("titulo");
-            String autor = request.getParameter("autor");
-            String descrip = request.getParameter("descripcion");
-            String year_publi = request.getParameter("año");
-            String asig = request.getParameter("asignatura");
-            String idioma = request.getParameter("idioma");
-            String tipo = request.getParameter("tipo");
-
-            if (tit == null || tit.trim().isEmpty()) {
-                session.setAttribute("error", "El titulo no puede estar vacio");
-                response.sendRedirect("subir_doc");
-                return;
-            }
-
-            if (autor == null || autor.trim().isEmpty()) {
-                session.setAttribute("error", "El autor no puede estar vacio");
-                response.sendRedirect("subir_doc");
-                return;
-            }
-
-            if (descrip == null || descrip.trim().isEmpty()) {
-                session.setAttribute("error", "La descripcion no puede estar vacia");
-                response.sendRedirect("subir_doc");
-                return;
-            }
-
-            // Manejar el archivo PDF
-            // Declaración de la variable inputStream para almacenar el flujo de entrada del archivo PDF.
-            InputStream inputStream = null;
-            try {
-                // Obtiene la parte del archivo PDF de la solicitud HTTP, usando el nombre del campo del formulario "documentoPDF".
-                Part filePart = request.getPart("documentoPDF");
-
-                // Verifica si la parte del archivo no es nula y si su tamaño es mayor que 0 (es decir, que se haya cargado un archivo).
-                if (filePart != null && filePart.getSize() > 0) {
-                    // Si el archivo es válido, obtiene el flujo de entrada del archivo PDF.
-                    inputStream = filePart.getInputStream();
+            // Verifica si la parte del archivo no es nula y si su tamaño es mayor que 0 (es decir, que se haya cargado un archivo).
+            if (filePart != null && filePart.getSize() > 0) {
+                if (filePart.getSize() > 3 * 1024 * 1024) { // 3 MB
+                    session.setAttribute("error", "El archivo PDF es demasiado grande. Máximo 3 MB.");
+                    response.sendRedirect("subir_doc");
+                    return;
                 }
-            } catch (Exception ex) {
-                // Establece un atributo de sesión llamado "error" con un mensaje de error que incluye el mensaje de la excepción.
-                session.setAttribute("error", "Error al procesar el archivo: " + ex.getMessage());
+                // Si el archivo es válido, obtiene el flujo de entrada del archivo PDF.
+                inputStream = filePart.getInputStream();
+            }
+        } catch (Exception ex) {
+            session.setAttribute("error", "Error al procesar el archivo, revise si lo ha cargado");
+            response.sendRedirect("subir_doc");
+            return;
+        }
+        
+        // Manejar la carga de imágenes (miniaturas del libro)
+        String rutaMiniatura = null;
+        try {
+            String UPLOAD_DIR = "miniaturas";
+            String contextPath = getServletContext().getRealPath("/");
+            String alteredFilePath = contextPath.replace("\\target\\PROYECTO_BVINEM-1.0-SNAPSHOT\\", "\\src\\main\\webapp");
+            String uploadFilePath = alteredFilePath + File.separator + UPLOAD_DIR;
 
-                // Redirige al usuario a la página "subir_doc" para que pueda intentar nuevamente.
-                response.sendRedirect("subir_doc");
-
-                // Termina la ejecución del método doPost, ya que ocurrió un error.
-                return;
+            File uploadDir = new File(uploadFilePath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
             }
 
-//            // Manejar la carga de imagenes (miniaturas del libro)
-            String rutaMiniatura = null;
-//            try {
-//                Part parteImagen = request.getPart("miniatura");
-//                if (parteImagen != null && parteImagen.getSize() > 0) {
-//                    String nombreArchivo = Paths.get(parteImagen.getSubmittedFileName()).getFileName().toString();
-//                    String directorioSubida = getServletContext().getRealPath("/") + File.separator + "miniaturas";
-//                    File directorio = new File(directorioSubida);
-//                    if (!directorio.exists()) {
-//                        directorio.mkdirs();
-//                    }
-//                    File archivo = new File(directorio, nombreArchivo);
-//                    parteImagen.write(archivo.getAbsolutePath());
-//                    rutaMiniatura = "miniaturas/" + nombreArchivo;
-//                }
-//            } catch (Exception ex) {
-//                session.setAttribute("error", "Error al procesar la miniatura: " + ex.getMessage());
-//                response.sendRedirect("subir_doc");
-//                return;
-//            }
+            Part filePart = request.getPart("miniatura");
+            if (filePart.getSize() > 1024 * 1024) { // 1 MB
+                session.setAttribute("error", "La imagen es demasiado grande. Máximo 1 MB.");
+                response.sendRedirect("subir_doc");
+                return;
+            }
+            String fileName = filePart.getSubmittedFileName();
+            String filePath = uploadFilePath + File.separator + fileName;
+            filePart.write(filePath);
+            rutaMiniatura = UPLOAD_DIR + File.separator + fileName;
+            
+        } catch (IOException | ServletException e) {
+            e.printStackTrace();
+            session.setAttribute("error", "Error al cargar la miniatura");
+            response.sendRedirect("subir_doc");
+            return;
+        }
+        
+        // VALIDACIONES
+        String errorMessage = Validador.validarTitulo(tit);        
+        if (errorMessage == null) errorMessage = Validador.validarAutor(autor);
+        if (errorMessage == null) errorMessage = Validador.validarDescripcion(descrip);        
+        if (errorMessage == null) errorMessage = Validador.validarYear(year_publi);
+        if (errorMessage == null) errorMessage = Validador.validarAsignatura(asig);
+        if (errorMessage == null) errorMessage = Validador.validarIdioma(idioma);   
+        if (errorMessage == null) errorMessage = Validador.validarTipoForo(tipo);     
 
+        if (errorMessage != null) {
+            session.setAttribute("error", errorMessage);
+            response.sendRedirect(request.getHeader("Referer"));
+            return;
+        }
+
+        // INSTANCIAMOS LA CLASE DOCUMENTO Y DOCUMENTODAO
+        DocumentoDAO subirdoc = new DocumentoDAO();
+        DocumentoClass documento = new DocumentoClass();
+
+        // ASIGNAMOS A LA CLASE
+        documento.setTitulo(tit);
+        documento.setAutor(autor);
+        documento.setDescripcion(descrip);
+        documento.setYear(year_publi);
+        documento.setUserDoc(UserDoc);
+        documento.setAsignaturaId(Integer.parseInt(asig));
+        documento.setIdiomaId(Integer.parseInt(idioma));
+        documento.setTipoId(Integer.parseInt(tipo));
+        documento.setMiniaturaPath(rutaMiniatura);
+        documento.setArchivoPDF(inputStream);
+
+        if (request.getParameter("subirDoc") != null) {
             // Guardar la información en la base de datos
-            DocumentoDAO subirdoc = new DocumentoDAO();
             try {
-                subirdoc.SubirDocumento(tit, autor, descrip, year_publi, UserDoc, asig, idioma, tipo, inputStream, rutaMiniatura);
+                subirdoc.SubirDocumento(documento);
+                session.setAttribute("success", "Documento cargado correctamente");
                 response.sendRedirect("sv_documentos");
             } catch (Exception error) {
                 error.printStackTrace();

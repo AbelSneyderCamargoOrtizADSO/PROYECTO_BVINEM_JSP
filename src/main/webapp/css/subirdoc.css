@@ -29,13 +29,10 @@ body{
     justify-content: center;
     align-items: center;
     max-width: 600px;
-    gap: 30px;
+    gap: 10px;
     position: relative;
 }
 
-.container__form div{
-    width: 310px;
-}
 .container__inputs{
     display: flex;
     flex-direction: column;
@@ -44,6 +41,7 @@ body{
     background-color: var(--green2);
     padding: 50px;
     border-radius: var(--radius);
+    width: 310px;
 }
 
 .container__input{
@@ -55,6 +53,12 @@ body{
     height: var(--btn-h);
 }
 
+.container__input-textarea{
+    font-family: sans-serif;
+    height: auto;
+    resize: none;
+}
+
 .container__select{
     padding: 10px 10px 10px 15px;
     width: 285px;
@@ -62,7 +66,6 @@ body{
     border-radius: var(--radius);
     background-color: var(--green3);
     height: var(--btn-h);
-    height: auto;
     box-sizing: content-box;
 }
 
@@ -106,6 +109,8 @@ body{
 
 .container__img{
     width: 350px;
+    height: 530px;
+    object-fit: cover;
 }
 
 /*  RESPONSIVE  */
@@ -119,12 +124,25 @@ body{
     .container{
         margin-top: 40px;
     }
-
-    .container__input{
-        width: 60vw;
+    
+    .container__form {
+        max-width: 90vw;
     }
-
-    .header__title{
-        display: none;
+    
+    .container__inputs{
+        width: 90vw;
+        box-sizing: border-box;
+        padding: 50px 30px;
+    }
+    
+    .container__input{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 15px 10px;
+        height: auto;
+    }
+    
+    .container__select{
+        width: 92%;
     }
 }

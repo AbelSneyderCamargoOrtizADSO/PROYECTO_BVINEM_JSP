@@ -156,6 +156,6 @@
         </script>
     </body>
     
-    <script src="${pageContext.request.contextPath}/js/validaciones.js"></script>
+    <script src="${pageContext.request.contextPath}/js/validaciones.js" type="module"></script>
 
 </html>

@@ -14,10 +14,13 @@ import java.util.List;
  * @author Abelito
  */
 public class DocumentoDAO {
+    private Conexion conexion;
+    
+    public DocumentoDAO() {
+        this.conexion = new Conexion();
+    }
 
-    public void SubirDocumento(String tit, String autor, String descrip, String year_publi, int UserDoc, String asig, String idioma, String tipo, InputStream archivoPDF, String miniaturaPath) throws SQLException {
-
-        Conexion conexion = new Conexion();
+    public void SubirDocumento(DocumentoClass documento) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
 
@@ -26,16 +29,16 @@ public class DocumentoDAO {
 
             String query = "insert into tb_documento(titulo, autor, descripcion, year_publi, fecha_carga, miniatura, link, doc_docente_fk, id_asig_fk, id_idioma_fk, id_tipo_fk) values(?,?,?,?,NOW(),?,?,?,?,?,?)";
             stat = conex.prepareStatement(query);
-            stat.setString(1, tit);
-            stat.setString(2, autor);
-            stat.setString(3, descrip);
-            stat.setInt(4, Integer.parseInt(year_publi));
-            stat.setString(5, miniaturaPath);
-            stat.setBlob(6, archivoPDF);
-            stat.setInt(7, UserDoc);
-            stat.setInt(8, Integer.parseInt(asig));
-            stat.setInt(9, Integer.parseInt(idioma));
-            stat.setInt(10, Integer.parseInt(tipo));
+            stat.setString(1, documento.getTitulo());
+            stat.setString(2, documento.getAutor());
+            stat.setString(3, documento.getDescripcion());
+            stat.setInt(4, Integer.parseInt(documento.getYear()));
+            stat.setString(5, documento.getMiniaturaPath());
+            stat.setBlob(6, documento.getArchivoPDF());
+            stat.setInt(7, documento.getUserDoc());
+            stat.setInt(8, documento.getAsignaturaId());
+            stat.setInt(9, documento.getIdiomaId());
+            stat.setInt(10, documento.getAsignaturaId());
 
             stat.executeUpdate();
 
@@ -49,9 +52,6 @@ public class DocumentoDAO {
 
     public List<DocumentoClass> ListarDocumentos() {
         List<DocumentoClass> documentos = new ArrayList<>();
-
-        // Crear una instancia de la clase de conexión
-        Conexion conexion = new Conexion();
 
         // Inicializar las variables de conexión, declaración y resultados en null
         Connection conex = null;
@@ -84,24 +84,23 @@ public class DocumentoDAO {
                 String idioma = rs.getString("idioma");
                 String asignatura = rs.getString("asignatura");
                 String tipo = rs.getString("tipo");
+                String miniatura = rs.getString("miniatura");
+                int userDoc = rs.getInt("doc_docente_fk");
 
-                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idioma, asignatura, tipo));
+
+                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idioma, asignatura, tipo, miniatura, userDoc));
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
-            // Cerrar
             conexion.close(conex, stat, rs);
         }
 
         return documentos;
     }
 
-    public byte[] MostrarDocumento(int id) {
-        // Crear una instancia de la clase de conexión
-        Conexion conexion = new Conexion();
-
+    public byte[] MostrarDocumento(DocumentoClass documento) {
+        
         // Inicializar las variables de conexión, declaración y resultados en null
         Connection conex = null;
         PreparedStatement stat = null;
@@ -116,7 +115,7 @@ public class DocumentoDAO {
 
             // Preparar la declaración SQL
             stat = conex.prepareStatement(sql);
-            stat.setInt(1, id);
+            stat.setInt(1, documento.getId());
 
             // Ejecutar la consulta y obtener el resultado
             rs = stat.executeQuery();
@@ -134,9 +133,8 @@ public class DocumentoDAO {
         return pdfData;
     }
 
-    public List<DocumentoClass> FiltrarDocumentos(String asignatura, String idioma, String tipo) {
+    public List<DocumentoClass> FiltrarDocumentos(DocumentoClass documento) {
         List<DocumentoClass> documentos = new ArrayList<>();
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
         ResultSet rs = null;
@@ -150,13 +148,13 @@ public class DocumentoDAO {
                 + "WHERE 1=1 " // El WHERE 1=1 sirve para simplificar la adición dinámica de condiciones, permitiendo concatenar condiciones adicionales con AND sin preocuparse por la posición de los separadores.
         );
 
-        if (asignatura != null && !asignatura.isEmpty()) {
+        if (documento.getAsignaturaId() > 0) {
             sql.append("AND tb_documento.id_asig_fk = ? ");
         }
-        if (idioma != null && !idioma.isEmpty()) {
+        if (documento.getIdiomaId() > 0) {
             sql.append("AND tb_documento.id_idioma_fk = ? ");
         }
-        if (tipo != null && !tipo.isEmpty()) {
+        if (documento.getTipoId() > 0) {
             sql.append("AND tb_documento.id_tipo_fk = ? ");
         }
 
@@ -170,16 +168,16 @@ public class DocumentoDAO {
             int index = 1;
 
             // Si el filtro de asignatura no es nulo ni vacío, se asigna al parámetro correspondiente en la consulta.
-            if (asignatura != null && !asignatura.isEmpty()) {
-                stat.setInt(index++, Integer.parseInt(asignatura));
+            if (documento.getAsignaturaId() > 0) {
+                stat.setInt(index++, documento.getAsignaturaId());
             }
             // Si el filtro de idioma no es nulo ni vacío, se asigna al siguiente parámetro en la consulta.
-            if (idioma != null && !idioma.isEmpty()) {
-                stat.setInt(index++, Integer.parseInt(idioma));
+            if (documento.getIdiomaId() > 0) {
+                stat.setInt(index++, documento.getIdiomaId());
             }
             // Si el filtro de tipo no es nulo ni vacío, se asigna al siguiente parámetro en la consulta.
-            if (tipo != null && !tipo.isEmpty()) {
-                stat.setInt(index++, Integer.parseInt(tipo));
+            if (documento.getTipoId() > 0) {
+                stat.setInt(index++, documento.getTipoId());
             }
 
             rs = stat.executeQuery();
@@ -193,8 +191,10 @@ public class DocumentoDAO {
                 String idiomaResult = rs.getString("idioma");
                 String asignaturaResult = rs.getString("asignatura");
                 String tipoResult = rs.getString("tipo");
+                String miniatura = rs.getString("miniatura");
+                int userDoc = rs.getInt("doc_docente_fk");
 
-                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idiomaResult, asignaturaResult, tipoResult));
+                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idiomaResult, asignaturaResult, tipoResult, miniatura, userDoc));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -203,6 +203,27 @@ public class DocumentoDAO {
         }
 
         return documentos;
+    }
+    
+    public void eliminarDocumento(DocumentoClass documento) throws SQLException {
+        
+        Connection conex = null;
+        PreparedStatement stat = null;
+
+        try {
+            conex = conexion.Conexion();
+
+            String query = "DELETE FROM tb_documento WHERE id_doc = ?";
+            stat = conex.prepareStatement(query);
+            stat.setInt(1, documento.getId());
+            stat.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            conexion.close(conex, stat, null);
+        }
     }
 
 }

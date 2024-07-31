@@ -53,8 +53,6 @@
         </main>
         
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="${pageContext.request.contextPath}/js/validaciones.js"></script>
-
         <script>
             // Mostrar SweetAlert si hay un mensaje de error en la sesión
             window.addEventListener('load', function () {
@@ -69,7 +67,7 @@
                 }
             });
         </script>
-
+        <script src="${pageContext.request.contextPath}/js/validaciones.js" type="module"></script>
     </body>
 
 </html>

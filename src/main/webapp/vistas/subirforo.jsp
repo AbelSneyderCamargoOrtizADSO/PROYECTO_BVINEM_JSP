@@ -98,6 +98,6 @@
                 document.getElementById('descripcion').value = quill.root.innerHTML;
             });
         </script>
-        <script src="js/validaciones.js"></script>
+        <script src="js/validaciones.js" type="module"></script>
     </body>
 </html>

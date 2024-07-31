@@ -32,50 +32,53 @@
 
         <main>
             <section class="container">
-                <form action="${pageContext.request.contextPath}/subir_doc" method="POST" class="container__form" enctype="multipart/form-data">
+                <form action="${pageContext.request.contextPath}/subir_doc" method="POST" class="container__form form__valid" enctype="multipart/form-data">
                     <div class="container__inputs">
-                        <input type="text" class="container__input" placeholder="Título del documento" name="titulo">
-                        <input type="text" class="container__input" placeholder="Autor del documento" name="autor">
-                        <input type="text" class="container__input" placeholder="Descripción del documento" name="descripcion">
-                        <input type="text" class="container__input" placeholder="Año de publicación" name="año">
+                        <input type="text" class="container__input obligatorio" placeholder="Título del documento" name="titulo" maxlength="40">
+                        <input type="text" class="container__input obligatorio solo-letras" placeholder="Autor del documento" name="autor" maxlength="35">
+                        <textarea type="text" class="container__input container__input-textarea obligatorio" placeholder="Descripción del documento" name="descripcion" rows="4" maxlength="320"></textarea>
+                        <input type="text" class="container__input obligatorio solo-numeros" placeholder="Año de publicación" name="año" maxlength="5">
 
-                        <select class="container__select" name="asignatura">
+                        <select class="container__select obligatorio" name="asignatura">
+                            <option value="" disabled selected>Seleccione la asignatura</option>
                             <c:forEach var="asignatura" items="${asignaturas}">
                                 <option value="${asignatura.id}">${asignatura.nombre}</option>
                             </c:forEach>
                         </select>
 
-                        <select class="container__select" name="idioma">
+                        <select class="container__select obligatorio" name="idioma">
+                            <option value="" disabled selected>Seleccione el idioma</option>
                             <c:forEach var="idioma" items="${idiomas}">
                                 <option value="${idioma.id}">${idioma.nombre}</option>
                             </c:forEach>
                         </select>
 
-                        <select class="container__select" name="tipo">
+                        <select class="container__select obligatorio" name="tipo">
+                            <option value="" disabled selected>Seleccione el tipo de documento</option>
                             <c:forEach var="tipo" items="${tipos}">
                                 <option value="${tipo.id}">${tipo.nombre}</option>
                             </c:forEach>
                         </select>
 
                         <div>
-                            <label><b>Cargar miniatura o portada del libro:</b></label>
-                            <input type="file" class="container__input" name="miniatura"  accept="image/*">
+                            <label><b>Cargar miniatura o portada del libro</b></label>
+                            <input id="inputImagen" type="file" class="container__input obligatorio" name="miniatura" accept=".jpg, .jpeg, .png">
                         </div>
 
                         <div>
-                            <label><b>Cargar Libro o documento en PDF:</b></label>
-                            <input type="file" class="container__input" name="documentoPDF" accept="application/pdf">
+                            <label><b>Cargar Libro o documento en PDF</b></label>
+                            <input id="inputPdf" type="file" class="container__input obligatorio" name="documentoPDF" accept="application/pdf">
                         </div>
 
                         <a class="cerrar" href="${pageContext.request.contextPath}/sv_documentos"><i class="bi bi-x-circle-fill"></i></a>
                     </div>
 
-                    <button type="submit" class="container__btn" name="submit">PUBLICAR AHORA ➜</button>
+                    <button type="submit" class="container__btn" name="subirDoc">PUBLICAR AHORA ➜</button>
                 </form>
 
                 <div class="container__prev">
-                    <h2 class="container__title">Previsualización de miniaturas</h2>
-                    <img src="${pageContext.request.contextPath}/assets/libro.png" alt="" class="container__img">
+                    <h2 class="container__title">Previsualización de miniatura</h2>
+                    <img alt="" class="container__img" id="previsualizacionMiniatura">
                 </div>
 
             </section>
@@ -97,6 +100,8 @@
                 }
             });
         </script>
+        <script src="js/validaciones.js" type="module"></script>
+        <script src="js/subirdoc.js" type="module"></script>
 
     </body>
 

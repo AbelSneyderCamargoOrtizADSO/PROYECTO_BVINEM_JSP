@@ -10,14 +10,17 @@ import MODELO.DocumentoDAO;
 import MODELO.FormDoc;
 import MODELO.IdiomaClass;
 import MODELO.TipoClass;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -51,9 +54,17 @@ public class sv_documentos extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("logueado") == null) {
+            request.setAttribute("error", "Por favor, inicie sesión.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        }
 
         FormDoc formDoc = new FormDoc();
         DocumentoDAO documentoDAO = new DocumentoDAO();
+        DocumentoClass documento = new DocumentoClass();
 
         String asignatura = request.getParameter("asignatura");
         String idioma = request.getParameter("idioma");
@@ -62,12 +73,16 @@ public class sv_documentos extends HttpServlet {
         List<AsignaturaClass> asignaturas = formDoc.obtenerAsignaturas();
         List<IdiomaClass> idiomas = formDoc.obtenerIdiomas();
         List<TipoClass> tipos = formDoc.obtenerTipos();
+        
+        if (asignatura != null) documento.setAsignaturaId(Integer.parseInt(asignatura));
+        if (idioma != null) documento.setIdiomaId(Integer.parseInt(idioma));
+        if (tipo != null) documento.setTipoId(Integer.parseInt(tipo));
 
         List<DocumentoClass> documentos;
         if (asignatura == null && idioma == null && tipo == null) {
             documentos = documentoDAO.ListarDocumentos();
         } else {
-            documentos = documentoDAO.FiltrarDocumentos(asignatura, idioma, tipo);
+            documentos = documentoDAO.FiltrarDocumentos(documento);
         }
 
         request.setAttribute("documentos", documentos);
@@ -88,7 +103,38 @@ public class sv_documentos extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession(false);
+
+        // VARIABLES
+        int idDocumento = Integer.parseInt(request.getParameter("docId"));
+        String rutaMiniatura = request.getParameter("rutaMiniatura");
+        
+        DocumentoDAO documentoDAO = new DocumentoDAO();
+        DocumentoClass documento = new DocumentoClass();
+        documento.setId(idDocumento);
+        
+        if (request.getParameter("eliminarDocumento") != null){
+            try {
+                documentoDAO.eliminarDocumento(documento);
+                
+                // Eliminar la miniatura del sistema de archivos
+                String rutaContexto = getServletContext().getRealPath("/"); // PROYECTO_BVINEM_JSP\target\PROYECTO_BVINEM-1.0-SNAPSHOT\
+                String rutaAlterada = rutaContexto.replace("\\target\\PROYECTO_BVINEM-1.0-SNAPSHOT\\", "\\src\\main\\webapp");
+                String rutaArchivo = rutaAlterada + File.separator + rutaMiniatura;
+
+                File archivoMiniatura = new File(rutaArchivo);
+                if (archivoMiniatura.exists()) {
+                    archivoMiniatura.delete();
+                }
+                System.out.println(rutaContexto);
+                session.setAttribute("success", "Documento o libro eliminado exitosamente");
+                response.sendRedirect("sv_documentos");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                response.getWriter().print("Error: " + e.getMessage());
+                return;
+            }
+        }
     }
 
     /**

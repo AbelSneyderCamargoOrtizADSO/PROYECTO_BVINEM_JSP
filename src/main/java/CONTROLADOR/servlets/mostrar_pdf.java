@@ -4,6 +4,7 @@
  */
 package CONTROLADOR.servlets;
 
+import MODELO.DocumentoClass;
 import MODELO.DocumentoDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,12 +47,14 @@ public class mostrar_pdf extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
+        DocumentoClass documento = new DocumentoClass();
+        documento.setId(id);
         // Obtiene el parámetro "id" de la solicitud HTTP (que se pasa en la URL) y lo convierte en un entero. 
         // Este ID se utiliza para identificar el documento PDF que se va a mostrar.   
 
         DocumentoDAO documentoDAO = new DocumentoDAO(); // Se crea una nueva instancia de la clase DocumentoDAO, que maneja las operaciones de acceso a datos para los documentos.
 
-        byte[] pdfData = documentoDAO.MostrarDocumento(id);
+        byte[] pdfData = documentoDAO.MostrarDocumento(documento);
         // Llama al método obtenerPDF del DocumentoDAO, pasando el ID del documento. 
         // Este método devuelve un array de bytes que contiene los datos del PDF almacenado en la base de datos.
 

@@ -44,7 +44,6 @@ body {
     color: var(--green);
     font-size: var(--title2-sz);
     font-weight: bold;
-    content: "fesfsefg";
 }
 
 .form__group {
@@ -81,15 +80,20 @@ body {
     gap: 10px;
 }
 
+.grow{
+    flex-grow: 1;
+    box-sizing: content-box;
+    margin: 0;
+}
+
 .form__select{
     padding: 10px 10px 10px 15px;
     border: 0;
     border-radius: var(--radius);
     background-color: var(--green3);
-    height: var(--btn-h);
     height: auto;
-    box-sizing: content-box;
-    flex-grow: 1;
+    width: 100%;
+    cursor: pointer;
 }
 .form__textarea {
     resize: vertical;

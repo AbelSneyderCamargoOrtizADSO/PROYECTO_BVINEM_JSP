@@ -31,38 +31,50 @@
             <section class="container">
                 <form action="${pageContext.request.contextPath}/subir_doc" method="POST" class="container__form form__valid" enctype="multipart/form-data">
                     <div class="container__inputs">
-                        <input type="text" class="container__input obligatorio" placeholder="Título del documento" name="titulo" maxlength="40">
-                        <input type="text" class="container__input obligatorio solo-letras" placeholder="Autor del documento" name="autor" maxlength="35">
-                        <textarea type="text" class="container__input container__input-textarea obligatorio" placeholder="Descripción del documento" name="descripcion" rows="4" maxlength="320"></textarea>
-                        <input type="text" class="container__input obligatorio solo-numeros" placeholder="Año de publicación" name="año" maxlength="5">
+                        <div class="form__group">
+                            <input type="text" class="container__input obligatorio" placeholder="Título del documento" name="titulo" maxlength="40">
+                        </div>
+                        <div class="form__group">
+                            <input type="text" class="container__input obligatorio solo-letras" placeholder="Autor del documento" name="autor" maxlength="35">
+                        </div>
+                        <div class="form__group">
+                            <textarea class="container__input container__input-textarea obligatorio" placeholder="Descripción del documento" name="descripcion" rows="4" maxlength="320"></textarea>
+                        </div>
+                        <div class="form__group">
+                            <input type="text" class="container__input obligatorio solo-numeros" placeholder="Año de publicación" name="año" maxlength="5">
+                        </div>
 
-                        <select class="container__select obligatorio" name="asignatura">
-                            <option value="" disabled selected>Seleccione la asignatura</option>
-                            <c:forEach var="asignatura" items="${asignaturas}">
-                                <option value="${asignatura.id}">${asignatura.nombre}</option>
-                            </c:forEach>
-                        </select>
+                        <div class="form__group">
+                            <select class="container__select obligatorio" name="asignatura">
+                                <option value="" disabled selected>Seleccione la asignatura</option>
+                                <c:forEach var="asignatura" items="${asignaturas}">
+                                    <option value="${asignatura.id}">${asignatura.nombre}</option>
+                                </c:forEach>
+                            </select>
+                        </div>    
+                        <div class="form__group">        
+                            <select class="container__select obligatorio" name="idioma">
+                                <option value="" disabled selected>Seleccione el idioma</option>
+                                <c:forEach var="idioma" items="${idiomas}">
+                                    <option value="${idioma.id}">${idioma.nombre}</option>
+                                </c:forEach>
+                            </select>
+                        </div>    
+                        <div class="form__group">
+                            <select class="container__select obligatorio" name="tipo">
+                                <option value="" disabled selected>Seleccione el tipo de documento</option>
+                                <c:forEach var="tipo" items="${tipos}">
+                                    <option value="${tipo.id}">${tipo.nombre}</option>
+                                </c:forEach>
+                            </select>
+                        </div>    
 
-                        <select class="container__select obligatorio" name="idioma">
-                            <option value="" disabled selected>Seleccione el idioma</option>
-                            <c:forEach var="idioma" items="${idiomas}">
-                                <option value="${idioma.id}">${idioma.nombre}</option>
-                            </c:forEach>
-                        </select>
-
-                        <select class="container__select obligatorio" name="tipo">
-                            <option value="" disabled selected>Seleccione el tipo de documento</option>
-                            <c:forEach var="tipo" items="${tipos}">
-                                <option value="${tipo.id}">${tipo.nombre}</option>
-                            </c:forEach>
-                        </select>
-
-                        <div>
+                        <div class="form__group">
                             <label><b>Cargar miniatura o portada del libro</b></label>
                             <input id="inputImagen" type="file" class="container__input obligatorio" name="miniatura" accept=".jpg, .jpeg, .png">
                         </div>
 
-                        <div>
+                        <div class="form__group">
                             <label><b>Cargar Libro o documento en PDF</b></label>
                             <input id="inputPdf" type="file" class="container__input obligatorio" name="documentoPDF" accept="application/pdf">
                         </div>

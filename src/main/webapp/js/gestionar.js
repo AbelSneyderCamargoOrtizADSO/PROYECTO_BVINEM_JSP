@@ -25,16 +25,19 @@ document.getElementById('buscarUsuarioForm').addEventListener('submit', function
 const manejarModal = () => {
     const modalDocente = document.getElementById("modalDocente");
     const modalEstudiante = document.getElementById("modalEstudiante");
+    const modalAdmin = document.getElementById("modalAdmin");
     const spanDocente = modalDocente.querySelector(".modal__close");
     const spanEstudiante = modalEstudiante.querySelector(".modal__close");
+    const spanAdmin = modalAdmin.querySelector(".modal__close");
     const formDocente = document.getElementById("formDocente");
     const formEstudiante = document.getElementById("formEstudiante");
+    const formAdmin = document.getElementById("formAdmin");
     const btnAccionDocente = document.getElementById('btnAccionDocente');
     const btnAccionEstudiante = document.getElementById('btnAccionEstudiante');
+    const btnAccionAdmin = document.getElementById('btnAccionAdmin');
     const inputBuscar = document.getElementById("docUsuario");
     const btnBuscar = document.getElementById("filtrar");
 
-    // Función para deshabilitar botones
     const disableInputs = (inputs, btnAccion) => {
         const inputValor = Array.from(inputs).some(input => input.value.trim() !== "");
         if (inputValor) {
@@ -46,7 +49,6 @@ const manejarModal = () => {
         }
     };
 
-    // Función para deshabilitar botón de buscar
     const disableBtnBuscar = () => {
         if (inputBuscar.value.length <= 0) {
             btnBuscar.setAttribute("disabled", "disabled");
@@ -55,17 +57,16 @@ const manejarModal = () => {
         }
     };
 
-    // Eventos para inputs y botones
     formDocente.querySelectorAll('.form__input').forEach(input => input.addEventListener('input', () => disableInputs(formDocente.querySelectorAll('.form__input'), btnAccionDocente)));
     formEstudiante.querySelectorAll('.form__input').forEach(input => input.addEventListener('input', () => disableInputs(formEstudiante.querySelectorAll('.form__input'), btnAccionEstudiante)));
+    formAdmin.querySelectorAll('.form__input').forEach(input => input.addEventListener('input', () => disableInputs(formAdmin.querySelectorAll('.form__input'), btnAccionAdmin)));
     inputBuscar.addEventListener("input", disableBtnBuscar);
 
-    // Verificar el estado inicial de los botones al cargar la página
     disableInputs(formDocente.querySelectorAll('.form__input'), btnAccionDocente);
     disableInputs(formEstudiante.querySelectorAll('.form__input'), btnAccionEstudiante);
+    disableInputs(formAdmin.querySelectorAll('.form__input'), btnAccionAdmin);
     disableBtnBuscar();
 
-    // Función para abrir el modal para agregar docente
     document.getElementById("agregarDocenteBtn").onclick = () => {
         formDocente.reset();
         modalDocente.style.display = "block";
@@ -75,21 +76,23 @@ const manejarModal = () => {
         document.getElementById("contrasenaDocente").classList.add("obligatorio");
     };
 
-    // Función para abrir el modal para agregar estudiante
-//    document.getElementById("agregarEstudianteBtn").onclick = () => {
-//        formEstudiante.reset();
-//        modalEstudiante.style.display = "block";
-//        btnAccionEstudiante.name = 'regEstudiante';
-//        document.getElementById("labelPassEstudiante").textContent = "Contraseña:";
-//        document.getElementById("contrasenaEstudiante").classList.add("obligatorio");
-//    };
+    document.getElementById("agregarAdminBtn").onclick = () => {
+        formAdmin.reset();
+        modalAdmin.style.display = "block";
+        btnAccionAdmin.name = 'regAdmin';
+        document.getElementById("labelPassAdmin").textContent = "Contraseña:";
+        document.getElementById("modalTituloAdmin").textContent = "Registrar Administrador";
+        document.getElementById("contrasenaAdmin").classList.add("obligatorio");
+    };
 
-    // Función para cerrar el modal
     spanDocente.onclick = () => {
         modalDocente.style.display = "none";
     };
     spanEstudiante.onclick = () => {
         modalEstudiante.style.display = "none";
+    };
+    spanAdmin.onclick = () => {
+        modalAdmin.style.display = "none";
     };
 
     window.onclick = (event) => {
@@ -97,6 +100,8 @@ const manejarModal = () => {
             modalDocente.style.display = "none";
         } else if (event.target === modalEstudiante) {
             modalEstudiante.style.display = "none";
+        } else if (event.target === modalAdmin) {
+            modalAdmin.style.display = "none";
         }
     };
 };
@@ -152,9 +157,34 @@ function editarEstudiante(docUsu, nombre, apellido, correo) {
     document.getElementById("contrasenaEstudiante").classList.remove("obligatorio");
 }
 
+function editarAdministrador(docUsu, nombre, apellido, correo) {
+    const modal = document.getElementById("modalAdmin");
+    const formAdmin = document.getElementById("formAdmin");
+    let inputIdAdmin = document.getElementById('adminId');
+    if (!inputIdAdmin) {
+        inputIdAdmin = document.createElement('input');
+        inputIdAdmin.type = 'hidden';
+        inputIdAdmin.name = 'userId';
+        inputIdAdmin.id = 'adminId';
+        formAdmin.appendChild(inputIdAdmin);
+    }
+    inputIdAdmin.value = docUsu;
+
+    document.getElementById("nuevoIdUserAdmin").value = docUsu;
+    document.getElementById("nombreAdmin").value = nombre;
+    document.getElementById("apellidoAdmin").value = apellido;
+    document.getElementById("correoAdmin").value = correo;
+
+    modal.style.display = "block";
+    document.getElementById('btnAccionAdmin').name = 'editAdmin';
+    document.getElementById("labelPassAdmin").textContent = "Nueva contraseña:";
+    document.getElementById("modalTituloAdmin").textContent = "Editar Administrador";
+    document.getElementById("contrasenaAdmin").classList.remove("obligatorio");
+}
+
 // Función para manejar la eliminación de un usuario
 const manejarEliminacionUsuario = () => {
-    document.querySelectorAll('.eliminarDocente, .eliminarEstudiante').forEach(button => {
+    document.querySelectorAll('.eliminarDocente, .eliminarEstudiante, .eliminarAdministrador').forEach(button => {
         button.addEventListener('click', function () {
             const form = this.closest('form');
             Swal.fire({
@@ -170,8 +200,8 @@ const manejarEliminacionUsuario = () => {
                 if (result.isConfirmed) {
                     const inputEliminar = document.createElement('input');
                     inputEliminar.type = 'hidden';
-                    inputEliminar.name = 'inhabilitarUsu';
-                    inputEliminar.value = 'true';
+                    inputEliminar.name = 'actionDel';
+                    inputEliminar.value = 'inhabilitarUsu';
                     form.appendChild(inputEliminar);
                     form.submit();
                 }
@@ -186,8 +216,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (tipoUsuario === 'estudiante') {
         document.getElementById('agregarDocenteBtn').style.display = 'none';
+        document.getElementById('agregarAdminBtn').style.display = 'none';
+    } else if (tipoUsuario === 'administrador') {
+        document.getElementById('agregarDocenteBtn').style.display = 'none';
+        document.getElementById('agregarAdminBtn').style.display = 'inline-block';
     } else {
         document.getElementById('agregarDocenteBtn').style.display = 'inline-block';
+        document.getElementById('agregarAdminBtn').style.display = 'none';
     }
     manejarModal();
     manejarEliminacionUsuario();

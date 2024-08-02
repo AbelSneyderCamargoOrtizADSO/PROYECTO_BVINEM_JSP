@@ -51,6 +51,16 @@ public class sv_usuario extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        
+        if (session == null || session.getAttribute("logueado") == null) {
+            request.setAttribute("error", "Por favor, inicie sesión.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        } else if (!"3".equals(session.getAttribute("rol")) && !"4".equals(session.getAttribute("rol"))){
+            session.setAttribute("error", "Solo se permite el ingreso de administradores");
+            response.sendRedirect("sv_documentos");
+            return;
+        }
 
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 
@@ -61,9 +71,11 @@ public class sv_usuario extends HttpServlet {
         }
         
         if ("estudiante".equals(tipoUsuario)) {
-            rol = 1; // Rol para estudiantes
-        } else {
-            rol = 2; // Rol para docentes
+            rol = 1; 
+        } else if ("docente".equals(tipoUsuario)){
+            rol = 2; 
+        } else{
+            rol = 3;
         }
 
         String docUsuario = request.getParameter("docUsuario");
@@ -108,37 +120,34 @@ public class sv_usuario extends HttpServlet {
         String apellidos = request.getParameter("apellidos");
         String correo = request.getParameter("correo");
         String pass = request.getParameter("password");
+        String tipoUsuario = request.getParameter("tipoUsuario");
 
-        // HABILITAR USUARIO
-        if (request.getParameter("habilitarUsu") != null) {
-            String tipoUsuario = request.getParameter("tipoUsuario");
-            int docUsuario = Integer.parseInt(request.getParameter(tipoUsuario.equals("docente") ? "docDocente" : "docEstudiante"));
-            usuario.setDocUsu(docUsuario);
-            try {
-                usuarioDAO.habilitarUsuario(usuario);
-                session.setAttribute("success", tipoUsuario + " habilitado exitosamente");
-                response.sendRedirect("sv_usuario?tipoUsuario=" + tipoUsuario);
-                return; // Salir del método después de habilitar
-            } catch (Exception error) {
-                error.printStackTrace();
-                response.sendRedirect("sv_usuario?tipoUsuario=" + tipoUsuario);
-                return;
-            }
-        }
+        // Acciones: habilitar o inhabilitar usuario
+        String actionDel = request.getParameter("actionDel");
 
-        // INHABILITAR USUARIO
-        if (request.getParameter("inhabilitarUsu") != null) {
-            String tipoUsuario = request.getParameter("tipoUsuario");
-            int docUsuario = Integer.parseInt(request.getParameter(tipoUsuario.equals("docente") ? "docDocente" : "docEstudiante"));
+        if (actionDel != null) {
+            // Determinar el tipo de documento según el tipo de usuario
+            String docParam = tipoUsuario.equals("docente") ? "docDocente" : tipoUsuario.equals("estudiante") ? "docEstudiante" : "docAdmin";
+            
+            int docUsuario = Integer.parseInt(request.getParameter(docParam));
             usuario.setDocUsu(docUsuario);
+
             try {
-                usuarioDAO.inhabilitarUsuario(usuario);
-                session.setAttribute("success", tipoUsuario + " inhabilitado correctamente");
+                switch (actionDel) {
+                    case "habilitarUsu":
+                        usuarioDAO.habilitarUsuario(usuario);
+                        session.setAttribute("success", tipoUsuario + " habilitado exitosamente");
+                        break;
+                    case "inhabilitarUsu":
+                        usuarioDAO.inhabilitarUsuario(usuario);
+                        session.setAttribute("success", tipoUsuario + " inhabilitado correctamente");
+                        break;
+                }
                 response.sendRedirect("sv_usuario?tipoUsuario=" + tipoUsuario);
                 return;
             } catch (Exception error) {
                 error.printStackTrace();
-                response.getWriter().print("Error: " + error.getMessage());
+                response.sendRedirect("sv_usuario?tipoUsuario=" + tipoUsuario);
                 return;
             }
         }
@@ -176,46 +185,34 @@ public class sv_usuario extends HttpServlet {
 
         // EDITAR USUARIO
         try {
-            if (request.getParameter("editDocente") != null) {
-                int docDocente = Integer.parseInt(docUsuStr);
-                usuarioDAO.editarUsuario(docDocente, usuario, true);
-                session.setAttribute("success", "Datos del docente actualizados correctamente");
-                response.sendRedirect("sv_usuario?tipoUsuario=docente");
+            if (request.getParameter("editDocente") != null || request.getParameter("editEstudiante") != null || request.getParameter("editAdmin") != null) {
+                int docUsuario = Integer.parseInt(docUsuStr);
+                boolean isDocente = request.getParameter("editDocente") != null;
+                usuarioDAO.editarUsuario(docUsuario, usuario, isDocente);
+                session.setAttribute("success", "Datos del " + tipoUsuario + " actualizados correctamente");
+                response.sendRedirect(request.getHeader("Referer"));
                 return;
-            } else if (request.getParameter("editEstudiante") != null || request.getParameter("estudianteEdit") != null){
-                int docEstudiante = Integer.parseInt(docUsuStr);
-                usuarioDAO.editarUsuario(docEstudiante, usuario, false);
-                session.setAttribute("success", "Datos del estudiante actualizados correctamente");
-                session.setAttribute("UserDoc", NewdocUsuStr);
-
-                if (request.getParameter("editEstudiante") != null) {
-                    response.sendRedirect("sv_usuario?tipoUsuario=estudiante");
-                } else if (request.getParameter("estudianteEdit") != null) {
-                    response.sendRedirect("sv_estu");
-                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
             response.getWriter().print("Error: " + e.getMessage());
             return;
         }
-        
 
         // REGISTRAR O AGREGAR USUARIO
         try {
-            if (request.getParameter("regDocente") != null) {
-                // Configurar el rol de docente (asumimos que es 2)
-                usuario.setRol(2);
+            if (request.getParameter("regDocente") != null || request.getParameter("regEstudiante") != null || request.getParameter("regAdmin") != null) {
+                int rol = tipoUsuario.equals("docente") ? 2 : tipoUsuario.equals("estudiante") ? 1 : 3;
+                usuario.setRol(rol);
                 usuarioDAO.agregarUsuario(usuario);
-                session.setAttribute("success", "Docente registrado exitosamente");
-                response.sendRedirect("sv_usuario");
-            }
-            else if (request.getParameter("regEstudiante") != null) {
-                // Configurar el rol de estudiante (asumimos que es 3)
-                usuario.setRol(1);
-                usuarioDAO.agregarUsuario(usuario);
-                request.setAttribute("success", "Estudiante registrado exitosamente, ahora puedes iniciar sesión");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                if (tipoUsuario.equals("estudiante")) {
+                    request.setAttribute("success", "Estudiante registrado exitosamente, ahora puedes iniciar sesión");
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                } else {
+                    session.setAttribute("success", tipoUsuario + " registrado exitosamente");
+                    response.sendRedirect("sv_usuario");
+                }
+                return;
             }
         } catch (SQLException e) {
             e.printStackTrace();

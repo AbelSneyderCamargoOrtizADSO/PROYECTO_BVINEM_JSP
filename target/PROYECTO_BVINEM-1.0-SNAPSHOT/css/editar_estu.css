@@ -67,7 +67,7 @@ body {
 
 .formulario__label {
     margin-bottom: 5px;
-    color: var(--green1);
+    color: var(--blugreen);
     font-weight: bold;
     position: relative;
 }
@@ -75,7 +75,7 @@ body {
 .formulario__input,
 .formulario__select {
     padding: 10px;
-    border: 1px solid var(--green2);
+    border: 1px solid var(--blugreen);
     border-radius: 5px;
     width: 100%;
     box-sizing: border-box;
@@ -94,7 +94,7 @@ body {
     padding: var(--btn-pd);
     height: var(--btn-height);
     border-radius: var(--radius);
-    background-color: var(--green);
+    background-color: var(--blugreen);
     color: var(--green3);
     border: 0;
 }
@@ -106,4 +106,8 @@ body {
 .formulario__boton:disabled{
     opacity: .5;
     cursor: not-allowed;
+}
+
+.error{
+    border: 2px solid red;
 }

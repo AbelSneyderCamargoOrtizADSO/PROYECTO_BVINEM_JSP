@@ -46,8 +46,13 @@
                     <form action="sv_login" method="POST" class="container__form form__valid">
                         <h2 class="form__title">ESTUDIANTE</h2>
 
-                        <input type="text" class="form__input solo-numeros obligatorio" placeholder="Documento de identidad" name="dni" maxlength="10">
-                        <input type="password" class="form__input obligatorio" placeholder="Contraseña" name="password">
+                        <div class="form__group">
+                            <input type="text" class="form__input solo-numeros obligatorio" placeholder="Documento de identidad" name="dni" maxlength="10">
+                        </div>
+
+                        <div class="form__group">
+                            <input type="password" class="form__input obligatorio" placeholder="Contraseña" name="password">
+                        </div>
 
                         <button class="form__btn" name="ingresarEstu">Ingresar</button>
 
@@ -64,8 +69,12 @@
                     <form action="sv_login" method="POST" class="container__form container__form--doc form__valid">
                         <h2 class="form__title form__title--doc">DOCENTE</h2>
                         
-                        <input type="text" class="form__input form__input--doc solo-numeros obligatorio" placeholder="Documento de identidad" name="dni" maxlength="10">
-                        <input type="password" class="form__input form__input--doc obligatorio" placeholder="Contraseña" name="password">
+                        <div class="form__group">
+                            <input type="text" class="form__input form__input--doc solo-numeros obligatorio" placeholder="Documento de identidad" name="dni" maxlength="10">
+                        </div>
+                        <div class="form__group">
+                            <input type="password" class="form__input form__input--doc obligatorio" placeholder="Contraseña" name="password">
+                        </div>
 
                         <button class="form__btn form__btn--doc" name="ingresarDocen">Ingresar</button>
                     </form>
@@ -80,8 +89,12 @@
                     <form action="sv_login" method="POST" class="container__form container__form--admin form__valid">
                         <h2 class="form__title form__title--admin">ADMINISTRADOR</h2>
 
-                        <input type="text" class="form__input form__input--admin solo-numeros obligatorio" placeholder="Documento de identidad" name="dni" maxlength="10">
-                        <input type="password" class="form__input form__input--admin obligatorio" placeholder="Contraseña" name="password">
+                        <div class="form__group">
+                            <input type="text" class="form__input form__input--admin solo-numeros obligatorio" placeholder="Documento de identidad" name="dni" maxlength="10">
+                        </div>
+                        <div class="form__group">
+                            <input type="password" class="form__input form__input--admin obligatorio" placeholder="Contraseña" name="password">
+                        </div>
 
                         <button class="form__btn form__btn--admin" name="ingresarAdmin">Ingresar</button>
                     </form>

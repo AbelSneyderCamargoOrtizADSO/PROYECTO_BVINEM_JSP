@@ -5,7 +5,6 @@ CONTROLADOR\servlets\sv_busqueda.class
 MODELO\usuarios\UsuarioClass.class
 MODELO\TipoClass.class
 CONTROLADOR\servlets\filter_pag.class
-CONTROLADOR\servlets\usuarios\sv_estu.class
 CONTROLADOR\servlets\usuarios\sv_usuario.class
 MODELO\foros\TipoForoClass.class
 MODELO\BusquedaClass.class
@@ -13,6 +12,7 @@ CONTROLADOR\servlets\mostrar_pdf.class
 MODELO\Conexion.class
 MODELO\foros\ForoClass.class
 MODELO\usuarios\Validador.class
+CONTROLADOR\servlets\usuarios\sv_editPerfil.class
 MODELO\usuarios\UsuarioDAO.class
 CONTROLADOR\servlets\foros\sv_respuestas.class
 CONTROLADOR\servlets\sv_documentos.class

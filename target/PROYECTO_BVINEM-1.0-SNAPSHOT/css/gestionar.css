@@ -253,6 +253,13 @@ body {
     overflow: hidden;
 }
 
+.form__group--md{
+    flex-direction: column;
+    border: 0;
+    align-items: stretch;
+    
+}
+
 .form__input--pd {
     padding: 10px;
     border: none;

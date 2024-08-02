@@ -221,3 +221,13 @@
     }
 
 }
+
+.error{
+    border: 2px solid red !important;
+}
+
+.mensaje-error{
+    color: red;
+    font-size: 12px;
+    display: block;
+}

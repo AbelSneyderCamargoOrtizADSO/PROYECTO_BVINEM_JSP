@@ -15,9 +15,14 @@ import java.util.List;
  * @author Abelito
  */
 public class UsuarioDAO {
+   
+    private Conexion conexion;
+    
+    public UsuarioDAO() {
+        this.conexion = new Conexion();
+    }
 
     public void agregarUsuario(UsuarioClass usuario) throws SQLException {
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement statUsuario = null;
 
@@ -49,7 +54,6 @@ public class UsuarioDAO {
     }
 
     public void editarUsuario(int docAnterior, UsuarioClass usuario, boolean actualizarDocumentos) throws SQLException {
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement statement = null;
         PreparedStatement disableFKChecks = null;
@@ -133,7 +137,6 @@ public class UsuarioDAO {
     }
 
     public void cambiarEstadoUsuario(UsuarioClass docente, int estado) throws SQLException {
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement statUsuario = null;
 
@@ -160,7 +163,6 @@ public class UsuarioDAO {
 
     private List<UsuarioClass> mostrarUsuarios(String query, int parametro1, String parametro2) {
         List<UsuarioClass> usuarios = new ArrayList<>();
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement stat = null;
         ResultSet rs = null;

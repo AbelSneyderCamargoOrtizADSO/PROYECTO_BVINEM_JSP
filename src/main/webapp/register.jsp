@@ -37,10 +37,10 @@
 
                     <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="container__form form__valid">
                         <h2 class="form__title">ESTUDIANTE</h2>
-
+                        <input type="hidden" name="tipoUsuario" value="estudiante">
                         <input type="text" class="form__input solo-numeros obligatorio" placeholder="Documento de identidad" name="nuevoDoc" maxlength="10">
-                        <input type="text" class="form__input solo-letras obligatorioobligatorio" placeholder="Nombres" name="nombres">
-                        <input type="text" class="form__input solo-letras " placeholder="Apellidos" name="apellidos">
+                        <input type="text" class="form__input solo-letras obligatorio" placeholder="Nombres" name="nombres">
+                        <input type="text" class="form__input solo-letras obligatorio" placeholder="Apellidos" name="apellidos">
                         <input type="text" class="form__input obligatorio" placeholder="Correo electrónico" name="correo">
                         <input type="password" class="form__input obligatorio" placeholder="Contraseña" name="password">
 

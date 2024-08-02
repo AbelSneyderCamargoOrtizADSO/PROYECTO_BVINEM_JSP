@@ -36,26 +36,32 @@
                         <input class="form__input obligatorio" type="text" id="titulo" name="titulo" maxlength="50">
                     </div>
                     <div class="form__group form__group-select">
-                        <select class="form__select obligatorio" name="asignatura" id="asignatura">
-                            <option value="" disabled selected>Seleccione la asignatura</option>
-                            <c:forEach var="asignatura" items="${asignaturas}">
-                                <option value="${asignatura.id}">${asignatura.nombre}</option>
-                            </c:forEach>
-                        </select>
+                        <div class="form__group grow">
+                            <select class="form__select obligatorio" name="asignatura" id="asignatura">
+                                <option value="" disabled selected>Seleccione la asignatura</option>
+                                <c:forEach var="asignatura" items="${asignaturas}">
+                                    <option value="${asignatura.id}">${asignatura.nombre}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
                         
-                        <select class="form__select obligatorio" name="idioma" id="idioma">
-                            <option value="" disabled selected>Seleccione el idioma</option>
-                            <c:forEach var="idioma" items="${idiomas}">
-                                <option value="${idioma.id}">${idioma.nombre}</option>
-                            </c:forEach>
-                        </select>
-
-                        <select class="form__select obligatorio" name="tipof" id="tipof">
-                            <option value="" disabled selected>Seleccione el tipo de foro</option>
-                            <c:forEach var="tipo" items="${tiposforo}">
-                                <option value="${tipo.id}">${tipo.nombre}</option>
-                            </c:forEach>
-                        </select>
+                        <div class="form__group grow">
+                            <select class="form__select obligatorio" name="idioma" id="idioma">
+                                <option value="" disabled selected>Seleccione el idioma</option>
+                                <c:forEach var="idioma" items="${idiomas}">
+                                    <option value="${idioma.id}">${idioma.nombre}</option>
+                                </c:forEach>
+                            </select>
+                        </div>   
+                        
+                        <div class="form__group grow">
+                            <select class="form__select obligatorio" name="tipof" id="tipof">
+                                <option value="" disabled selected>Seleccione el tipo de foro</option>
+                                <c:forEach var="tipo" items="${tiposforo}">
+                                    <option value="${tipo.id}">${tipo.nombre}</option>
+                                </c:forEach>
+                            </select>
+                        </div>    
                     </div>
                     <div class="form__group">
                         <label class="form__label" for="descripcion">Descripción</label>

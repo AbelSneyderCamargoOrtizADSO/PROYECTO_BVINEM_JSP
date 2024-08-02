@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
     formularios.forEach(formulario => {
         formulario.addEventListener('submit', function (event) {
             const campos = formulario.querySelectorAll('.obligatorio');
-            const esValido = validarCampos(campos);
+            const esValido = validarCampos(campos) && validarContrasenas(formulario);
 
             if (!esValido) {
                 event.preventDefault();
@@ -69,39 +69,54 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function validarCampos(campos) {
+        let formularioValido = true;
+
+        // Limpiar mensajes de error anteriores
+        document.querySelectorAll('.mensaje-error').forEach(mensaje => mensaje.remove());
+        campos.forEach(campo => campo.classList.remove('error'));
+
         for (const campo of campos) {
             const valor = campo.value.trim();
-            const nombreCampo = campo.previousElementSibling && campo.previousElementSibling.tagName.toLowerCase() === 'label'
-                    ? campo.previousElementSibling.textContent
-                    : (campo.getAttribute('placeholder') || campo.getAttribute('name'));
             const nombreCampoName = campo.getAttribute('name');
 
             if (!valor) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Campo vacío',
-                    text: `El campo ${nombreCampo} es obligatorio`,
-                });
-                return false; // Detiene la validación y muestra el mensaje de error
-            }
-
-            if (nombreCampoName === 'correo' && !validarEmail(valor)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Correo inválido',
-                    text: `El campo ${nombreCampo} no es un correo válido`,
-                });
-                return false; // Detiene la validación y muestra el mensaje de error
+                mostrarError(campo, `El campo es obligatorio`);
+                formularioValido = false;
+            } else if (nombreCampoName === 'correo' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) {
+                mostrarError(campo, `El correo electronico no es válido`);
+                formularioValido = false;
             }
         }
-        return true; // Si todos los campos estan completos, retorna true
+        return formularioValido;
     }
 
-    function validarEmail(email) {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(email);
+    function validarContrasenas(formulario) {
+        const contrasena = formulario.querySelector('input[name="password"]');
+        const confirmarContrasena = formulario.querySelector('input[name="confirmPass"]');
+
+        // Limpiar mensajes de error anteriores
+        document.querySelectorAll('.mensaje-error').forEach(mensaje => mensaje.remove());
+        contrasena.classList.remove('error');
+        confirmarContrasena.classList.remove('error');
+
+        if (contrasena.value !== confirmarContrasena.value) {
+            mostrarError(contrasena, 'Las contraseñas no coinciden');
+            mostrarError(confirmarContrasena, 'Las contraseñas no coinciden');
+            return false;
+        }
+
+        return true;
+    }
+
+    function mostrarError(campo, mensaje) {
+        campo.classList.add('error');
+        const mensajeError = document.createElement('span');
+        mensajeError.classList.add('mensaje-error');
+        mensajeError.textContent = mensaje;
+        campo.parentElement.appendChild(mensajeError);
     }
 });
+
 
 // VALIDACIONES DE ARCHIVOS
 const inputImage = document.getElementById('inputImagen');

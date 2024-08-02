@@ -33,7 +33,7 @@
                         <a href="${pageContext.request.contextPath}/subir_foro" class="nav__link"><i class="bi bi-chat-square-text-fill"></i> Realizar foro</a>
                     </li>
                     <li class="nav__list">
-                        <a href="${pageContext.request.contextPath}/sv_estu" class="nav__link"><i class="bi bi-pen-fill"></i>
+                        <a href="${pageContext.request.contextPath}/sv_editPerfil" class="nav__link"><i class="bi bi-pen-fill"></i>
                             Editar mis datos</a>
                     </li>
                 </ul>

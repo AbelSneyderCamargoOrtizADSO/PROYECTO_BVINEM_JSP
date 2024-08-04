@@ -97,6 +97,14 @@ body {
     background-color: var(--green3);
 }
 
+.table__row--bg2:nth-child(odd){
+    background-color: #f9f9f9;
+}
+
+.table__row--bg2:nth-child(even){
+    background-color: #c7fff9;
+}
+
 /* BOTONES */
 .button {
     padding: 10px 20px;
@@ -106,6 +114,11 @@ body {
     transition: all 0.3s ease;
     border: none;
     font-size: 15px;
+}
+
+.button:disabled{
+    opacity: .5;
+    pointer-events: none;
 }
 
 .button--primary {
@@ -152,6 +165,10 @@ body {
 
 .green{
     background-color: var(--greenh);
+}
+
+.blue{
+  background-color: var(--blugreen);  
 }
 
 /*  MODAL  */
@@ -304,12 +321,6 @@ body {
 }
 
 /**/
-.disable{
-    opacity: 0.5;
-    pointer-events: none;
-    cursor: not-allowed;
-}
-
 @media (max-width: 1240px) {
 
     .container{

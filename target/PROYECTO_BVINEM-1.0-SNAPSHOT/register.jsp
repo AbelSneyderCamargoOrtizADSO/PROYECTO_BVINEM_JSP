@@ -38,12 +38,24 @@
                     <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="container__form form__valid">
                         <h2 class="form__title">ESTUDIANTE</h2>
                         <input type="hidden" name="tipoUsuario" value="estudiante">
-                        <input type="text" class="form__input solo-numeros obligatorio" placeholder="Documento de identidad" name="nuevoDoc" maxlength="10">
-                        <input type="text" class="form__input solo-letras obligatorio" placeholder="Nombres" name="nombres">
-                        <input type="text" class="form__input solo-letras obligatorio" placeholder="Apellidos" name="apellidos">
-                        <input type="text" class="form__input obligatorio" placeholder="Correo electrónico" name="correo">
-                        <input type="password" class="form__input obligatorio" placeholder="Contraseña" name="password">
-
+                        <div class="form__group">
+                            <input type="text" class="form__input solo-numeros obligatorio" placeholder="Documento de identidad" name="nuevoDoc" maxlength="10">
+                        </div>
+                        <div class="form__group">
+                            <input type="text" class="form__input solo-letras obligatorio" placeholder="Nombres" name="nombres">
+                        </div>
+                        <div class="form__group">
+                            <input type="text" class="form__input solo-letras obligatorio" placeholder="Apellidos" name="apellidos">
+                        </div>
+                        <div class="form__group">
+                            <input type="text" class="form__input obligatorio" placeholder="Correo electrónico" name="correo">
+                        </div>
+                        <div class="form__group">
+                            <input type="password" class="form__input obligatorio" placeholder="Contraseña" name="password">
+                        </div>
+                        <div class="formulario__grupo">
+                            <input type="password" class="form__input obligatorio" name="confirmPass" placeholder="Confirmar contraseña">
+                        </div>
                         <button class="form__btn" type="submit" name="regEstudiante">Registrarse</button>
 
                         <p class="form__reg">¿Ya te has registrado? <a href="index.jsp" class="form__link">INICIAR SESION</a></p>

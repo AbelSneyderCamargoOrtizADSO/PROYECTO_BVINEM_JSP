@@ -125,38 +125,42 @@ const inputPDF = document.getElementById('inputPdf');
 
 // IMAGENES
 export let aprobImage = false;
-inputImage.addEventListener('change', () => {
-    const file = inputImage.files[0]; // Obtiene el primer archivo seleccionado
-    if (file) {
-        const extensiones = /(\.jpg|\.jpeg|\.png)$/i;
-        const nombreArchivo = file.name;
+if(inputImage){
+    inputImage.addEventListener('change', () => {
+        const file = inputImage.files[0]; // Obtiene el primer archivo seleccionado
+        if (file) {
+            const extensiones = /(\.jpg|\.jpeg|\.png)$/i;
+            const nombreArchivo = file.name;
 
-        if (!extensiones.test(nombreArchivo)) {
-            alert('Por favor, sube un archivo en formato .jpg, .jpeg, o .png.');
-            inputImage.value = '';
-            aprobImage = false;
-        } else if (file.size > 1024 * 1024) {
-            alert('El archivo es demasiado grande. Por favor, sube una imagen de máximo 1 MB.');
-            inputImage.value = '';
-            aprobImage = false;
-        } else {
-            aprobImage = true;
+            if (!extensiones.test(nombreArchivo)) {
+                alert('Por favor, sube un archivo en formato .jpg, .jpeg, o .png.');
+                inputImage.value = '';
+                aprobImage = false;
+            } else if (file.size > 1024 * 1024) {
+                alert('El archivo es demasiado grande. Por favor, sube una imagen de máximo 1 MB.');
+                inputImage.value = '';
+                aprobImage = false;
+            } else {
+                aprobImage = true;
+            }
         }
-    }
-});
+    });
+}
 
 // ARCHIVOS 
-inputPDF.addEventListener('change', () => {
-    const file = inputPDF.files[0]; // Obtiene el primer archivo seleccionado
-    if (file) {
-        const extensiones = /(\.pdf)$/i;
-        const nombreArchivo = file.name;
-        if (!extensiones.test(nombreArchivo)) {
-            alert('Por favor, sube un archivo en formato .pdf.');
-            inputPDF.value = '';
-        } else if (file.size > 3 * 1024 * 1024) { // 3 MB en bytes
-            alert('El archivo es demasiado grande. Por favor, sube un documento de máximo 3 MB.');
-            inputPDF.value = '';
+if(inputPDF){
+    inputPDF.addEventListener('change', () => {
+        const file = inputPDF.files[0]; // Obtiene el primer archivo seleccionado
+        if (file) {
+            const extensiones = /(\.pdf)$/i;
+            const nombreArchivo = file.name;
+            if (!extensiones.test(nombreArchivo)) {
+                alert('Por favor, sube un archivo en formato .pdf.');
+                inputPDF.value = '';
+            } else if (file.size > 3 * 1024 * 1024) { // 3 MB en bytes
+                alert('El archivo es demasiado grande. Por favor, sube un documento de máximo 3 MB.');
+                inputPDF.value = '';
+            }
         }
-    }
-});
+    });
+}

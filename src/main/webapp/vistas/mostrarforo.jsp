@@ -111,7 +111,7 @@
                                         <input type="hidden" name="action" value="eliminarRespu">
                                         <button type="button" class="eliminarRespu"><img src="assets/papelera.png" alt="alt"/></button>
                                     </form>
-                                    <button class="editarRespu" onclick="abrirModal(${respuesta.id})"><img src="assets/editar.png" alt="alt"/></button>
+                                    <button class="editarRespuBtn editarRespu" data-id="${respuesta.id}"><img src="assets/editar.png" alt="alt"/></button>
                                 </div>
                             </c:if>
                             <c:if test="${(rol == '3' || rol == '4') && respuesta.usuarioId != sessionScope.UserDoc}">
@@ -135,6 +135,7 @@
                 <span class="modal__close" onclick="cerrarModalEditarForo()">&times;</span>
                 <h2 class="modal__title">Editar Foro</h2>
                 <form id="editarForoForm" class="modal__form" action="${pageContext.request.contextPath}/mostrar_foro" method="POST">
+                    <input type="text" class="modal__input" name="tituloForo" value="${foro.titulo}">
                     <div id="editorForo" class="modal__editor"></div>
                     <textarea id="foroEditado" class="modal__textarea" name="foroEditado" style="display:none;"></textarea>
                     <input type="hidden" name="foroId" id="foroIdEdit" value="${foro.id}">
@@ -158,8 +159,6 @@
                 </form>
             </div>
         </div>
-
-
 
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

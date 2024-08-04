@@ -111,7 +111,13 @@ body{
 }
 
 .error{
-  background-color: red;
+    border: 2px solid red !important;
+}
+
+.mensaje-error{
+    color: red;
+    font-size: 12px;
+    display: block;
 }
 
 @media screen and (max-width: 1020px) {

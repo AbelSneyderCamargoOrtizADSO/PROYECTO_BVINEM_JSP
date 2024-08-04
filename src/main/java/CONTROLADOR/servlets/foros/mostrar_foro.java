@@ -106,9 +106,11 @@ public class mostrar_foro extends HttpServlet {
         ForoClass foro = new ForoClass();
 
         // VARIABLES
+        String titulo = request.getParameter("tituloForo");
         String descripcion = request.getParameter("foroEditado");
         String idf = request.getParameter("foroId");
-
+        
+        foro.setTitulo(titulo);
         foro.setId(Integer.parseInt(idf));
         foro.setDescripcion(descripcion);
 
@@ -118,6 +120,11 @@ public class mostrar_foro extends HttpServlet {
         try {
             switch (action) {
                 case "editarForo":
+                    if (titulo == null || titulo.trim().isEmpty() || titulo.equals("<p><br></p>")) {
+                        session.setAttribute("error", "El título del foro no puede estar vacío");
+                        response.sendRedirect("mostrar_foro?id=" + idf);
+                        return;
+                    }
                     if (descripcion == null || descripcion.trim().isEmpty() || descripcion.equals("<p><br></p>")) {
                         session.setAttribute("error", "La descripción del foro no puede estar vacía");
                         response.sendRedirect("mostrar_foro?id=" + idf);

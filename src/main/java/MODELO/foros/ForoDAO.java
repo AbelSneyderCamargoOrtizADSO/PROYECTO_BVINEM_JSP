@@ -227,10 +227,11 @@ public class ForoDAO {
 
         try {
             conex = conexion.Conexion();
-            String query = "UPDATE tb_foro SET descrip_foro = ? WHERE id_foro = ?";
+            String query = "UPDATE tb_foro SET tit_foro= ?, descrip_foro = ? WHERE id_foro = ?";
             stat = conex.prepareStatement(query);
-            stat.setString(1, foro.getDescripcion());
-            stat.setInt(2, foro.getId());
+            stat.setString(1, foro.getTitulo());
+            stat.setString(2, foro.getDescripcion());
+            stat.setInt(3, foro.getId());
 
             stat.executeUpdate();
         } catch (SQLException e) {

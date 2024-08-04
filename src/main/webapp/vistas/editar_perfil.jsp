@@ -105,7 +105,7 @@
             } else if (tipoUser.value === "2"){
                 tipoUser.value = "docente";
                 btnEnviar.name = "editDocente";
-            } else if (tipoUser.value === "3"){
+            } else if (tipoUser.value === "3" || tipoUser.value === "4"){
                 tipoUser.value = "administrador";
                 btnEnviar.name = "editAdmin";
                 body.style.background = "var(--blue3)";

@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
+const agregarAdminBtn = document.getElementById("agregarAdminBtn");
+
 // Poner título al header
 let titulo = document.querySelector(".header__title");
 titulo.textContent = "Gestión de Usuarios";
@@ -28,7 +30,7 @@ const manejarModal = () => {
     const modalAdmin = document.getElementById("modalAdmin");
     const spanDocente = modalDocente.querySelector(".modal__close");
     const spanEstudiante = modalEstudiante.querySelector(".modal__close");
-    const spanAdmin = modalAdmin.querySelector(".modal__close");
+    const spanAdmin = modalAdmin?.querySelector(".modal__close");
     const formDocente = document.getElementById("formDocente");
     const formEstudiante = document.getElementById("formEstudiante");
     const formAdmin = document.getElementById("formAdmin");
@@ -37,36 +39,24 @@ const manejarModal = () => {
     const btnAccionAdmin = document.getElementById('btnAccionAdmin');
     const inputBuscar = document.getElementById("docUsuario");
     const btnBuscar = document.getElementById("filtrar");
-
-    const disableInputs = (inputs, btnAccion) => {
-        const inputValor = Array.from(inputs).some(input => input.value.trim() !== "");
-        if (inputValor) {
-            btnAccion.removeAttribute('disabled');
-            btnAccion.classList.remove("disable");
-        } else {
-            btnAccion.setAttribute('disabled', 'disabled');
-            btnAccion.classList.add("disable");
+    const inputs = document.querySelectorAll('.form__input');
+    
+    inputs.forEach(input => {
+        input.addEventListener("input", () => {
+            [btnAccionDocente, btnAccionEstudiante, btnAccionAdmin].forEach(btn => {
+                if (btn && btn.disabled) btn.disabled = false;
+            });
+        });
+    });
+    
+    inputBuscar.addEventListener("input", () => {
+        if(inputBuscar.value.trim() === ""){
+            btnBuscar.disabled = true;
+        } else{
+            btnBuscar.disabled = false;
         }
-    };
-
-    const disableBtnBuscar = () => {
-        if (inputBuscar.value.length <= 0) {
-            btnBuscar.setAttribute("disabled", "disabled");
-        } else {
-            btnBuscar.removeAttribute("disabled");
-        }
-    };
-
-    formDocente.querySelectorAll('.form__input').forEach(input => input.addEventListener('input', () => disableInputs(formDocente.querySelectorAll('.form__input'), btnAccionDocente)));
-    formEstudiante.querySelectorAll('.form__input').forEach(input => input.addEventListener('input', () => disableInputs(formEstudiante.querySelectorAll('.form__input'), btnAccionEstudiante)));
-    formAdmin.querySelectorAll('.form__input').forEach(input => input.addEventListener('input', () => disableInputs(formAdmin.querySelectorAll('.form__input'), btnAccionAdmin)));
-    inputBuscar.addEventListener("input", disableBtnBuscar);
-
-    disableInputs(formDocente.querySelectorAll('.form__input'), btnAccionDocente);
-    disableInputs(formEstudiante.querySelectorAll('.form__input'), btnAccionEstudiante);
-    disableInputs(formAdmin.querySelectorAll('.form__input'), btnAccionAdmin);
-    disableBtnBuscar();
-
+    });
+ 
     document.getElementById("agregarDocenteBtn").onclick = () => {
         formDocente.reset();
         modalDocente.style.display = "block";
@@ -75,15 +65,17 @@ const manejarModal = () => {
         document.getElementById("modalTituloDocente").textContent = "Registrar docente";
         document.getElementById("contrasenaDocente").classList.add("obligatorio");
     };
-
-    document.getElementById("agregarAdminBtn").onclick = () => {
-        formAdmin.reset();
-        modalAdmin.style.display = "block";
-        btnAccionAdmin.name = 'regAdmin';
-        document.getElementById("labelPassAdmin").textContent = "Contraseña:";
-        document.getElementById("modalTituloAdmin").textContent = "Registrar Administrador";
-        document.getElementById("contrasenaAdmin").classList.add("obligatorio");
-    };
+    
+    if(agregarAdminBtn){
+        agregarAdminBtn.onclick = () => {
+            formAdmin.reset();
+            modalAdmin.style.display = "block";
+            btnAccionAdmin.name = 'regAdmin';
+            document.getElementById("labelPassAdmin").textContent = "Contraseña:";
+            document.getElementById("modalTituloAdmin").textContent = "Registrar Administrador";
+            document.getElementById("contrasenaAdmin").classList.add("obligatorio");
+        };
+    }
 
     spanDocente.onclick = () => {
         modalDocente.style.display = "none";
@@ -91,17 +83,23 @@ const manejarModal = () => {
     spanEstudiante.onclick = () => {
         modalEstudiante.style.display = "none";
     };
-    spanAdmin.onclick = () => {
-        modalAdmin.style.display = "none";
-    };
+    if(spanAdmin){
+        spanAdmin.onclick = () => {
+            modalAdmin.style.display = "none";
+        };
+    }
+    
 
     window.onclick = (event) => {
         if (event.target === modalDocente) {
             modalDocente.style.display = "none";
+            btnAccionDocente.disabled = true;
         } else if (event.target === modalEstudiante) {
             modalEstudiante.style.display = "none";
+            btnAccionEstudiante.disabled = true;
         } else if (event.target === modalAdmin) {
             modalAdmin.style.display = "none";
+            btnAccionAdmin.disabled = true;
         }
     };
 };
@@ -216,13 +214,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (tipoUsuario === 'estudiante') {
         document.getElementById('agregarDocenteBtn').style.display = 'none';
-        document.getElementById('agregarAdminBtn').style.display = 'none';
+        if(agregarAdminBtn) agregarAdminBtn.style.display = 'none';
     } else if (tipoUsuario === 'administrador') {
         document.getElementById('agregarDocenteBtn').style.display = 'none';
-        document.getElementById('agregarAdminBtn').style.display = 'inline-block';
+        if(agregarAdminBtn) agregarAdminBtn.style.display = 'inline-block';
     } else {
         document.getElementById('agregarDocenteBtn').style.display = 'inline-block';
-        document.getElementById('agregarAdminBtn').style.display = 'none';
+        if(agregarAdminBtn) agregarAdminBtn.style.display = 'none';
     }
     manejarModal();
     manejarEliminacionUsuario();

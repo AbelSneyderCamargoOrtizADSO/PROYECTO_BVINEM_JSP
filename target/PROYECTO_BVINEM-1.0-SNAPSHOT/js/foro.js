@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
+const editarRespuBtn = document.querySelectorAll(".editarRespuBtn");
+
 var quill = new Quill('#editor', {
     theme: 'snow'
 });
@@ -34,6 +36,11 @@ function abrirModal(id) {
     document.getElementById('respuestaIdEdit').value = id;
     document.getElementById('modalEditarRespuesta').style.display = 'block';
 }
+
+editarRespuBtn.forEach(btn => {
+    let idRespuesta = btn.getAttribute('data-id');
+    btn.addEventListener("click", () => abrirModal(idRespuesta));
+});
 
 function abrirModalEditarForo() {
     let contenido = document.querySelector('.present__text').innerHTML;

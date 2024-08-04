@@ -143,7 +143,7 @@ public class sv_usuario extends HttpServlet {
                         session.setAttribute("success", tipoUsuario + " inhabilitado correctamente");
                         break;
                 }
-                response.sendRedirect("sv_usuario?tipoUsuario=" + tipoUsuario);
+                response.sendRedirect(request.getHeader("Referer"));
                 return;
             } catch (Exception error) {
                 error.printStackTrace();
@@ -210,7 +210,7 @@ public class sv_usuario extends HttpServlet {
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 } else {
                     session.setAttribute("success", tipoUsuario + " registrado exitosamente");
-                    response.sendRedirect("sv_usuario");
+                    response.sendRedirect(request.getHeader("Referer"));
                 }
                 return;
             }

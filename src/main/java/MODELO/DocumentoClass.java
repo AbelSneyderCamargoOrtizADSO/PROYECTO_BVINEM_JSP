@@ -4,8 +4,6 @@
  */
 package MODELO;
 
-import java.io.InputStream;
-
 /**
  *
  * @author Abelito
@@ -24,14 +22,14 @@ public class DocumentoClass {
     private int tipoId;
     private String tipo;
     private String miniaturaPath;
-    private InputStream archivoPDF;
+    private String archivoPDF;
     private int userDoc;
     
     public DocumentoClass() {
 
     }
 
-    public DocumentoClass(int id, String titulo, String autor, String descripcion, String year, String idioma, String asignatura, String tipo, String miniaturaPath, int userDoc) {
+    public DocumentoClass(int id, String titulo, String autor, String descripcion, String year, String idioma, String asignatura, String tipo, String miniaturaPath, int userDoc, String archivoPDF) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -42,6 +40,7 @@ public class DocumentoClass {
         this.tipo = tipo;
         this.miniaturaPath = miniaturaPath;
         this.userDoc = userDoc;
+        this.archivoPDF = archivoPDF;
     }
 
     public int getId() {
@@ -140,11 +139,11 @@ public class DocumentoClass {
         this.miniaturaPath = miniaturaPath;
     }
     
-    public InputStream getArchivoPDF() {
+    public String getArchivoPDF() {
         return archivoPDF;
     }
 
-    public void setArchivoPDF(InputStream archivoPDF) {
+    public void setArchivoPDF(String archivoPDF) {
         this.archivoPDF = archivoPDF;
     }
     

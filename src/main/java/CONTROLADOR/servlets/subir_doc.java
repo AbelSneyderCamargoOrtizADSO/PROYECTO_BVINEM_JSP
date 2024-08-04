@@ -118,25 +118,31 @@ public class subir_doc extends HttpServlet {
         String idioma = request.getParameter("idioma");
         String tipo = request.getParameter("tipo");
         
+        String contextPath = getServletContext().getRealPath("/");
+        String alteredFilePath = contextPath.replace("\\target\\PROYECTO_BVINEM-1.0-SNAPSHOT\\", "\\src\\main\\webapp");
+        
         // Manejar el archivo PDF
-        // Declaración de la variable inputStream para almacenar el flujo de entrada del archivo PDF.
-        InputStream inputStream = null;
+        String rutaPDF = null;
         try {
-            // Obtiene la parte del archivo PDF de la solicitud HTTP, usando el nombre del campo del formulario "documentoPDF".
-            Part filePart = request.getPart("documentoPDF");
+            String UPLOAD_DIR = "pdfs";
+            String uploadFilePath = alteredFilePath + File.separator + UPLOAD_DIR;
 
-            // Verifica si la parte del archivo no es nula y si su tamaño es mayor que 0 (es decir, que se haya cargado un archivo).
+            Part filePart = request.getPart("documentoPDF");
             if (filePart != null && filePart.getSize() > 0) {
                 if (filePart.getSize() > 3 * 1024 * 1024) { // 3 MB
                     session.setAttribute("error", "El archivo PDF es demasiado grande. Máximo 3 MB.");
                     response.sendRedirect("subir_doc");
                     return;
                 }
-                // Si el archivo es válido, obtiene el flujo de entrada del archivo PDF.
-                inputStream = filePart.getInputStream();
             }
-        } catch (Exception ex) {
-            session.setAttribute("error", "Error al procesar el archivo, revise si lo ha cargado");
+            String fileName = filePart.getSubmittedFileName();
+            String filePath = uploadFilePath + File.separator + fileName;
+            filePart.write(filePath);
+            rutaPDF = UPLOAD_DIR + File.separator + fileName;
+            
+        } catch (IOException | ServletException e) {
+            e.printStackTrace();
+            session.setAttribute("error", "Error al cargar el PDF");
             response.sendRedirect("subir_doc");
             return;
         }
@@ -145,15 +151,8 @@ public class subir_doc extends HttpServlet {
         String rutaMiniatura = null;
         try {
             String UPLOAD_DIR = "miniaturas";
-            String contextPath = getServletContext().getRealPath("/");
-            String alteredFilePath = contextPath.replace("\\target\\PROYECTO_BVINEM-1.0-SNAPSHOT\\", "\\src\\main\\webapp");
             String uploadFilePath = alteredFilePath + File.separator + UPLOAD_DIR;
-
-            File uploadDir = new File(uploadFilePath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-
+            
             Part filePart = request.getPart("miniatura");
             if (filePart.getSize() > 1024 * 1024) { // 1 MB
                 session.setAttribute("error", "La imagen es demasiado grande. Máximo 1 MB.");
@@ -201,7 +200,7 @@ public class subir_doc extends HttpServlet {
         documento.setIdiomaId(Integer.parseInt(idioma));
         documento.setTipoId(Integer.parseInt(tipo));
         documento.setMiniaturaPath(rutaMiniatura);
-        documento.setArchivoPDF(inputStream);
+        documento.setArchivoPDF(rutaPDF);
 
         if (request.getParameter("subirDoc") != null) {
             // Guardar la información en la base de datos

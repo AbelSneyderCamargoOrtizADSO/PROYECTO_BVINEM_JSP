@@ -40,7 +40,7 @@
                         <section class="books">
                             <c:forEach var="documento" items="${resultadosLibros}">
                                 <div class="books__book">
-                                    <a class="books__content" href="mostrar_pdf?id=${documento.id}">
+                                    <a class="books__content" href="${documento.archivoPDF}">
                                         <img src="${documento.miniaturaPath}" alt="" class="books__img">
                                         <div class="books__info">
                                             <span class="books__title">${documento.titulo}</span>

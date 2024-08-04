@@ -53,8 +53,9 @@ public class BusquedaClass {
                 String tipo = rs.getString("tipo");
                 String miniatura = rs.getString("miniatura");
                 int userDoc = rs.getInt("doc_docente_fk");
+                String archivoPDF = rs.getString("archivo");
 
-                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idioma, asignatura, tipo, miniatura, userDoc));
+                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idioma, asignatura, tipo, miniatura, userDoc, archivoPDF));
             }
         } catch (SQLException e) {
             e.printStackTrace();

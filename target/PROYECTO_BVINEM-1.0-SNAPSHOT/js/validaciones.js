@@ -54,78 +54,79 @@ limitedInputs.forEach(input => {
 });
 
 // VALIDACION DE CAMPOS
-document.addEventListener('DOMContentLoaded', function () {
-    const formularios = document.querySelectorAll('.form__valid');
+export function validarFormularioCampos() {
+    document.addEventListener('DOMContentLoaded', function () {
+        const formularios = document.querySelectorAll('.form__valid');
 
-    formularios.forEach(formulario => {
-        formulario.addEventListener('submit', function (event) {
-            const campos = formulario.querySelectorAll('.obligatorio');
-            const esValido = validarCampos(campos) && validarContrasenas(formulario);
+        formularios.forEach(formulario => {
+            formulario.addEventListener('submit', function (event) {
+                const campos = formulario.querySelectorAll('.obligatorio');
+                const esValido = validarCampos(campos) && validarContrasenas(formulario);
 
-            if (!esValido) {
-                event.preventDefault();
-            }
+                if (!esValido) {
+                    event.preventDefault();
+                }
+            });
         });
-    });
 
-    function validarCampos(campos) {
-        let formularioValido = true;
+        function validarCampos(campos) {
+            let formularioValido = true;
 
-        // Limpiar mensajes de error anteriores
-        document.querySelectorAll('.mensaje-error').forEach(mensaje => mensaje.remove());
-        campos.forEach(campo => campo.classList.remove('error'));
+            // Limpiar mensajes de error anteriores
+            document.querySelectorAll('.mensaje-error').forEach(mensaje => mensaje.remove());
+            campos.forEach(campo => campo.classList.remove('error'));
 
-        for (const campo of campos) {
-            const valor = campo.value.trim();
-            const nombreCampoName = campo.getAttribute('name');
+            for (const campo of campos) {
+                const valor = campo.value.trim();
+                const nombreCampoName = campo.getAttribute('name');
 
-            if (!valor) {
-                mostrarError(campo, `El campo es obligatorio`);
-                formularioValido = false;
-            } else if (nombreCampoName === 'correo' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) {
-                mostrarError(campo, `El correo electronico no es válido`);
-                formularioValido = false;
+                if (!valor) {
+                    mostrarError(campo, `El campo es obligatorio`);
+                    formularioValido = false;
+                } else if (nombreCampoName === 'correo' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) {
+                    mostrarError(campo, `El correo electronico no es válido`);
+                    formularioValido = false;
+                }
             }
-        }
-        return formularioValido;
-    }
-
-    function validarContrasenas(formulario) {
-        const contrasena = formulario.querySelector('input[name="password"]');
-        const confirmarContrasena = formulario.querySelector('input[name="confirmPass"]');
-
-        // Limpiar mensajes de error anteriores
-        document.querySelectorAll('.mensaje-error').forEach(mensaje => mensaje.remove());
-        contrasena.classList.remove('error');
-        confirmarContrasena.classList.remove('error');
-
-        if (contrasena.value !== confirmarContrasena.value) {
-            mostrarError(contrasena, 'Las contraseñas no coinciden');
-            mostrarError(confirmarContrasena, 'Las contraseñas no coinciden');
-            return false;
+            return formularioValido;
         }
 
-        return true;
-    }
+        function validarContrasenas(formulario) {
+            const contrasena = formulario.querySelector('input[name="password"]');
+            const confirmarContrasena = formulario.querySelector('input[name="confirmPass"]');
 
-    function mostrarError(campo, mensaje) {
-        campo.classList.add('error');
-        const mensajeError = document.createElement('span');
-        mensajeError.classList.add('mensaje-error');
-        mensajeError.textContent = mensaje;
-        campo.parentElement.appendChild(mensajeError);
-    }
-});
+            // Limpiar mensajes de error anteriores
+            document.querySelectorAll('.mensaje-error').forEach(mensaje => mensaje.remove());
+            contrasena.classList.remove('error');
+            confirmarContrasena.classList.remove('error');
 
+            if (contrasena.value !== confirmarContrasena.value) {
+                mostrarError(contrasena, 'Las contraseñas no coinciden');
+                mostrarError(confirmarContrasena, 'Las contraseñas no coinciden');
+                return false;
+            }
+
+            return true;
+        }
+
+        function mostrarError(campo, mensaje) {
+            campo.classList.add('error');
+            const mensajeError = document.createElement('span');
+            mensajeError.classList.add('mensaje-error');
+            mensajeError.textContent = mensaje;
+            campo.parentElement.appendChild(mensajeError);
+        }
+    });
+}
+validarFormularioCampos();
 
 // VALIDACIONES DE ARCHIVOS
 const inputImage = document.getElementById('inputImagen');
 const inputPDF = document.getElementById('inputPdf');
 
-
 // IMAGENES
 export let aprobImage = false;
-if(inputImage){
+if (inputImage) {
     inputImage.addEventListener('change', () => {
         const file = inputImage.files[0]; // Obtiene el primer archivo seleccionado
         if (file) {
@@ -148,7 +149,7 @@ if(inputImage){
 }
 
 // ARCHIVOS 
-if(inputPDF){
+if (inputPDF) {
     inputPDF.addEventListener('change', () => {
         const file = inputPDF.files[0]; // Obtiene el primer archivo seleccionado
         if (file) {

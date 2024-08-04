@@ -4,7 +4,6 @@
  */
 package MODELO;
 
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +26,14 @@ public class DocumentoDAO {
         try {
             conex = conexion.Conexion();
 
-            String query = "insert into tb_documento(titulo, autor, descripcion, year_publi, fecha_carga, miniatura, link, doc_docente_fk, id_asig_fk, id_idioma_fk, id_tipo_fk) values(?,?,?,?,NOW(),?,?,?,?,?,?)";
+            String query = "insert into tb_documento(titulo, autor, descripcion, year_publi, fecha_carga, miniatura, archivo, doc_docente_fk, id_asig_fk, id_idioma_fk, id_tipo_fk) values(?,?,?,?,NOW(),?,?,?,?,?,?)";
             stat = conex.prepareStatement(query);
             stat.setString(1, documento.getTitulo());
             stat.setString(2, documento.getAutor());
             stat.setString(3, documento.getDescripcion());
             stat.setInt(4, Integer.parseInt(documento.getYear()));
             stat.setString(5, documento.getMiniaturaPath());
-            stat.setBlob(6, documento.getArchivoPDF());
+            stat.setString(6, documento.getArchivoPDF());
             stat.setInt(7, documento.getUserDoc());
             stat.setInt(8, documento.getAsignaturaId());
             stat.setInt(9, documento.getIdiomaId());
@@ -86,9 +85,9 @@ public class DocumentoDAO {
                 String tipo = rs.getString("tipo");
                 String miniatura = rs.getString("miniatura");
                 int userDoc = rs.getInt("doc_docente_fk");
+                String archivoPDF = rs.getString("archivo");
 
-
-                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idioma, asignatura, tipo, miniatura, userDoc));
+                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idioma, asignatura, tipo, miniatura, userDoc, archivoPDF));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,41 +97,7 @@ public class DocumentoDAO {
 
         return documentos;
     }
-
-    public byte[] MostrarDocumento(DocumentoClass documento) {
-        
-        // Inicializar las variables de conexión, declaración y resultados en null
-        Connection conex = null;
-        PreparedStatement stat = null;
-        ResultSet rs = null;
-
-        String sql = "SELECT link FROM tb_documento WHERE id_doc = ?";
-        byte[] pdfData = null;
-
-        try {
-            // Obtener una conexión a la base de datos
-            conex = conexion.Conexion();
-
-            // Preparar la declaración SQL
-            stat = conex.prepareStatement(sql);
-            stat.setInt(1, documento.getId());
-
-            // Ejecutar la consulta y obtener el resultado
-            rs = stat.executeQuery();
-
-            if (rs.next()) {
-                pdfData = rs.getBytes("link");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // Cerrar
-            conexion.close(conex, stat, rs);
-        }
-
-        return pdfData;
-    }
-
+    
     public List<DocumentoClass> FiltrarDocumentos(DocumentoClass documento) {
         List<DocumentoClass> documentos = new ArrayList<>();
         Connection conex = null;
@@ -193,8 +158,9 @@ public class DocumentoDAO {
                 String tipoResult = rs.getString("tipo");
                 String miniatura = rs.getString("miniatura");
                 int userDoc = rs.getInt("doc_docente_fk");
+                String archivoPDF = rs.getString("archivo");
 
-                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idiomaResult, asignaturaResult, tipoResult, miniatura, userDoc));
+                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idiomaResult, asignaturaResult, tipoResult, miniatura, userDoc, archivoPDF));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -203,6 +169,30 @@ public class DocumentoDAO {
         }
 
         return documentos;
+    }
+    
+    public void editarDocumento(DocumentoClass documento) throws SQLException {
+        Connection conex = null;
+        PreparedStatement stat = null;
+
+        try {
+            conex = conexion.Conexion();
+
+            String query = "UPDATE tb_documento SET titulo = ?, autor = ?, descripcion = ?, year_publi = ? WHERE id_doc = ?";
+            stat = conex.prepareStatement(query);
+            stat.setString(1, documento.getTitulo());
+            stat.setString(2, documento.getAutor());
+            stat.setString(3, documento.getDescripcion());
+            stat.setString(4, documento.getYear());
+            stat.setInt(5, documento.getId());
+
+            stat.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            conexion.close(conex, stat, null);
+        }
     }
     
     public void eliminarDocumento(DocumentoClass documento) throws SQLException {

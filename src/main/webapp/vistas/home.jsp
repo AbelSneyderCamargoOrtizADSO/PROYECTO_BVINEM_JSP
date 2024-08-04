@@ -65,8 +65,8 @@
 
             <section class="books">
                 <c:forEach var="documento" items="${documentos}">
-                    <div class="books__book">
-                        <a class="books__content" href="mostrar_pdf?id=${documento.id}">
+                    <div class="books__book" data-id="${documento.id}" data-titulo="${documento.titulo}"  data-autor="${documento.autor}"  data-descripcion="${documento.descripcion}"  data-year="${documento.year}">
+                        <a class="books__content" href="${documento.archivoPDF}">
                             <img src="${documento.miniaturaPath}" alt="" class="books__img">
                             <div class="books__info">
                                 <span class="books__title">${documento.titulo}</span>
@@ -83,12 +83,41 @@
                             <form action="${pageContext.request.contextPath}/sv_documentos" method="POST" class="book__eliminar">
                                 <input type="hidden" name="docId" value="${documento.id}">
                                 <input type="hidden" name="rutaMiniatura" value="${documento.miniaturaPath}">
+                                <input type="hidden" name="rutaPDF" value="${documento.archivoPDF}">
                                 <button type="button" class="eliminarDoc"><img src="assets/papelera.png" alt="Eliminar Foro"/></button>
+                                <button type="button" class="editDoc" data-documento='${documento}'><img src="assets/editar.png" alt="Editar Documento"/></button>
                             </form>   
                         </c:if>
                     </div>
                 </c:forEach>
             </section>
+            
+            <div id="editModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeModal">&times;</span>
+                    <form id="editForm" method="POST" action="sv_documentos" class="form form__valid">
+                        <h1 class="form__title">Editar documento</h1>
+                        <input type="hidden" name="docId" id="editId">
+                        <div class="form__group">
+                            <label for="editTitulo">Título:</label>
+                            <input type="text" name="titulo" id="editTitulo" class="form__input obligatorio" maxlength="40">
+                        </div>
+                        <div class="form__group">
+                            <label for="editAutor">Autor:</label>
+                            <input type="text" name="autor" id="editAutor" class="form__input solo-letras obligatorio" maxlength="35">
+                        </div>
+                        <div class="form__group">
+                            <label for="editDescripcion">Descripción:</label>
+                            <textarea name="descripcion" id="editDescripcion" class="form__input obligatorio" rows="4" maxlength="320"></textarea>
+                        </div>
+                        <div class="form__group">
+                            <label for="editYear">Año de Publicación:</label>
+                            <input type="text" name="year" id="editYear" class="form__input obligatorio" maxlength="5">
+                        </div>
+                        <button type="submit" name="editDocumento" class="form__btn filter__btn filter__btn-bg">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
         </main>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -116,7 +145,7 @@
             });
             // PAGINACIONES
         </script>
-        <script src="js/home.js"></script>
+        <script src="js/home.js" type="module"></script>
     </body>
 
 </html>

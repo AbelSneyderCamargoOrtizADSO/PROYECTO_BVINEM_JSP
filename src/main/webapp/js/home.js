@@ -3,6 +3,38 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
+import {validarFormularioCampos} from "./validaciones.js"
+
+validarFormularioCampos();
+
+const btnEditar = document.querySelectorAll('.editDoc');
+const editId = document.getElementById('editId');
+const editTitulo = document.getElementById('editTitulo');
+const editAutor = document.getElementById('editAutor');
+const editDescripcion = document.getElementById('editDescripcion');
+const editYear = document.getElementById('editYear');
+const closeModal = document.getElementById('editModal');
+
+
+btnEditar.forEach(btn => {
+    btn.addEventListener("click", function () {
+        const book = this.closest('.books__book');
+
+        editId.value = book.dataset.id;
+        editTitulo.value = book.dataset.titulo;
+        editAutor.value = book.dataset.autor;
+        editDescripcion.value = book.dataset.descripcion;
+        editYear.value = book.dataset.year;
+
+        closeModal.style.display = 'block';
+    });
+});
+
+// Añadir un evento de clic para cerrar el modal
+document.getElementById('closeModal').addEventListener('click', function () {
+    document.getElementById('editModal').style.display = 'none';
+});
+
 // EVITAR ENVIO DE FORMULARIO CON FILTROS VACIOS
 document.getElementById('filter__form').addEventListener('submit', function (event) {
     // Obtener todos los select del formulario

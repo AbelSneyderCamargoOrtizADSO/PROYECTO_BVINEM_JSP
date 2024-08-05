@@ -1,0 +1,40 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 27/07/2024, 3:38:29 p. m.
+    Author     : Abelito
+*/
+@import url(variables.css);
+@import url(../componentes/header.css);
+@import url(../componentes/formulario.css);
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--green3);
+    margin: 0;
+    padding: 0;
+}
+
+.body--bg{
+    background-color: var(--blue3);
+}
+
+.header__search{
+    display: none;
+}
+
+.header__title{
+    display: flex;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.container--margin{
+    margin-top: 40px;
+}

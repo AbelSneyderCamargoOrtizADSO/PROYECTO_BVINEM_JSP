@@ -4,6 +4,9 @@
  */
 package MODELO;
 
+import MODELO.categorias.AsignaturaClass;
+import MODELO.categorias.TipoClass;
+import MODELO.categorias.IdiomaClass;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;

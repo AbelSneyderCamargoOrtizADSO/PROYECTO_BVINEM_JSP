@@ -30,9 +30,9 @@
                             <button id="mostrarAdministradoresBtn" class="button button--primary blue top__btn">Administradores</button>
                         </c:if>
                     </div>
-                    <button id="agregarDocenteBtn" class="button button--primary"><img src="assets/adduser.png" alt="alt"/></button>
+                    <a href="${pageContext.request.contextPath}/sv_gestUsuario?action=register&rol=docente" id="agregarDocenteBtn" class="button button--primary button--primary--h"><img src="assets/adduser.png" alt="alt"/></a>
                     <c:if test="${rol == '4'}">
-                        <button id="agregarAdminBtn" class="button button--primary blue"><img src="assets/adduser.png" alt="alt"/></button>
+                        <a href="${pageContext.request.contextPath}/sv_gestUsuario?action=register&rol=administrador" id="agregarAdminBtn" class="button button--primary button--primary--h blue"><img src="assets/adduser.png" alt="alt"/></a>
                     </c:if>
                     <!--<button id="agregarEstudianteBtn" class="button button--primary">Registrar Estudiante</button>-->
 
@@ -85,7 +85,7 @@
                                         </c:choose>
                                     </td>
                                     <td class="table__cell table__cell-display" data-label="Acciones">
-                                        <button class="table__btn button button--edit" onclick="editarDocente('${usuario.docUsu}', '${usuario.nombre}', '${usuario.apellido}', '${usuario.correo}', '${tipoUsuario}')">Editar</button>
+                                        <a href="${pageContext.request.contextPath}/sv_gestUsuario?action=edit&rol=${tipoUsuario}&idUser=${usuario.docUsu}" class="table__btn button button--edit" >Editar</a>
                                         <form action="${pageContext.request.contextPath}/sv_usuario" method="POST">
                                             <input type="hidden" name="docDocente" value="${usuario.docUsu}">
                                             <input type="hidden" name="tipoUsuario" value="docente">
@@ -136,7 +136,7 @@
                                         </c:choose>
                                     </td>
                                     <td class="table__cell table__cell-display table__cell--bg" data-label="Acciones">
-                                        <button class="table__btn button button--edit" onclick="editarEstudiante('${usuario.docUsu}', '${usuario.nombre}', '${usuario.apellido}', '${usuario.correo}', '${tipoUsuario}')">Editar</button>
+                                        <a href="${pageContext.request.contextPath}/sv_gestUsuario?action=edit&rol=${tipoUsuario}&idUser=${usuario.docUsu}" class="table__btn button button--edit" >Editar</a>
                                         <form action="${pageContext.request.contextPath}/sv_usuario" method="POST">
                                             <input type="hidden" name="docEstudiante" value="${usuario.docUsu}">
                                             <input type="hidden" name="tipoUsuario" value="estudiante">
@@ -187,7 +187,7 @@
                                             </c:choose>
                                         </td>
                                         <td class="table__cell table__cell-display" data-label="Acciones">
-                                            <button class="table__btn button button--edit" onclick="editarAdministrador('${usuario.docUsu}', '${usuario.nombre}', '${usuario.apellido}', '${usuario.correo}')">Editar</button>
+                                            <a href="${pageContext.request.contextPath}/sv_gestUsuario?action=edit&rol=${tipoUsuario}&idUser=${usuario.docUsu}" class="table__btn button button--edit">Editar</a>
                                             <form action="${pageContext.request.contextPath}/sv_usuario" method="POST">
                                                 <input type="hidden" name="docAdmin" value="${usuario.docUsu}">
                                                 <input type="hidden" name="tipoUsuario" value="administrador">
@@ -211,137 +211,6 @@
 
                 <div id="pagination" class="pagination"></div>
             </section>
-
-            <div id="modalDocente" class="modal">
-                <div class="modal__content">
-                    <span class="modal__close">&times;</span>
-                    <h2 id="modalTituloDocente" class="modal__title">Registrar Docente</h2>
-                    <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" id="formDocente" class="form form__valid">
-                        <input type="hidden" name="tipoUsuario" value="docente">
-                        <div class="form__group form__group--md">
-                            <label for="nuevoIdUserDocente" class="form__label">Documento de Usuario</label>
-                            <input type="text" id="nuevoIdUserDocente" class="form__input solo-numeros obligatorio" name="nuevoDoc">
-                        </div>
-                        
-                        <div class="form__group form__group--md">
-                            <label for="nombreDocente" class="form__label">Nombres</label>
-                            <input type="text" id="nombreDocente" class="form__input solo-letras obligatorio" name="nombres">
-                        </div>
-                        
-                        <div class="form__group form__group--md">
-                            <label for="apellidoDocente" class="form__label">Apellidos</label>
-                            <input type="text" id="apellidoDocente" class="form__input solo-letras obligatorio" name="apellidos">
-                        </div>
-                        
-                        <div class="form__group form__group--md">
-                            <label for="correoDocente" class="form__label">Correo</label>
-                            <input id="correoDocente" class="form__input obligatorio" name="correo">
-                        </div>
-                        
-                        <div class="form__group form__group--md">
-                            <label for="contrasenaDocente" class="form__label" id="labelPassDocente">Contraseña</label>
-                            <input type="password" id="contrasenaDocente" class="form__input obligatorio" name="password">
-                        </div>
-                        
-                        <div class="form__group form__group--md">
-                            <label for="confirContra" class="form__label">Confirmar contraseña</label>
-                            <input type="password" class="form__input" name="confirmPass">
-                        </div>
-                        
-                        <div class="form__group form__group--md">
-                            <input type="hidden" name="regDocente" value="true">
-                            <button type="submit" class="button button--primary form__button" id="btnAccionDocente" disabled>Guardar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-                        
-                       
-            <div id="modalEstudiante" class="modal">
-                <div class="modal__content">
-                    <span class="modal__close">&times;</span>
-                    <h2 id="modalTituloEstudiante" class="modal__title">Editar Estudiante</h2>
-                    <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" id="formEstudiante" class="form form__valid">
-                        <input type="hidden" name="tipoUsuario" value="estudiante">
-                        <div class="form__group form__group--md">
-                            <label for="nuevoIdUserEstudiante" class="form__label">Documento de Usuario</label>
-                            <input type="text" id="nuevoIdUserEstudiante" class="form__input solo-numeros obligatorio" name="nuevoDoc">
-                        </div>
-                        
-                        <div class="form__group form__group--md">
-                            <label for="nombreEstudiante" class="form__label">Nombres</label>
-                            <input type="text" id="nombreEstudiante" class="form__input solo-letras obligatorio" name="nombres">
-                        </div>
-                        
-                        <div class="form__group form__group--md">
-                            <label for="apellidoEstudiante" class="form__label">Apellidos</label>
-                            <input type="text" id="apellidoEstudiante" class="form__input solo-letras obligatorio" name="apellidos">
-                        </div>
-                        
-                        <div class="form__group form__group--md">
-                            <label for="correoEstudiante" class="form__label">Correo</label>
-                            <input id="correoEstudiante" class="form__input obligatorio" name="correo">
-                        </div>
-                        
-                        <div class="form__group form__group--md">
-                            <label for="contrasenaEstudiante" class="form__label" id="labelPassEstudiante">Contraseña</label>
-                            <input type="password" id="contrasenaEstudiante" class="form__input obligatorio" name="password">
-                        </div>
-                        
-                        <div class="form__group form__group--md">
-                            <label for="confirContra" class="form__label">Confirmar contraseña</label>
-                            <input type="password" class="form__input" name="confirmPass">
-                        </div>
-                        
-                        <button type="submit" class="button button--primary form__button" id="btnAccionEstudiante" disabled>Guardar</button>
-                    </form>
-                </div>
-            </div>
-            
-            <c:if test="${rol == '4'}">
-                <div id="modalAdmin" class="modal">
-                    <div class="modal__content">
-                        <span class="modal__close">&times;</span>
-                        <h2 id="modalTituloAdmin" class="modal__title">Registrar Administrador</h2>
-                        <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" id="formAdmin" class="form form__valid">
-                            <input type="hidden" name="tipoUsuario" value="administrador">
-                            
-                            <div class="form__group form__group--md">
-                                <label for="nuevoIdUserAdmin" class="form__label">Documento de Usuario</label>
-                                <input type="text" id="nuevoIdUserAdmin" class="form__input solo-numeros obligatorio" name="nuevoDoc">
-                            </div>
-                            
-                            <div class="form__group form__group--md">
-                                <label for="nombreAdmin" class="form__label">Nombres</label>
-                                <input type="text" id="nombreAdmin" class="form__input solo-letras obligatorio" name="nombres">
-                            </div>
-                            
-                            <div class="form__group form__group--md">
-                                <label for="apellidoAdmin" class="form__label">Apellidos</label>
-                                <input type="text" id="apellidoAdmin" class="form__input solo-letras obligatorio" name="apellidos">
-                            </div>
-                            
-                            <div class="form__group form__group--md">
-                                <label for="correoAdmin" class="form__label">Correo</label>
-                                <input id="correoAdmin" class="form__input obligatorio" name="correo">
-                            </div>
-                            
-                            <div class="form__group form__group--md">
-                                <label for="contrasenaAdmin" class="form__label" id="labelPassAdmin">Contraseña</label>
-                                <input type="password" id="contrasenaAdmin" class="form__input obligatorio" name="password">
-                            </div>
-                            
-                            <div class="form__group form__group--md">
-                                <label for="confirContra" class="form__label">Confirmar contraseña</label>
-                                <input type="password" class="form__input" name="confirmPass">
-                            </div>
-                            
-                            <input type="hidden" name="regAdmin" value="true">
-                            <button type="submit" class="button button--primary form__button" id="btnAccionAdmin" disabled>Guardar</button>
-                        </form>
-                    </div>
-                </div>
-            </c:if>
         </main>
 
 

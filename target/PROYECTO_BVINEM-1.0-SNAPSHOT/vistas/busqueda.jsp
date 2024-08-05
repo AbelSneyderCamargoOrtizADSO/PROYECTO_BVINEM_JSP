@@ -39,7 +39,7 @@
                     <c:if test="${not empty resultadosLibros}">
                         <section class="books">
                             <c:forEach var="documento" items="${resultadosLibros}">
-                                <div class="books__book">
+                                <div class="books__book" data-id="${documento.id}" data-titulo="${documento.titulo}"  data-autor="${documento.autor}"  data-descripcion="${documento.descripcion}"  data-year="${documento.year}">
                                     <a class="books__content" href="${documento.archivoPDF}">
                                         <img src="${documento.miniaturaPath}" alt="" class="books__img">
                                         <div class="books__info">
@@ -57,9 +57,13 @@
                                         <form action="${pageContext.request.contextPath}/sv_documentos" method="POST" class="book__eliminar">
                                             <input type="hidden" name="docId" value="${documento.id}">
                                             <input type="hidden" name="rutaMiniatura" value="${documento.miniaturaPath}">
+                                            <input type="hidden" name="rutaPDF" value="${documento.archivoPDF}">
                                             <button type="button" class="eliminarDoc"><img src="assets/papelera.png" alt="Eliminar Foro"/></button>
-                                        </form>   
+                                        </form>
                                     </c:if>
+                                    <c:if test="${documento.userDoc == sessionScope.UserDoc}">
+                                        <button type="button" class="editDoc" data-documento='${documento}'><img src="assets/editar.png" alt="Editar Documento"/></button>
+                                        </c:if>
                                 </div>
                             </c:forEach>
                         </section>
@@ -90,9 +94,50 @@
                     </c:if>
                 </c:if>
             </section>
+                    
+            <div id="editModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeModal">&times;</span>
+                    <form id="editForm" method="POST" action="sv_documentos" class="form form__valid">
+                        <h1 class="form__title">Editar documento</h1>
+                        <input type="hidden" name="docId" id="editId">
+                        <div class="form__group">
+                            <label for="editTitulo">Título:</label>
+                            <input type="text" name="titulo" id="editTitulo" class="form__input obligatorio" maxlength="40">
+                        </div>
+                        <div class="form__group">
+                            <label for="editAutor">Autor:</label>
+                            <input type="text" name="autor" id="editAutor" class="form__input solo-letras obligatorio" maxlength="35">
+                        </div>
+                        <div class="form__group">
+                            <label for="editDescripcion">Descripción:</label>
+                            <textarea name="descripcion" id="editDescripcion" class="form__input obligatorio" rows="4" maxlength="320"></textarea>
+                        </div>
+                        <div class="form__group">
+                            <label for="editYear">Año de Publicación:</label>
+                            <input type="text" name="year" id="editYear" class="form__input solo-numeros obligatorio" maxlength="5">
+                        </div>
+                        <button type="submit" name="editDocumento" class="form__btn filter__btn filter__btn-bg">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>        
         </main>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="js/home.js"></script>
+        <script>
+            // Mostrar SweetAlert si hay un mensaje de error en la sesión
+            window.addEventListener('load', function () {  
+                const successMessage = '<%= session.getAttribute("success")%>';
+                if (successMessage && successMessage !== 'null') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: successMessage,
+                    });
+                    <% session.removeAttribute("success");%>
+                }
+            });
+        </script>
+        <script src="js/home.js" type="module"></script>
     </body>
 </html>

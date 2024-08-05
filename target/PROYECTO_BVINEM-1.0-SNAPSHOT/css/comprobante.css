@@ -1,0 +1,110 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 4/08/2024, 11:59:34 p. m.
+    Author     : Abelito
+*/
+@import url(variables.css);
+@import url(../componentes/formulario.css);
+@import url(../componentes/botones.css);
+
+
+body {
+    font-family: sans-serif;
+    background: linear-gradient(135deg, var(--green3) 0%, var(--yellow3) 100%);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.comprobante {
+    background: white;
+    padding: 30px;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+    position: relative;
+
+}
+
+.comprobante__header {
+    margin: 0;
+}
+
+.comprobante__header img {
+    width: 100px;
+    margin: 0;
+}
+
+.comprobante__title {
+    font-size: var(--title-sz);
+    color: var(--green);
+    margin-bottom: 5px;
+}
+
+.comprobante__subtitle {
+    font-size: var(--subtitle-sz);
+    color: var(--yellow);
+    margin-bottom: 20px;
+}
+
+.comprobante__info {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.comprobante__info p {
+    font-size: var(--text-sz);
+    color: var(--blue);
+    margin: 8px 0;
+}
+
+.comprobante__info p strong {
+    color: var(--green);
+}
+
+.comprobante__button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: var(--text-sz);
+    color: white;
+    background-color: var(--green1);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.comprobante__button:hover {
+    background-color: var(--greenh);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

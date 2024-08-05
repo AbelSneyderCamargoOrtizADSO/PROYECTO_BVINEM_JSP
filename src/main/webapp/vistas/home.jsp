@@ -85,8 +85,10 @@
                                 <input type="hidden" name="rutaMiniatura" value="${documento.miniaturaPath}">
                                 <input type="hidden" name="rutaPDF" value="${documento.archivoPDF}">
                                 <button type="button" class="eliminarDoc"><img src="assets/papelera.png" alt="Eliminar Foro"/></button>
-                                <button type="button" class="editDoc" data-documento='${documento}'><img src="assets/editar.png" alt="Editar Documento"/></button>
-                            </form>   
+                            </form>
+                        </c:if>
+                        <c:if test="${documento.userDoc == sessionScope.UserDoc}">
+                            <button type="button" class="editDoc" data-documento='${documento}'><img src="assets/editar.png" alt="Editar Documento"/></button>
                         </c:if>
                     </div>
                 </c:forEach>
@@ -112,7 +114,7 @@
                         </div>
                         <div class="form__group">
                             <label for="editYear">Año de Publicación:</label>
-                            <input type="text" name="year" id="editYear" class="form__input obligatorio" maxlength="5">
+                            <input type="text" name="year" id="editYear" class="form__input solo-numeros obligatorio" maxlength="5">
                         </div>
                         <button type="submit" name="editDocumento" class="form__btn filter__btn filter__btn-bg">Guardar Cambios</button>
                     </form>

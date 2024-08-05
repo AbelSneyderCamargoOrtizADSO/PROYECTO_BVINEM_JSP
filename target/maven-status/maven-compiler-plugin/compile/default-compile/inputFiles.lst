@@ -1,6 +1,8 @@
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\foros\FormForo.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\usuarios\UsuarioClass.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\foros\sv_foros.java
+C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\categorias\TipoClass.java
+C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\categorias\IdiomaClass.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\DocumentoDAO.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\foros\ForoClass.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\foros\TipoForoClass.java
@@ -9,16 +11,16 @@ C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CO
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\filter_pag.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\foros\ForoDAO.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\cerrar_sesion.java
+C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\categorias\AsignaturaClass.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\usuarios\UsuarioDAO.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\DocumentoClass.java
-C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\IdiomaClass.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\FormDoc.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\HashUtil.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\login_class.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\foros\mostrar_foro.java
+C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\usuarios\sv_gestUsuario.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\foros\sv_respuestas.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\usuarios\sv_usuario.java
-C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\TipoClass.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\foros\RespuestaClass.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\foros\RespuestaForoDAO.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\usuarios\Validador.java
@@ -28,4 +30,3 @@ C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CO
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\sv_documentos.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\sv_busqueda.java
 C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\CONTROLADOR\servlets\sv_login.java
-C:\Users\Abelito\Documents\NetBeansProjects\PROYECTO_BVINEM_JSP\src\main\java\MODELO\AsignaturaClass.java

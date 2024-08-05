@@ -1,0 +1,21 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 5/08/2024, 12:22:04 a. m.
+    Author     : Abelito
+*/
+
+.btn__principal--green{
+    height: var(--btn-height);
+    padding: var(--btn-pd);
+    border-radius: var(--radius);
+    border: 0;
+    background-color: var(--green);
+    color: var(--green3);
+    cursor: pointer;
+    align-self: center;
+}
+
+

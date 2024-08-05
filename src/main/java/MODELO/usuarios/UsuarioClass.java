@@ -24,13 +24,14 @@ public class UsuarioClass {
     }
 
     // Constructor
-    public UsuarioClass(int docUsu, String nombre, String apellido, String correo, String fechaRegistro, int estadoId) {
+    public UsuarioClass(int docUsu, String nombre, String apellido, String correo, String fechaRegistro, int estadoId, int rol) {
         this.docUsu = docUsu;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
         this.fechaRegistro = fechaRegistro;
         this.estadoId = estadoId;
+        this.rol = rol;
     }
 
     // Getters y Setters

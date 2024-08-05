@@ -4,9 +4,9 @@
  */
 package CONTROLADOR.servlets.foros;
 
-import MODELO.AsignaturaClass;
+import MODELO.categorias.AsignaturaClass;
 import MODELO.FormDoc;
-import MODELO.IdiomaClass;
+import MODELO.categorias.IdiomaClass;
 import MODELO.foros.FormForo;
 import MODELO.foros.ForoClass;
 import MODELO.foros.ForoDAO;

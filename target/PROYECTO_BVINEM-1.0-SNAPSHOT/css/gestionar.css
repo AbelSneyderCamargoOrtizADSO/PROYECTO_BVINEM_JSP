@@ -127,6 +127,10 @@ body {
     height: var(--btn-height);
 }
 
+.button--primary--h{
+    height: auto;
+}
+
 .button--primary:hover {
     opacity: .8;
 }

@@ -53,7 +53,7 @@
                         <div class="form__group">
                             <input type="password" class="form__input obligatorio" placeholder="Contraseña" name="password">
                         </div>
-                        <div class="formulario__grupo">
+                        <div class="form__group">
                             <input type="password" class="form__input obligatorio" name="confirmPass" placeholder="Confirmar contraseña">
                         </div>
                         <button class="form__btn" type="submit" name="regEstudiante">Registrarse</button>

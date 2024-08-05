@@ -1,0 +1,82 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 4/08/2024, 8:11:09 p. m.
+    Author     : Abelito
+*/
+
+@import url(variables.css);
+@import url(../componentes/header.css);
+@import url(../componentes/formulario.css);
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--blue3);
+    margin: 0;
+    padding: 0;
+}
+
+.header__search{
+    display: none;
+}
+
+.header__title{
+    display: flex;
+}
+
+.form__title{
+    position: relative;
+}
+
+.form__title::after{
+    content: "";
+    position: absolute;
+    background-color: var(--blugreen);
+    width: 80px;
+    height: 5px;
+    bottom: -5px;
+    left: 0;
+}
+
+.form__input{
+    border-color: var(--blue1);
+}
+
+.form__label--color{
+    color: var(--blue2);
+}
+
+.form__btn--bg{
+    height: var(--btn-height);
+    padding: var(--btn-pd);
+    border-radius: var(--radius);
+    border: 0;
+    background-color: var(--blue);
+    color: var(--blue3);
+    cursor: pointer;
+    align-self: center;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.form--width{
+    width: 800px;
+    max-width: 100% !important;
+}
+
+@media screen and (max-width: 900px) {
+    .form{
+        width: 100%;
+        box-sizing: border-box;
+
+    }
+    .form__group {
+        min-width: 100%;
+    }
+}

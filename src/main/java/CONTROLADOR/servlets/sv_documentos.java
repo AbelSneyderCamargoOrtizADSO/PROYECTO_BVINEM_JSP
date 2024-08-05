@@ -4,12 +4,12 @@
  */
 package CONTROLADOR.servlets;
 
-import MODELO.AsignaturaClass;
+import MODELO.categorias.AsignaturaClass;
 import MODELO.DocumentoClass;
 import MODELO.DocumentoDAO;
 import MODELO.FormDoc;
-import MODELO.IdiomaClass;
-import MODELO.TipoClass;
+import MODELO.categorias.IdiomaClass;
+import MODELO.categorias.TipoClass;
 import MODELO.usuarios.Validador;
 import java.io.File;
 import java.io.IOException;
@@ -125,26 +125,9 @@ public class sv_documentos extends HttpServlet {
 
         DocumentoDAO documentoDAO = new DocumentoDAO();
         DocumentoClass documento = new DocumentoClass();
-     
-        
-        // VALIDACIONES
-        String errorMessage = Validador.validarTitulo(titulo);
-        if (errorMessage == null) errorMessage = Validador.validarAutor(autor);
-        if (errorMessage == null) errorMessage = Validador.validarDescripcion(descripcion);       
-        if (errorMessage == null) errorMessage = Validador.validarYear(year);        
-
-        if (errorMessage != null) {
-            session.setAttribute("error", errorMessage);
-            response.sendRedirect(request.getHeader("Referer"));
-            return;
-        }
         
         documento.setId(idDocumento);
-        documento.setTitulo(titulo);
-        documento.setAutor(autor);
-        documento.setDescripcion(descripcion);
-        documento.setYear(year);
-
+        
         if (request.getParameter("eliminarDocumento") != null) {
             try {
                 documentoDAO.eliminarDocumento(documento);
@@ -167,19 +150,37 @@ public class sv_documentos extends HttpServlet {
 
                 System.out.println(rutaContexto);
                 session.setAttribute("success", "Documento o libro eliminado exitosamente");
-                response.sendRedirect("sv_documentos");
+                response.sendRedirect(request.getHeader("Referer"));
+                return;
             } catch (SQLException e) {
                 e.printStackTrace();
                 response.getWriter().print("Error: " + e.getMessage());
                 return;
             }
         }
+        
+        // VALIDACIONES
+        String errorMessage = Validador.validarTitulo(titulo);
+        if (errorMessage == null) errorMessage = Validador.validarAutor(autor);
+        if (errorMessage == null) errorMessage = Validador.validarDescripcion(descripcion);       
+        if (errorMessage == null) errorMessage = Validador.validarYear(year);        
+
+        if (errorMessage != null) {
+            session.setAttribute("error", errorMessage);
+            response.sendRedirect(request.getHeader("Referer"));
+            return;
+        }
+        
+        documento.setTitulo(titulo);
+        documento.setAutor(autor);
+        documento.setDescripcion(descripcion);
+        documento.setYear(year);
 
         if (request.getParameter("editDocumento") != null) {
             try {
                 documentoDAO.editarDocumento(documento);
                 session.setAttribute("success", "Documento actualizado exitosamente");
-                response.sendRedirect("sv_documentos");
+                response.sendRedirect(request.getHeader("Referer"));
             } catch (SQLException e) {
                 e.printStackTrace();
                 session.setAttribute("error", "Error al actualizar el documento: " + e.getMessage());

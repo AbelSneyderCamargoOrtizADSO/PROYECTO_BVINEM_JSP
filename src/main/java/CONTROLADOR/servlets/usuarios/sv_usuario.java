@@ -190,7 +190,13 @@ public class sv_usuario extends HttpServlet {
                 boolean isDocente = request.getParameter("editDocente") != null;
                 usuarioDAO.editarUsuario(docUsuario, usuario, isDocente);
                 session.setAttribute("success", "Datos del " + tipoUsuario + " actualizados correctamente");
-                response.sendRedirect(request.getHeader("Referer"));
+                
+                String referer = request.getHeader("Referer");
+                if (referer != null && referer.contains("sv_gestUsuario")) {
+                    response.sendRedirect("sv_usuario?tipoUsuario=" + tipoUsuario);
+                } else {
+                    response.sendRedirect(referer);
+                }
                 return;
             }
         } catch (SQLException e) {
@@ -209,8 +215,9 @@ public class sv_usuario extends HttpServlet {
                     request.setAttribute("success", "Estudiante registrado exitosamente, ahora puedes iniciar sesión");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 } else {
+                    request.setAttribute("usuario", usuario);
                     session.setAttribute("success", tipoUsuario + " registrado exitosamente");
-                    response.sendRedirect(request.getHeader("Referer"));
+                    request.getRequestDispatcher("vistas/vistas_admin/comprob_reg.jsp").forward(request, response);
                 }
                 return;
             }

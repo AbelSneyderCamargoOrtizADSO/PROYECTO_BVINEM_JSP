@@ -185,8 +185,10 @@ public class UsuarioDAO {
                 String correo = rs.getString("correo_usua");
                 String fecha_reg = rs.getString("fecha_registro");
                 int estadoId = rs.getInt("id_estado_fk");
+                int rol = rs.getInt("id_rol_fk");
 
-                usuarios.add(new UsuarioClass(id, nombres, apellidos, correo, fecha_reg, estadoId));
+
+                usuarios.add(new UsuarioClass(id, nombres, apellidos, correo, fecha_reg, estadoId, rol));
             }
         } catch (Exception e) {
             e.printStackTrace();

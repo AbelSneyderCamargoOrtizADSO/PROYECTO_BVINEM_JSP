@@ -165,3 +165,10 @@ if (inputPDF) {
         }
     });
 }
+
+export const habilitarBotonAlEntrada = (inputs, btn) => {
+    inputs.forEach(input => {
+        input.addEventListener("input", () => btn.disabled = false);
+    });
+};
+

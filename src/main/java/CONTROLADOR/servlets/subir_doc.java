@@ -4,12 +4,12 @@
  */
 package CONTROLADOR.servlets;
 
-import MODELO.AsignaturaClass;
+import MODELO.categorias.AsignaturaClass;
 import MODELO.DocumentoClass;
 import MODELO.DocumentoDAO;
 import MODELO.FormDoc;
-import MODELO.IdiomaClass;
-import MODELO.TipoClass;
+import MODELO.categorias.IdiomaClass;
+import MODELO.categorias.TipoClass;
 import MODELO.usuarios.Validador;
 import java.io.File;
 import java.io.IOException;

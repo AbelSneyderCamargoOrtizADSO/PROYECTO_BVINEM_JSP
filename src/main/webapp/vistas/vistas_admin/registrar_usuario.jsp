@@ -46,7 +46,7 @@
                         
                         <div class="form__group-container">
                             <div class="form__group">
-                                <label for="contrasena" class="form__label form__label--color">Cambiar contraseña</label>
+                                <label for="contrasena" class="form__label form__label--color">Contraseña</label>
                                 <input type="password" id="contrasena" class="form__input obligatorio" name="password">
                             </div>
                             <div class="form__group">

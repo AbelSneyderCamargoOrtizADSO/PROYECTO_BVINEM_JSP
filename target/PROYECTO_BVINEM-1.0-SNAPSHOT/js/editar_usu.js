@@ -13,6 +13,12 @@ let tipoUser = document.getElementById("tipoUsuario");
 let btnEnviar = document.getElementById("btnEnviar");
 const checkbox = document.getElementById('aceptarTerminos');
 const submitButton = document.getElementById('btnEnviar');
+const rol = document.getElementById("rol");
+const selectRol = document.querySelectorAll(".select__rol");
+
+selectRol.forEach(option => {
+    if (option.value === rol.value) option.selected = true;
+});
 
 document.addEventListener('DOMContentLoaded', function () {
 

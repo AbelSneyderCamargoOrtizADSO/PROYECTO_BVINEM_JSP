@@ -96,9 +96,9 @@ public class UsuarioDAO {
                 // Encriptar la nueva contraseña antes de actualizar
                 String hashedPassword = HashUtil.hashPassword(usuario.getPass());
                 usuario.setPass(hashedPassword);
-                queryUsuario = "UPDATE tb_usuarios SET doc_usua = ?, nom_usua = ?, ape_usua = ?, correo_usua = ?, password = ? WHERE doc_usua = ?";
+                queryUsuario = "UPDATE tb_usuarios SET doc_usua = ?, nom_usua = ?, ape_usua = ?, correo_usua = ?, password = ?, id_rol_fk = ? WHERE doc_usua = ?";
             } else {
-                queryUsuario = "UPDATE tb_usuarios SET doc_usua = ?, nom_usua = ?, ape_usua = ?, correo_usua = ? WHERE doc_usua = ?";
+                queryUsuario = "UPDATE tb_usuarios SET doc_usua = ?, nom_usua = ?, ape_usua = ?, correo_usua = ?, id_rol_fk = ? WHERE doc_usua = ?";
             }
             statement = conex.prepareStatement(queryUsuario);
             statement.setInt(1, usuario.getDocUsu());
@@ -107,9 +107,11 @@ public class UsuarioDAO {
             statement.setString(4, usuario.getCorreo());
             if (usuario.getPass() != null) {
                 statement.setString(5, usuario.getPass());
-                statement.setInt(6, docAnterior);
+                statement.setInt(6, usuario.getRol());
+                statement.setInt(7, docAnterior);
             } else {
-                statement.setInt(5, docAnterior);
+                statement.setInt(5, usuario.getRol());
+                statement.setInt(6, docAnterior);
             }
             statement.executeUpdate();
 

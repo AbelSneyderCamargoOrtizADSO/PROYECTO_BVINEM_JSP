@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -22,7 +23,7 @@
                     <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="form form__valid">
                         <a href="${pageContext.request.contextPath}/sv_usuario" class="form__cerrar"><i class="bi bi-x-circle-fill"></i></a>
                         <input type="hidden" name="userId" value="${usuario.docUsu}">
-                        <input type="hidden" name="action" value="${action}">
+                        <input type="hidden" id="rol" value="${usuario.rol}">
                         <input id="tipoUsuario" type="hidden" name="tipoUsuario" value="${tipoUser}">
                         <div class="form__group">
                             <label for="documento" class="form__label">Documento de Identidad</label>
@@ -49,11 +50,21 @@
                             <input type="password" id="confirContra" class="form__input" name="confirmPass">
                         </div>
                         <div class="form__group">
+                            <span><b>Rol actual:</b> ${tipoUser}</span>
+                        </div>
+                        <div class="form__group">
+                            <label for="cambiarRol" class="form__label">Cambiar rol</label>
+                            <select class="form__select obligatorio" name="rol" id="cambiarRol">
+                                <c:if test="${rol == '4'}">
+                                    <option class="select__rol" value="3">Administrador</option>
+                                </c:if>
+                                <option class="select__rol" value="2">Docente</option>
+                                <option class="select__rol" value="1">Estudiante</option>
+                            </select>
+                        </div>
+                        <div class="form__group">
                             <span><b>Fecha de registro:</b> ${usuario.fechaRegistro}</span>
                         </div> 
-                        <div class="form__group">
-                            <span><b>Rol:</b> ${tipoUser}</span>
-                        </div>
                         <div class="form__group">
                             <label for="aceptarTerminos" class="form__label">
                                 <input type="checkbox" id="aceptarTerminos" name="aceptarTerminos" required>

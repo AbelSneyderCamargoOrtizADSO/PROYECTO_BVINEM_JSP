@@ -18,4 +18,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     align-self: center;
 }
 
+.btn--hover:hover {
+    opacity: .8;
+    transform: scale(1.05);
+}
 
+.btn--third {
+    height: var(--btn-height);
+    padding: var(--btn-pd);
+    border-radius: var(--radius);
+    background-color: var(--blue2);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: var(--text-sz);
+    transition: filter 0.3s ease, transform 0.2s ease;
+}
+
+.btn--third:hover {
+    filter: contrast(120%);
+    transform: scale(1.05);
+}

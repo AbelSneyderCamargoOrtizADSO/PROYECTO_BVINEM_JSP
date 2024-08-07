@@ -188,9 +188,12 @@ public class sv_usuario extends HttpServlet {
             if (request.getParameter("editDocente") != null || request.getParameter("editEstudiante") != null || request.getParameter("editAdmin") != null) {
                 int docUsuario = Integer.parseInt(docUsuStr);
                 int rol = Integer.parseInt(request.getParameter("rol"));
+                String tipoEdicion = request.getParameter("tipoEdicion");
+                
                 usuario.setRol(rol);
                 boolean isDocente = request.getParameter("editDocente") != null;
                 usuarioDAO.editarUsuario(docUsuario, usuario, isDocente);
+                if ("misDatos".equals(tipoEdicion)) session.setAttribute("UserDoc", NewdocUsuStr);
                 session.setAttribute("success", "Datos del " + tipoUsuario + " actualizados correctamente");
                 
                 String referer = request.getHeader("Referer");

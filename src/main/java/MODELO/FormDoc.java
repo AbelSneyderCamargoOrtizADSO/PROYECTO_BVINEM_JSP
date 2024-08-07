@@ -32,7 +32,7 @@ public class FormDoc {
         ResultSet rs = null;
 
         // Definir la consulta SQL para obtener las asignaturas
-        String sql = "SELECT id_asig, nom_asig FROM tb_asignaturas";
+        String sql = "SELECT * FROM tb_asignaturas WHERE estado = true";
 
         try {
             // Obtener una conexión a la base de datos
@@ -51,9 +51,10 @@ public class FormDoc {
 
                 // Obtener el valor de la columna 'nom_asig' del resultado actual
                 String nombre = rs.getString("nom_asig");
+                boolean estado = rs.getBoolean("estado");
 
                 // Crear un nuevo objeto AsignaturaClass usando los valores obtenidos y agregarlo a la lista
-                asignaturas.add(new AsignaturaClass(id, nombre));
+                asignaturas.add(new AsignaturaClass(id, nombre, estado));
             }
         } catch (Exception e) {
             // Capturar cualquier excepción que pueda ocurrir y imprimir el stack trace
@@ -79,7 +80,7 @@ public class FormDoc {
         PreparedStatement stat = null;
         ResultSet rs = null;
 
-        String sql = "SELECT id_idioma, nom_idioma FROM tb_idiomas";
+        String sql = "SELECT * FROM tb_idiomas WHERE estado = true";
 
         try {
             // Obtener una conexión a la base de datos
@@ -94,7 +95,9 @@ public class FormDoc {
             while (rs.next()) {
                 int id = rs.getInt("id_idioma");
                 String nombre = rs.getString("nom_idioma");
-                idiomas.add(new IdiomaClass(id, nombre));
+                boolean estado = rs.getBoolean("estado");
+
+                idiomas.add(new IdiomaClass(id, nombre, estado));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +121,7 @@ public class FormDoc {
         PreparedStatement stat = null;
         ResultSet rs = null;
 
-        String sql = "SELECT id_tipo, nom_tipo FROM tb_tipo_doc";
+        String sql = "SELECT * FROM tb_tipo_doc WHERE estado = true";
 
         try {
             // Obtener una conexión a la base de datos
@@ -133,7 +136,9 @@ public class FormDoc {
             while (rs.next()) {
                 int id = rs.getInt("id_tipo");
                 String nombre = rs.getString("nom_tipo");
-                tipos.add(new TipoClass(id, nombre));
+                boolean estado = rs.getBoolean("estado");
+
+                tipos.add(new TipoClass(id, nombre, estado));
             }
         } catch (Exception e) {
             e.printStackTrace();

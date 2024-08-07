@@ -10,7 +10,7 @@ import MODELO.categorias.IdiomaClass;
 import MODELO.foros.FormForo;
 import MODELO.foros.ForoClass;
 import MODELO.foros.ForoDAO;
-import MODELO.foros.TipoForoClass;
+import MODELO.categorias.TipoForoClass;
 import MODELO.usuarios.Validador;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -127,6 +127,7 @@ public class subir_foro extends HttpServlet {
         if (request.getParameter("enviar") != null) {
             try {
                 forodao.subirForo(foro);
+                session.setAttribute("success", "Foro publicado correctamente");
                 response.sendRedirect("sv_foros");
             } catch (Exception error) {
                 error.printStackTrace();

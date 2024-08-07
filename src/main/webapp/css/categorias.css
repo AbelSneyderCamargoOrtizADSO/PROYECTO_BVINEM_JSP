@@ -1,0 +1,68 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 5/08/2024, 10:38:05 p. m.
+    Author     : Abelito
+*/
+@import url(variables.css);
+@import url(../componentes/header.css);
+@import url(../componentes/tabla.css);
+@import url(../componentes/modal.css);
+@import url(../componentes/botones.css);
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--blueadmin);
+}
+
+.header__search {
+    display: none;
+}
+
+.header__title {
+    display: flex;
+}
+
+.container{
+    max-width: var(--box-Smallwidth);
+    margin: 40px auto;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.container__top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.container__btn{
+    display: flex;
+    align-items: center;
+    width: max-content;
+    text-decoration: none;
+}
+
+.display--none {
+    display: none;
+}
+
+.modal__btn--wd{
+    width: 100%;
+}
+
+.modal__content--wd{
+    width: 400px;
+}
+
+

@@ -6,6 +6,7 @@
     --yellow2: #D1B400;
     --yellow3: #FAED00;
     --yellow4: #F9FFC2;
+    --yellow-btn: #f0ad4e;
 
     --green: #012D1E;
     --green1: #007C4C;
@@ -21,14 +22,14 @@
     --bluefil: #88CAF1;
     --blueadmin: #f0f8ff;
     
-    
     --blugreen: #009696;
-
+    
+    --red: #d9534f;
     
     --title-sz: 35px;
     --title2-sz: 30px;
     --subtitle-sz: 22px;
-    --text-sz: clamp(14px, 2vw, 16px);;
+    --text-sz: clamp(14px, 2vw, 16px);
 
     --header-h: 85px;
     --filters-h: 150px;
@@ -42,6 +43,7 @@
     --search-pd: 10px 10px 10px 15px;
 
     --box-width: 1200px;
+    --box-Smallwidth: 600px;
 
     --radius: 10px;
 }

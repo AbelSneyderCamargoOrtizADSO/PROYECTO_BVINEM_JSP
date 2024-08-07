@@ -34,9 +34,11 @@
                         <a href="${pageContext.request.contextPath}/sv_documentos" class="form__cerrar"><i class="bi bi-x-circle-fill"></i></a>
                         <input type="hidden" name="userId" value="${usuario.docUsu}">
                         <input id="tipoUsuario" type="hidden" name="tipoUsuario" value="${rol}">
+                        <input id="rolUsu" type="hidden" name="rol" value="${rol}">
+                        <input type="hidden" name="tipoEdicion" value="misDatos">
                         <div class="form__group">
                             <label for="documento" class="form__label">Documento de Identidad</label>
-                            <input type="text" id="documento" class="form__input solo-numeros obligatorio" value="${usuario.docUsu}" name="nuevoDoc">
+                            <input type="text" id="documento" class="form__input solo-numeros obligatorio" value="${usuario.docUsu}" name="nuevoDoc" maxlength="10">
                         </div>
                         <div class="form__group">
                             <label for="nombres" class="form__label">Nombres</label>

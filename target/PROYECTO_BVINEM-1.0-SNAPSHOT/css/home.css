@@ -160,7 +160,7 @@ body{
 .eliminarDoc{
     position: absolute;
     top: 5px;
-    z-index: 999;
+    z-index: 998;
     left: 8px;
     border: none;
     cursor: pointer;
@@ -176,7 +176,7 @@ body{
     background-color: lightgoldenrodyellow;
     border-radius: 60%;
     top: 5px;
-    z-index: 999;
+    z-index: 998;
     left: 55px;
 }
 .container{

@@ -14,6 +14,12 @@ import java.sql.*;
  */
 public class Validador {
 
+    private static Conexion conexion;
+
+    static {
+        conexion = new Conexion();
+    }
+
     /**
      * Valida el documento del usuario.
      *
@@ -93,7 +99,6 @@ public class Validador {
     }
 
     public static String validarCorreoEnUso(String correo, int docActual) {
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -124,7 +129,6 @@ public class Validador {
     }
 
     public static String validarDocumentoEnUso(String documento) {
-        Conexion conexion = new Conexion();
         Connection conex = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -161,49 +165,98 @@ public class Validador {
         if (tit.length() > 50) {
             return "El título debe tener maximo 50 caracteres";
         }
-        return null; 
+        return null;
     }
 
     public static String validarDescripcion(String descrip) {
         if (descrip == null || descrip.trim().isEmpty() || descrip.equals("<p><br></p>")) {
             return "La descripción no puede estar vacía";
         }
-        return null; 
+        return null;
     }
 
     public static String validarAsignatura(String asig) {
         if (asig == null || asig.trim().isEmpty()) {
             return "Por favor, seleccione la asignatura";
         }
-        return null; 
+        return null;
     }
 
     public static String validarIdioma(String idioma) {
         if (idioma == null || idioma.trim().isEmpty()) {
             return "Por favor, seleccione el idioma";
         }
-        return null; 
+        return null;
     }
 
     public static String validarTipoForo(String tipo) {
         if (tipo == null || tipo.trim().isEmpty()) {
             return "Por favor, seleccione el tipo";
         }
-        return null; 
+        return null;
     }
-    
+
     // DOCUMENTOS - LIBROS
     public static String validarAutor(String autor) {
         if (autor == null || autor.trim().isEmpty()) {
             return "Por favor, ingrese el autor";
         }
-        return null; 
+        return null;
     }
-    
+
     public static String validarYear(String year) {
         if (year == null || year.trim().isEmpty()) {
             return "Por favor, ingrese el año de publicación";
         }
-        return null; 
+        return null;
     }
+
+    public static String validarCategoria(String nombre, String tipoCategoria, int id) {
+        Connection conex = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        boolean existe = false;
+
+        try {
+            conex = conexion.Conexion();
+            String query = "";
+            switch (tipoCategoria) {
+                case "asignatura":
+                    query = "SELECT id_asig FROM tb_asignaturas WHERE nom_asig = ?";
+                    break;
+                case "idioma":
+                    query = "SELECT id_idioma FROM tb_idiomas WHERE nom_idioma = ?";
+                    break;
+                case "tipo documento":
+                    query = "SELECT id_tipo FROM tb_tipo_doc WHERE nom_tipo = ?";
+                    break;
+                case "tipo foro":
+                    query = "SELECT id_tp_foro FROM tb_tipo_foro WHERE nom_tp_foro = ?";
+                    break;
+            }
+
+            statement = conex.prepareStatement(query);
+            statement.setString(1, nombre);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int existeconeseId = resultSet.getInt(1); // Obtiene el ID del registro encontrado
+                if (existeconeseId != id) { // Compara con el ID del registro actual para ver si es un registro diferente
+                    existe = true; // Indica que ya existe otro registro con el mismo nombre
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Error al verificar la categoría: " + e.getMessage();
+        } finally {
+            conexion.close(conex, statement, resultSet);
+        }
+
+        if (existe) {
+            return tipoCategoria + " ya existente";
+        }
+        return null; // No hay errores
+    }
+
 }

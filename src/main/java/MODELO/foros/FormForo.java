@@ -4,6 +4,7 @@
  */
 package MODELO.foros;
 
+import MODELO.categorias.TipoForoClass;
 import MODELO.Conexion;
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class FormForo {
         PreparedStatement stat = null;
         ResultSet rs = null;
 
-        String sql = "SELECT * FROM tb_tipo_foro";
+        String sql = "SELECT * FROM tb_tipo_foro WHERE estado = true";
 
         try {
             // Obtener una conexión a la base de datos
@@ -41,7 +42,9 @@ public class FormForo {
             while (rs.next()) {
                 int id = rs.getInt("id_tp_foro");
                 String nombre = rs.getString("nom_tp_foro");
-                tiposforo.add(new TipoForoClass(id, nombre));
+                boolean estado = rs.getBoolean("estado");
+
+                tiposforo.add(new TipoForoClass(id, nombre, estado));
             }
         } catch (Exception e) {
             e.printStackTrace();

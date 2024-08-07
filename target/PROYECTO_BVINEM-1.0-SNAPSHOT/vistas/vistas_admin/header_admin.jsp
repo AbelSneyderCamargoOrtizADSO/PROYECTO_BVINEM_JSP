@@ -44,6 +44,10 @@
                         <a href="${pageContext.request.contextPath}/sv_editPerfil" class="nav__link"><i class="bi bi-pen-fill"></i>
                             Editar mis datos</a>
                     </li>
+                    <li class="nav__list">
+                        <a href="${pageContext.request.contextPath}/sv_categorias" class="nav__link"><i class="bi bi-tags-fill"></i>
+                            Editar categorias</a>
+                    </li>
                 </ul>
             </nav>
         </div>

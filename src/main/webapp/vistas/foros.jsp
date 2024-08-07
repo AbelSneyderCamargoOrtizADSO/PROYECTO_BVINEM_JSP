@@ -79,6 +79,7 @@
     </body>
 
     <!-- EVITAR ENVIO DE FORMULARIO CON FILTROS VACIOS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.getElementById('filter__form').addEventListener('submit', function (event) {
             // Obtener todos los select del formulario
@@ -91,6 +92,18 @@
                 }
             });
         });
-    </script>
 
+        // Mostrar SweetAlert si hay un mensaje de error en la sesión
+        window.addEventListener('load', function () {
+            const successMessage = '<%= session.getAttribute("success")%>';
+            if (successMessage && successMessage !== 'null') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: successMessage,
+                });
+                <% session.removeAttribute("success");%>
+            }
+        });
+    </script>
 </html>

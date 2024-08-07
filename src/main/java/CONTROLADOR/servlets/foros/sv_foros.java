@@ -10,7 +10,7 @@ import MODELO.categorias.IdiomaClass;
 import MODELO.foros.FormForo;
 import MODELO.foros.ForoClass;
 import MODELO.foros.ForoDAO;
-import MODELO.foros.TipoForoClass;
+import MODELO.categorias.TipoForoClass;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;

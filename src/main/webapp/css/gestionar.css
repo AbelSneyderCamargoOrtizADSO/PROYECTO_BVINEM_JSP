@@ -10,6 +10,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 @import url(../css/variables.css);
 @import url(../componentes/header.css);
 @import url(../componentes/pagination.css);
+@import url(../componentes/tabla.css);
 
 body {
     font-family: Arial, sans-serif;
@@ -48,61 +49,6 @@ body {
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 10px;
-}
-
-/* TABLA */
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.table__head, .table__body {
-    width: 100%;
-}
-
-.table__row {
-    border: 1px solid #dddddd;
-}
-
-.table__header, .table__cell {
-    padding: 12px;
-    text-align: left;
-}
-
-.table__cell-display{
-    display: flex;
-    justify-content: start;
-    gap: 10px;
-}
-
-.table__header {
-    background-color: #4682b4;
-    color: #ffffff;
-}
-
-.table__row:nth-child(odd) {
-    background-color: #f9f9f9;
-}
-
-.table__row:nth-child(even) {
-    background-color: var(--blue3);
-}
-
-.table__row--bg:nth-child(odd){
-    background-color: #f9f9f9;
-}
-
-.table__row--bg:nth-child(even){
-    background-color: var(--green3);
-}
-
-.table__row--bg2:nth-child(odd){
-    background-color: #f9f9f9;
-}
-
-.table__row--bg2:nth-child(even){
-    background-color: #c7fff9;
 }
 
 /* BOTONES */
@@ -173,85 +119,6 @@ body {
 
 .blue{
   background-color: var(--blugreen);  
-}
-
-/*  MODAL  */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal__content {
-    background-color: #ffffff;
-    margin: 6% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 800px;
-    max-width: 80vw;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.modal__close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.modal__title{
-    text-align: center;
-}
-
-.modal__close:hover,
-.modal__close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* FORMULARIO */
-.form {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-}
-
-.form__label {
-    margin-top: 20px;
-    color: #4682b4;
-}
-
-.form__input {
-    padding: 10px 15px;
-    margin-top: 5px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.form__button {
-    margin-top: 20px;
-    align-self: center;
-    height: var(--btn-height);
-    padding: var(--btn-pd);
-    background-color: #4682b4;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.form__button:hover {
-    background-color: #5a9bd4;
 }
 
 .display-none{
@@ -348,47 +215,6 @@ body {
         justify-content: center;
         gap: 0;
     }
-
-    .table{
-        width: 100%;
-    }
-
-    .table__body{
-        width: 100%;
-    }
-
-    .table__head {
-        display: none;
-    }
-
-    .table__row {
-        margin-bottom: 15px;
-    }
-
-    .table__cell {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0;
-        border-bottom: 1px solid #dddddd;
-        padding-right: 10px;
-    }
-
-    .table__cell::before {
-        content: attr(data-label);
-        font-weight: bold;
-        background-color: #4682b4;
-        color: #ffffff;
-        height: 30px;
-        width: 120px;
-        padding: 10px;
-        display: flex;
-        align-items: center;
-    }
-
-    .table__cell--bg::before{
-        background-color: var(--greenh);
-    }
 }
 
 @media (max-width: 430px) {
@@ -397,17 +223,5 @@ body {
         padding: 30px 10px;
         margin: 30px 0;
         width: 100vw;
-    }
-
-    .table{
-        font-size: 14px;
-    }
-
-    .table__btn{
-        padding: 10px 15px;
-    }
-
-    .table__cell::before {
-        width: 75px;
     }
 }

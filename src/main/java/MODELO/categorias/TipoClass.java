@@ -8,20 +8,12 @@ package MODELO.categorias;
  *
  * @author Abelito
  */
-public class TipoClass {
-    private int id;
-    private String nombre;
-
-    public TipoClass(int id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
+public class TipoClass extends CategoriaClass{
+    public TipoClass() {
+        super();
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getNombre() {
-        return nombre;
+    
+    public TipoClass(int id, String nombre, boolean estado) { // Lo que hace es llamar al cosntructor de la clase padre y asignarle a este constructor las variables de id y nombre, para que se le asignen a la clase categoria (como si fuese por set)
+        super(id, nombre, estado); // Llama al constructor de la clase padre y asigna los valores
     }
 }

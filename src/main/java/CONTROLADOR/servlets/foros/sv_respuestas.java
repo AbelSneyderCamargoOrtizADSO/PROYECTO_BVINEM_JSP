@@ -48,7 +48,13 @@ public class sv_respuestas extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession(false);
+        
+        if (session == null || session.getAttribute("logueado") == null) {
+            request.setAttribute("error", "Por favor, inicie sesión.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        }
     }
 
     /**

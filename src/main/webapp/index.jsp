@@ -5,8 +5,21 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+    // Desactivar la caché del navegador, asegurando que siempre se solicite una versión nueva de la página desde el servidor
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+    response.setDateHeader("Expires", 0); // Proxies  
+%>
+
 <!DOCTYPE html>
 <html lang="en">
+    <c:choose>
+        <c:when test="${not empty sessionScope.logueado}">
+            <c:redirect url="/sv_documentos"/>
+        </c:when>
+    </c:choose>
 
     <head>
         <meta charset="UTF-8">
@@ -68,7 +81,7 @@
 
                     <form action="sv_login" method="POST" class="container__form container__form--doc form__valid">
                         <h2 class="form__title form__title--doc">DOCENTE</h2>
-                        
+
                         <div class="form__group">
                             <input type="text" class="form__input form__input--doc solo-numeros obligatorio" placeholder="Documento de identidad" name="dni" maxlength="10">
                         </div>
@@ -103,7 +116,7 @@
 
         </main>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        
+
         <script>
             // Mostrar SweetAlert si hay un mensaje de error en la sesión
             window.addEventListener('load', function () {
@@ -114,9 +127,9 @@
                         title: 'Error',
                         text: errorMessage,
                     });
-                    <% request.removeAttribute("error");%>
+            <% request.removeAttribute("error");%>
                 }
-                
+
                 const successMessage = '<%= request.getAttribute("success")%>';
                 if (successMessage && successMessage !== 'null') {
                     Swal.fire({
@@ -124,7 +137,7 @@
                         title: 'Éxito',
                         text: successMessage,
                     });
-                    <% request.removeAttribute("success");%>
+            <% request.removeAttribute("success");%>
                 }
             });
         </script>
@@ -168,7 +181,7 @@
             });
         </script>
     </body>
-    
+
     <script src="${pageContext.request.contextPath}/js/validaciones.js" type="module"></script>
 
 </html>

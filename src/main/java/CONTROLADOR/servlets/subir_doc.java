@@ -65,7 +65,7 @@ public class subir_doc extends HttpServlet {
             request.setAttribute("error", "Por favor, inicie sesión.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
             return;
-        } else if(session.getAttribute("rol") == "1" || session.getAttribute("rol") == "3"){
+        } else if(!(session.getAttribute("rol").equals("2")) && !(session.getAttribute("rol").equals("4"))) {
             session.setAttribute("error", "Solo se permite el ingreso de docentes");
             response.sendRedirect("sv_documentos");
             return;

@@ -11,17 +11,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Abelito
+ * Clase que maneja las operaciones de la base de datos relacionadas con los usuarios.
+ * Utiliza la clase {@link Conexion} para manejar las conexiones a la base de datos.
+ * 
+ * @see Conexion
+ * @see UsuarioClass
+ * @see HashUtil
+ * 
+ * @author Abel Camargo
  */
 public class UsuarioDAO {
    
     private Conexion conexion;
     
+    /**
+     * Constructor que inicializa el objeto de conexión.
+     */
     public UsuarioDAO() {
         this.conexion = new Conexion();
     }
-
+    
+    /**
+     * Método para agregar un nuevo usuario a la base de datos.
+     * 
+     * @param usuario El objeto {@link UsuarioClass} que contiene los datos del usuario.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void agregarUsuario(UsuarioClass usuario) throws SQLException {
         Connection conex = null;
         PreparedStatement statUsuario = null;
@@ -52,7 +67,15 @@ public class UsuarioDAO {
             conexion.close(conex, statUsuario, null);
         }
     }
-
+    
+    /**
+     * Método para editar un usuario existente en la base de datos.
+     * 
+     * @param docAnterior El documento de identificación anterior del usuario.
+     * @param usuario El objeto {@link UsuarioClass} que contiene los datos actualizados del usuario.
+     * @param actualizarDocumentos Indica si se deben actualizar los documentos asociados al usuario.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void editarUsuario(int docAnterior, UsuarioClass usuario, boolean actualizarDocumentos) throws SQLException {
         Connection conex = null;
         PreparedStatement statement = null;
@@ -61,7 +84,11 @@ public class UsuarioDAO {
 
         try {
             conex = conexion.Conexion();
-            conex.setAutoCommit(false);
+            // La transaccion sirve para ejecutar en bloque varias sentencias relacionadas, manteniendo principios, tratando las sentancias como un unico bloque, si una sale mal la otra falla
+            // Desactivar el autocommit para manejar la transacción manualmente.
+            // Esto permite ejecutar varias sentencias SQL como una sola transacción.
+            // Si una sentencia falla, se pueden revertir todas las operaciones de la transacción.
+            conex.setAutoCommit(false); // Desactivar el autocommit para manejar la transacción manualmente
 
             // Deshabilitar la verificación de claves foráneas
             disableFKChecks = conex.prepareStatement("SET FOREIGN_KEY_CHECKS=0");
@@ -118,10 +145,15 @@ public class UsuarioDAO {
             // Habilitar la verificación de claves foráneas
             enableFKChecks = conex.prepareStatement("SET FOREIGN_KEY_CHECKS=1");
             enableFKChecks.executeUpdate();
-
+            
+            // Confirmar la transacción.
+            // Esto asegura que todas las operaciones realizadas en la transacción se hagan efectivas en la base de datos.
+            // CONFIRMA CAMBIOS
             conex.commit();
         } catch (SQLException e) {
             if (conex != null) {
+                // Revertir la transacción en caso de error.
+                // Esto deshace todas las operaciones realizadas en la transacción actual.
                 conex.rollback();
             }
             e.printStackTrace();
@@ -137,8 +169,15 @@ public class UsuarioDAO {
             conexion.close(conex, statement, null);
         }
     }
-
-    public void cambiarEstadoUsuario(UsuarioClass docente, int estado) throws SQLException {
+    
+    /**
+     * Método para cambiar el estado de un usuario (habilitado/inhabilitado).
+     * 
+     * @param usuario El objeto {@link UsuarioClass} que representa el usuario cuyo estado se va a cambiar.
+     * @param estado El nuevo estado del usuario (0 para inhabilitado, 1 para habilitado).
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
+    public void cambiarEstadoUsuario(UsuarioClass usuario, int estado) throws SQLException {
         Connection conex = null;
         PreparedStatement statUsuario = null;
 
@@ -147,22 +186,42 @@ public class UsuarioDAO {
             String query = "UPDATE tb_usuarios SET id_estado_fk = ? WHERE doc_usua = ?";
             statUsuario = conex.prepareStatement(query);
             statUsuario.setInt(1, estado);
-            statUsuario.setInt(2, docente.getDocUsu());
+            statUsuario.setInt(2, usuario.getDocUsu());
             statUsuario.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
         }
     }
-
-    public void inhabilitarUsuario(UsuarioClass docente) throws SQLException {
-        cambiarEstadoUsuario(docente, 0);
+    
+    /**
+     * Método para inhabilitar un usuario.
+     * 
+     * @param usuario El objeto {@link UsuarioClass} que representa el usuario que se va a inhabilitar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
+    public void inhabilitarUsuario(UsuarioClass usuario) throws SQLException {
+        cambiarEstadoUsuario(usuario, 0);
     }
-
-    public void habilitarUsuario(UsuarioClass docente) throws SQLException {
-        cambiarEstadoUsuario(docente, 1);
+    
+    /**
+     * Método para habilitar un usuario.
+     * 
+     * @param usuario El objeto {@link UsuarioClass} que representa el usuario que se va a habilitar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
+    public void habilitarUsuario(UsuarioClass usuario) throws SQLException {
+        cambiarEstadoUsuario(usuario, 1);
     }
-
+    
+    /**
+     * Método privado para ejecutar una consulta SQL y retornar una lista de usuarios.
+     * 
+     * @param query La consulta SQL a ejecutar.
+     * @param parametro1 El primer parámetro de la consulta SQL.
+     * @param parametro2 El segundo parámetro de la consulta SQL (puede ser null).
+     * @return Una lista de objetos {@link UsuarioClass} que cumplen con los criterios de la consulta.
+     */
     private List<UsuarioClass> mostrarUsuarios(String query, int parametro1, String parametro2) {
         List<UsuarioClass> usuarios = new ArrayList<>();
         Connection conex = null;
@@ -200,12 +259,25 @@ public class UsuarioDAO {
 
         return usuarios;
     }
-
+    
+    /**
+     * Método para listar todos los usuarios de un rol específico.
+     * 
+     * @param rol El rol de los usuarios que se desea listar.
+     * @return Una lista de objetos {@link UsuarioClass} que pertenecen al rol especificado.
+     */
     public List<UsuarioClass> listarUsuarios(int rol) {
         String query = "SELECT * FROM tb_usuarios WHERE id_rol_fk = ? ORDER BY fecha_registro DESC";
         return mostrarUsuarios(query, rol, null);
     }
-
+    
+    /**
+     * Método para buscar un usuario por su documento de identificación.
+     * 
+     * @param rol El rol de los usuarios que se desea buscar.
+     * @param docUsuario El documento de identificación del usuario que se desea buscar.
+     * @return Una lista de objetos {@link UsuarioClass} que cumplen con los criterios de búsqueda.
+     */
     public List<UsuarioClass> buscarUsuarioPorDocumento(int rol, String docUsuario) {
         String query = "SELECT * FROM tb_usuarios WHERE id_rol_fk = ? AND doc_usua LIKE ?";
         return mostrarUsuarios(query,rol, docUsuario + "%");

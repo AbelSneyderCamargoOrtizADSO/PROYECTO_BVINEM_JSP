@@ -10,16 +10,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Abelito
+ * Clase que maneja las operaciones de la base de datos relacionadas con las respuestas de los foros.
+ * Utiliza la clase {@link Conexion} para manejar las conexiones a la base de datos.
+ * 
+ * @author Abel Camargo
+ * @see Conexion
+ * @see RespuestaClass
+ * @see ForoClass
  */
+
 public class RespuestaForoDAO {
     private Conexion conexion;
     
+    /**
+     * Constructor que inicializa el objeto de conexión.
+     */
     public RespuestaForoDAO() {
         this.conexion = new Conexion();
     }
-
+    
+    /**
+     * Método para subir una nueva respuesta al foro.
+     * 
+     * @param respuesta El objeto {@link RespuestaClass} que contiene los datos de la respuesta.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void subirRespuesta(RespuestaClass respuesta) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -42,9 +57,16 @@ public class RespuestaForoDAO {
             conexion.close(conex, stat, null);
         }
     }
-
+    
+    /**
+     * Método para obtener una lista de respuestas de un foro específico.
+     * 
+     * @param foro El objeto {@link ForoClass} que representa el foro.
+     * @return Una lista de objetos {@link RespuestaClass} que contiene las respuestas del foro.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public List<RespuestaClass> mostrarRespuestasPorForo(ForoClass foro) throws SQLException {
-        List<RespuestaClass> respuestas = new ArrayList<>();
+        List<RespuestaClass> respuestas = new ArrayList<>(); // Crea una nueva lista de objetos RespuestaClass utilizando ArrayList para almacenar las respuestas del foro.
         Connection conex = null;
         PreparedStatement stat = null;
         ResultSet rs = null;
@@ -71,9 +93,11 @@ public class RespuestaForoDAO {
                 String nombreUsuario = rs.getString("nom_usua") + " " + rs.getString("ape_usua");
                 String rolUsuario = rs.getString("nom_rol");
                 int usuarioId = rs.getInt("doc_usua_fk");
-
+                
+                // Crea una nueva instancia del objeto RespuestaClass con los datos obtenidos de la base de datos:
+                // idRespu, contenido, fechaPublic, nombreUsuario, rolUsuario y usuarioId.
                 RespuestaClass respuesta = new RespuestaClass(idRespu, contenido, fechaPublic, nombreUsuario, rolUsuario, usuarioId);
-                respuestas.add(respuesta);
+                respuestas.add(respuesta); // Añade la respuesta creada a la lista de respuestas.
             }
 
         } catch (SQLException e) {
@@ -85,7 +109,13 @@ public class RespuestaForoDAO {
 
         return respuestas;
     }
-
+    
+    /**
+     * Método para editar una respuesta existente en el foro.
+     * 
+     * @param respuesta El objeto {@link RespuestaClass} que contiene los datos actualizados de la respuesta.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void editarRespuesta(RespuestaClass respuesta) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -106,6 +136,12 @@ public class RespuestaForoDAO {
         }
     }
     
+    /**
+     * Método para eliminar una respuesta del foro.
+     * 
+     * @param respuesta El objeto {@link RespuestaClass} que representa la respuesta a eliminar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void eliminarRespuesta(RespuestaClass respuesta) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;

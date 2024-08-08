@@ -11,19 +11,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Abelito
+ * Clase que maneja las búsquedas de documentos y foros en la base de datos.
+ * Utiliza la clase {@link Conexion} para manejar las conexiones a la base de datos.
+ * 
+ * @see Conexion
+ * @see DocumentoClass
+ * @see ForoClass
  */
 public class BusquedaClass {
 
     private Conexion conexion;
-
+    
+    /**
+     * Constructor que inicializa el objeto de conexión.
+     */
     public BusquedaClass() {
         this.conexion = new Conexion();
     }
-
+    
+    /**
+     * Método para buscar documentos en la base de datos.
+     * 
+     * @param query La cadena de búsqueda para filtrar documentos por título.
+     * @return Una lista de objetos {@link DocumentoClass} que coincide con la búsqueda.
+     */
     public List<DocumentoClass> buscarDocumentos(String query) {
-        List<DocumentoClass> documentos = new ArrayList<>();
+        List<DocumentoClass> documentos = new ArrayList<>(); // Crear una lista vacía para almacenar los documentos que se obtendrán de la base de datos
         Connection conex = null;
         PreparedStatement stat = null;
         ResultSet rs = null;
@@ -33,7 +46,7 @@ public class BusquedaClass {
                 + "JOIN tb_idiomas ON tb_documento.id_idioma_fk = tb_idiomas.id_idioma "
                 + "JOIN tb_asignaturas ON tb_documento.id_asig_fk = tb_asignaturas.id_asig "
                 + "JOIN tb_tipo_doc ON tb_documento.id_tipo_fk = tb_tipo_doc.id_tipo "
-                + "WHERE tb_documento.titulo LIKE ? "
+                + "WHERE tb_documento.titulo LIKE ? " // El LIKE en SQL se usa para encontrar filas donde el valor de una columna coincide parcialmente con un patrón. 
                 + "ORDER BY tb_documento.fecha_carga DESC";
 
         try {
@@ -55,7 +68,7 @@ public class BusquedaClass {
                 int userDoc = rs.getInt("doc_docente_fk");
                 String archivoPDF = rs.getString("archivo");
 
-                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idioma, asignatura, tipo, miniatura, userDoc, archivoPDF));
+                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idioma, asignatura, tipo, miniatura, userDoc, archivoPDF)); // Crear un nuevo objeto DocumentoClass usando los valores obtenidos y agregarlo a la lista
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,7 +78,13 @@ public class BusquedaClass {
 
         return documentos;
     }
-
+    
+    /**
+     * Método para buscar foros en la base de datos.
+     * 
+     * @param query La cadena de búsqueda para filtrar foros por título.
+     * @return Una lista de objetos {@link ForoClass} que coincide con la búsqueda.
+     */
     public List<ForoClass> buscarForos(String query) {
         List<ForoClass> foros = new ArrayList<>();
         Connection conex = null;

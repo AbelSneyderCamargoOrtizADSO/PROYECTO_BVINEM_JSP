@@ -61,7 +61,8 @@ public class sv_usuario extends HttpServlet {
             response.sendRedirect("sv_documentos");
             return;
         }
-
+        
+        // MOSTRAR LA LISTA DE USUARIOS POR ROL
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 
         String tipoUsuario = request.getParameter("tipoUsuario");
@@ -220,7 +221,7 @@ public class sv_usuario extends HttpServlet {
                     request.setAttribute("success", "Estudiante registrado exitosamente, ahora puedes iniciar sesión");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 } else {
-                    request.setAttribute("usuario", usuario);
+                    request.setAttribute("usuario", usuario); // ATRIBUTO USUARIO PARA MOSTRAR LOS DATOS EN COMPROBANTE DE REGISTRO
                     session.setAttribute("success", tipoUsuario + " registrado exitosamente");
                     request.getRequestDispatcher("vistas/vistas_admin/comprob_reg.jsp").forward(request, response);
                 }

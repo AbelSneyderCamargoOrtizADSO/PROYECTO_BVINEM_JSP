@@ -9,8 +9,10 @@ import java.io.InputStream;
 import java.sql.*;
 
 /**
- *
- * @author Abelito
+ * Clase que proporciona métodos de validación para diferentes campos y datos de usuario.
+ * Utiliza la clase {@link Conexion} para manejar las conexiones a la base de datos.
+ * 
+ * @see Conexion
  */
 public class Validador {
 
@@ -21,10 +23,11 @@ public class Validador {
     }
 
     /**
-     * Valida el documento del usuario.
+     * Valida las credenciales de inicio de sesión del usuario.
      *
-     * @param documento El documento a validar.
-     * @return Mensaje de error si hay algún problema, de lo contrario null.
+     * @param documento El documento del usuario.
+     * @param pass La contraseña del usuario.
+     * @return Un mensaje de error si hay algún problema, de lo contrario null.
      */
     public static String validarLogin(String documento, String pass) { // los metodos estaticos son llamados sin necesidad de instancias un objeto de la clase
         if (documento == null || documento.trim().isEmpty()) {
@@ -35,7 +38,13 @@ public class Validador {
         }
         return null; // No hay errores
     }
-
+    
+    /**
+     * Valida el documento del usuario.
+     *
+     * @param documento El documento a validar.
+     * @return Un mensaje de error si hay algún problema, de lo contrario null.
+     */
     public static String validarDocumento(String documento) { // los metodos estaticos son llamados sin necesidad de instancias un objeto de la clase
         if (documento == null || documento.trim().isEmpty()) {
             return "El documento no puede estar vacío";
@@ -45,7 +54,13 @@ public class Validador {
         }
         return null; // No hay errores
     }
-
+    
+    /**
+     * Valida el nombre del usuario.
+     *
+     * @param nombre El nombre a validar.
+     * @return Un mensaje de error si hay algún problema, de lo contrario null.
+     */
     public static String validarNombre(String nombre) {
         if (nombre == null || nombre.trim().isEmpty()) {
             return "El nombre no puede estar vacío";
@@ -76,7 +91,13 @@ public class Validador {
         }
         return null; // No hay errores
     }
-
+    
+    /**
+     * Valida el correo electrónico del usuario.
+     *
+     * @param correo El correo a validar.
+     * @return Un mensaje de error si hay algún problema, de lo contrario null.
+     */
     public static String validarContrasena(String pass) {
         if (pass == null || pass.trim().isEmpty()) {
             return "La contraseña no puede estar vacía";
@@ -97,7 +118,14 @@ public class Validador {
         }
         return null; // No hay errores
     }
-
+    
+    /**
+     * Valida si el correo electrónico ya está en uso por otro usuario.
+     *
+     * @param correo El correo a validar.
+     * @param docActual El documento actual del usuario.
+     * @return Un mensaje de error si el correo ya está en uso, de lo contrario null.
+     */
     public static String validarCorreoEnUso(String correo, int docActual) {
         Connection conex = null;
         PreparedStatement statement = null;
@@ -127,7 +155,13 @@ public class Validador {
         }
         return null; // No hay errores
     }
-
+    
+    /**
+     * Valida si el documento ya está en uso por otro usuario.
+     *
+     * @param documento El documento a validar.
+     * @return Un mensaje de error si el documento ya está en uso, de lo contrario null.
+     */
     public static String validarDocumentoEnUso(String documento) {
         Connection conex = null;
         PreparedStatement statement = null;
@@ -210,7 +244,15 @@ public class Validador {
         }
         return null;
     }
-
+    
+    /**
+     * Valida si una categoría ya existe en la base de datos.
+     *
+     * @param nombre El nombre de la categoría.
+     * @param tipoCategoria El tipo de categoría (asignatura, idioma, tipo documento, tipo foro).
+     * @param id El ID de la categoría actual.
+     * @return Un mensaje de error si la categoría ya existe, de lo contrario null.
+     */
     public static String validarCategoria(String nombre, String tipoCategoria, int id) {
         Connection conex = null;
         PreparedStatement statement = null;

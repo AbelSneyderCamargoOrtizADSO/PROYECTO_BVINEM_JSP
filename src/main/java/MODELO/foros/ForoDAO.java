@@ -12,17 +12,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Abelito
+ * Clase que maneja las operaciones de la base de datos relacionadas con los foros.
+ * Utiliza la clase {@link Conexion} para manejar las conexiones a la base de datos.
+ * 
+ * @see Conexion
+ * @see ForoClass
+ * 
+ * @author Abel Camargo
  */
 public class ForoDAO {
     
     private Conexion conexion;
     
+    /**
+     * Constructor que inicializa el objeto de conexión.
+     */
     public ForoDAO() {
         this.conexion = new Conexion();
     }
-
+    
+    /**
+     * Método para subir un nuevo foro a la base de datos.
+     * 
+     * @param foro El objeto {@link ForoClass} que contiene los datos del foro.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void subirForo(ForoClass foro) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -48,7 +62,12 @@ public class ForoDAO {
             conexion.close(conex, stat, null);
         }
     }
-
+    
+    /**
+     * Método para listar todos los foros.
+     * 
+     * @return Una lista de objetos {@link ForoClass} que contiene todos los foros.
+     */
     public List<ForoClass> listarForos() {
         List<ForoClass> foros = new ArrayList<>();
 
@@ -95,7 +114,13 @@ public class ForoDAO {
 
         return foros;
     }
-
+    
+    /**
+     * Método para filtrar foros según ciertos criterios.
+     * 
+     * @param filtro El objeto {@link ForoClass} que contiene los criterios de filtrado.
+     * @return Una lista de objetos {@link ForoClass} que cumplen con los criterios de filtrado.
+     */
     public List<ForoClass> filtrarForos(ForoClass filtro) {
         List<ForoClass> foros = new ArrayList<>();
         Connection conex = null;
@@ -109,6 +134,9 @@ public class ForoDAO {
                 + "JOIN tb_asignaturas ON tb_foro.id_asig_fk = tb_asignaturas.id_asig "
                 + "JOIN tb_tipo_foro ON tb_foro.id_tpfr_fk = tb_tipo_foro.id_tp_foro "
                 + "WHERE 1=1 "
+                // El WHERE 1=1 se usa para simplificar la construcción dinámica de la consulta SQL
+                // Añade una condición siempre verdadera que facilita agregar condiciones adicionales
+                // sin preocuparse por la sintaxis del operador lógico AND al inicio de la condición
         );
 
         if (filtro.getAsignaturaId() > 0) {
@@ -168,7 +196,13 @@ public class ForoDAO {
 
         return foros;
     }
-
+    
+    /**
+     * Método para mostrar un foro específico por su ID.
+     * 
+     * @param foro El objeto {@link ForoClass} que contiene el ID del foro a buscar.
+     * @return El objeto {@link ForoClass} con los datos del foro encontrado.
+     */
     public ForoClass mostrarForoPorId(ForoClass foro) {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -220,7 +254,13 @@ public class ForoDAO {
 
         return foro;
     }
-
+    
+    /**
+     * Método para editar un foro existente.
+     * 
+     * @param foro El objeto {@link ForoClass} que contiene los datos actualizados del foro.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void editarForo(ForoClass foro) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -241,7 +281,14 @@ public class ForoDAO {
             conexion.close(conex, stat, null);
         }
     }
-
+    
+    /**
+     * Método para eliminar un foro y sus respuestas asociadas.
+     * 
+     * @param foro El objeto {@link ForoClass} que representa el foro a eliminar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     * @see <a href="https://puntocomnoesunlenguaje.blogspot.com/2017/11/java-jdbc-transacciones.html">Transacciones en Java JDBC</a>
+     */
     public void eliminarForo(ForoClass foro) throws SQLException {
         Connection conex = null;
         PreparedStatement statRespuestas = null;
@@ -249,6 +296,10 @@ public class ForoDAO {
 
         try {
             conex = conexion.Conexion();
+            // La transaccion sirve para ejecutar en bloque varias sentencias relacionadas, manteniendo principios, tratando las sentancias como un unico bloque, si una sale mal la otra falla
+            // Desactivar el autocommit para manejar la transacción manualmente.
+            // Esto permite ejecutar varias sentencias SQL como una sola transacción.
+            // Si una sentencia falla, se pueden revertir todas las operaciones de la transacción.
             conex.setAutoCommit(false); // Desactivar el autocommit para manejar la transacción manualmente
 
             // Eliminar respuestas asociadas al foro
@@ -263,15 +314,19 @@ public class ForoDAO {
             statForo.setInt(1, foro.getId());
             statForo.executeUpdate();
 
-            // Commit de la transacción
+            // Confirmar la transacción.
+            // Esto asegura que todas las operaciones realizadas en la transacción se hagan efectivas en la base de datos.
+            // CONFIRMA CAMBIOS
             conex.commit();
         } catch (SQLException e) {
             if (conex != null) {
-                conex.rollback(); // Deshacer la transacción en caso de error
+                // Revertir la transacción en caso de error.
+                // Esto deshace todas las operaciones realizadas en la transacción actual.
+                conex.rollback();
             }
             e.printStackTrace();
             throw e;
-        } finally { // https://puntocomnoesunlenguaje.blogspot.com/2017/11/java-jdbc-transacciones.html
+        } finally {
             conexion.close(conex, statRespuestas, null);
             conexion.close(conex, statForo, null);
         }

@@ -57,15 +57,15 @@ public class sv_busqueda extends HttpServlet {
             return;
         }
         
-        String query = request.getParameter("query");
-        String tipo = request.getParameter("tipo");
+        String query = request.getParameter("query"); // Envia el texto de busqueda
+        String tipo = request.getParameter("tipo"); // Documento o foro
 
         BusquedaClass busqueda = new BusquedaClass();
-        List<DocumentoClass> resultadosLibros = null;
+        List<DocumentoClass> resultadosLibros = null; // Declaramos la lista para almacenar resultados de los libros
         List<ForoClass> resultadosForos = null;
 
-        if ("libros".equalsIgnoreCase(tipo)) {
-            resultadosLibros = busqueda.buscarDocumentos(query);
+        if ("libros".equalsIgnoreCase(tipo)) { // Verifica si el valor de la variable "tipo" es igual a "libros" (sin considerar mayúsculas o minúsculas)
+            resultadosLibros = busqueda.buscarDocumentos(query); // Asignamos a la variable la lista retornada en el metodo buscarDocumentos de la clase BusquedaClass
         } else if ("foros".equalsIgnoreCase(tipo)) {
             resultadosForos = busqueda.buscarForos(query);
         }

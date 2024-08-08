@@ -13,11 +13,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Abelito
+ * Clase que maneja la obtención de datos necesarios para los formularios de documentos.
+ * Utiliza la clase {@link Conexion} para manejar las conexiones a la base de datos.
+ * 
+ * @see Conexion
+ * @see AsignaturaClass
+ * @see IdiomaClass
+ * @see TipoClass
  */
 public class FormDoc {
-
+    /**
+     * Método para obtener todas las asignaturas activas de la base de datos.
+     * 
+     * @return Una lista de objetos {@link AsignaturaClass} que contiene todas las asignaturas activas.
+     */
     // Método para obtener todas las asignaturas
     public List<AsignaturaClass> obtenerAsignaturas() {
         // Crear una lista vacía para almacenar las asignaturas que se obtendrán de la base de datos
@@ -67,7 +76,12 @@ public class FormDoc {
         // Devolver la lista de asignaturas obtenidas de la base de datos
         return asignaturas;
     }
-
+    
+    /**
+     * Método para obtener todos los idiomas activos de la base de datos.
+     * 
+     * @return Una lista de objetos {@link IdiomaClass} que contiene todos los idiomas activos.
+     */
     // Método para obtener todos los idiomas
     public List<IdiomaClass> obtenerIdiomas() {
         List<IdiomaClass> idiomas = new ArrayList<>();
@@ -108,7 +122,12 @@ public class FormDoc {
 
         return idiomas;
     }
-
+    
+    /**
+     * Método para obtener todos los tipos de documentos activos de la base de datos.
+     * 
+     * @return Una lista de objetos {@link TipoClass} que contiene todos los tipos de documentos activos.
+     */
     // Método para obtener todos los tipos de documentos
     public List<TipoClass> obtenerTipos() {
         List<TipoClass> tipos = new ArrayList<>();

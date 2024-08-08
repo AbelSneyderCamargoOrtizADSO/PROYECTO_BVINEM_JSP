@@ -5,8 +5,11 @@
 package MODELO.foros;
 
 /**
- *
- * @author Abelito
+ * Clase que representa una respuesta en un foro.
+ * Contiene la información relevante de una respuesta, como su contenido,
+ * fecha de publicación, usuario que la publicó, y más.
+ * 
+ * @author Abel Camargo
  */
 public class RespuestaClass {
 
@@ -18,10 +21,23 @@ public class RespuestaClass {
     private String rolUsuario;
     private int usuarioId;
     
+    /**
+     * Constructor por defecto.
+     */
     public RespuestaClass() {
         
     }
-
+    
+    /**
+     * Constructor con parámetros para inicializar una respuesta con datos específicos.
+     * 
+     * @param id El ID de la respuesta.
+     * @param contenido El contenido de la respuesta.
+     * @param fechaPublicacion La fecha de publicación de la respuesta.
+     * @param nombreUsuario El nombre del usuario que publicó la respuesta.
+     * @param rolUsuario El rol del usuario que publicó la respuesta.
+     * @param usuarioId El ID del usuario que publicó la respuesta.
+     */
     public RespuestaClass(int id, String contenido, String fechaPublicacion, String nombreUsuario, String rolUsuario, int usuarioId) {
         this.id = id;
         this.contenido = contenido;
@@ -30,11 +46,21 @@ public class RespuestaClass {
         this.rolUsuario = rolUsuario;
         this.usuarioId = usuarioId;
     }
-
+    
+    /**
+     * Obtiene el ID de la respuesta.
+     * 
+     * @return El ID de la respuesta.
+     */
     public int getId() {
         return id;
     }
-
+    
+    /**
+     * Establece el ID de la respuesta.
+     * 
+     * @param id El nuevo ID de la respuesta.
+     */
     public void setId(int id) {
         this.id = id;
     }

@@ -9,16 +9,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Abelito
+ * Clase que maneja las operaciones de la base de datos relacionadas con los documentos.
+ * Utiliza la clase {@link Conexion} para manejar las conexiones a la base de datos.
+ * 
+ * @see Conexion
+ * @see DocumentoClass
  */
 public class DocumentoDAO {
     private Conexion conexion;
     
+    /**
+     * Constructor que inicializa el objeto de conexión.
+     */
     public DocumentoDAO() {
         this.conexion = new Conexion();
     }
-
+    
+    /**
+     * Método para subir un nuevo documento a la base de datos.
+     * 
+     * @param documento El objeto {@link DocumentoClass} que contiene los datos del documento.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void SubirDocumento(DocumentoClass documento) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -48,9 +60,14 @@ public class DocumentoDAO {
             conexion.close(conex, stat, null);
         }
     }
-
+    
+    /**
+     * Método para listar todos los documentos de la base de datos.
+     * 
+     * @return Una lista de objetos {@link DocumentoClass} que contiene todos los documentos.
+     */
     public List<DocumentoClass> ListarDocumentos() {
-        List<DocumentoClass> documentos = new ArrayList<>();
+        List<DocumentoClass> documentos = new ArrayList<>(); // Crear una lista vacía para almacenar los documentos que se obtendrán de la base de datos
 
         // Inicializar las variables de conexión, declaración y resultados en null
         Connection conex = null;
@@ -87,17 +104,23 @@ public class DocumentoDAO {
                 int userDoc = rs.getInt("doc_docente_fk");
                 String archivoPDF = rs.getString("archivo");
 
-                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idioma, asignatura, tipo, miniatura, userDoc, archivoPDF));
+                documentos.add(new DocumentoClass(id, titulo, autor, descripcion, year, idioma, asignatura, tipo, miniatura, userDoc, archivoPDF)); // Crear un nuevo objeto DocumentoClass usando los valores obtenidos y agregarlo a la lista
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             conexion.close(conex, stat, rs);
         }
-
+        // Devolver la lista de documentos obtenidos de la base de datos
         return documentos;
     }
     
+    /**
+     * Método para filtrar documentos en la base de datos.
+     * 
+     * @param documento El objeto {@link DocumentoClass} que contiene los criterios de filtrado.
+     * @return Una lista de objetos {@link DocumentoClass} que coincide con los criterios de filtrado.
+     */
     public List<DocumentoClass> FiltrarDocumentos(DocumentoClass documento) {
         List<DocumentoClass> documentos = new ArrayList<>();
         Connection conex = null;
@@ -110,7 +133,9 @@ public class DocumentoDAO {
                 + "JOIN tb_idiomas ON tb_documento.id_idioma_fk = tb_idiomas.id_idioma "
                 + "JOIN tb_asignaturas ON tb_documento.id_asig_fk = tb_asignaturas.id_asig "
                 + "JOIN tb_tipo_doc ON tb_documento.id_tipo_fk = tb_tipo_doc.id_tipo "
-                + "WHERE 1=1 " // El WHERE 1=1 sirve para simplificar la adición dinámica de condiciones, permitiendo concatenar condiciones adicionales con AND sin preocuparse por la posición de los separadores.
+                + "WHERE 1=1 " // El WHERE 1=1 se usa para simplificar la construcción dinámica de la consulta SQL
+                                // Añade una condición siempre verdadera que facilita agregar condiciones adicionales
+                                // sin preocuparse por la sintaxis del operador lógico AND al inicio de la condición
         );
 
         if (documento.getAsignaturaId() > 0) {
@@ -171,6 +196,12 @@ public class DocumentoDAO {
         return documentos;
     }
     
+    /**
+     * Método para editar un documento existente en la base de datos.
+     * 
+     * @param documento El objeto {@link DocumentoClass} que contiene los datos actualizados del documento.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void editarDocumento(DocumentoClass documento) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -195,6 +226,12 @@ public class DocumentoDAO {
         }
     }
     
+    /**
+     * Método para eliminar un documento de la base de datos.
+     * 
+     * @param documento El objeto {@link DocumentoClass} que representa el documento a eliminar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void eliminarDocumento(DocumentoClass documento) throws SQLException {
         
         Connection conex = null;

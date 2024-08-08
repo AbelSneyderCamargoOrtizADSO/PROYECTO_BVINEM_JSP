@@ -5,32 +5,56 @@
 package MODELO.categorias;
 
 /**
- *
- * @author Abelito
+ * Clase que representa una categoría genérica.
+ * Esta clase puede ser extendida por otras clases que necesiten atributos comunes de una categoría.
+ * 
+ * @see IdiomaClass
+ * @see TipoClass
  */
 public class CategoriaClass {
 
     private int id;
     private String nombre;
     private boolean estado;
-
+    
+    /**
+     * Constructor por defecto.
+     * Permite crear una instancia de {@link CategoriaClass} sin inicializar sus propiedades.
+     */
     public CategoriaClass() {
     }
-
+    
+    /**
+     * Constructor con parámetros para inicializar una categoría con datos específicos.
+     * 
+     * @param id El ID de la categoría.
+     * @param nombre El nombre de la categoría.
+     * @param estado El estado de la categoría (activo o inactivo).
+     */
     public CategoriaClass(int id, String nombre, boolean estado) {
         this.id = id;
         this.nombre = nombre;
         this.estado = estado;
     }
-
+    
+    /**
+     * Obtiene el ID de la categoría.
+     * 
+     * @return El ID de la categoría.
+     */
     public int getId() {
         return id;
     }
-
+    
     public String getNombre() {
         return nombre;
     }
-
+    
+    /**
+     * Establece el ID de la categoría.
+     * 
+     * @param id El nuevo ID de la categoría.
+     */
     public void setId(int id) {
         this.id = id;
     }

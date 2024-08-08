@@ -5,8 +5,11 @@
 package MODELO.foros;
 
 /**
- *
- * @author Abelito
+ * Clase que representa un foro con sus propiedades y métodos.
+ * Contiene la información relevante de un foro, como su título,
+ * descripción, fecha de creación, idioma, asignatura, tipo, y más.
+ * 
+ * @author Abel Camargo
  */
 public class ForoClass {
 
@@ -24,10 +27,24 @@ public class ForoClass {
     private String rolUsuario;
     private int usuarioDoc;
     
+    /**
+     * Constructor por defecto.
+     */
     public ForoClass() {
         
     }
-
+    
+    /**
+     * Constructor con parámetros para inicializar un foro con datos específicos.
+     * 
+     * @param id El ID del foro.
+     * @param titulo El título del foro.
+     * @param descripcion La descripción del foro.
+     * @param fecha La fecha de creación del foro.
+     * @param idioma El nombre del idioma del foro.
+     * @param asignatura El nombre de la asignatura del foro.
+     * @param tipo El tipo de foro.
+     */
     public ForoClass(int id, String titulo, String descripcion, String fecha, String idioma, String asignatura, String tipo) {
         this.id = id;
         this.titulo = titulo;
@@ -37,11 +54,21 @@ public class ForoClass {
         this.asignatura = asignatura;
         this.tipo = tipo;
     }
-
+    
+    /**
+     * Obtiene el ID del foro.
+     * 
+     * @return El ID del foro.
+     */
     public int getId() {
         return id;
     }
-
+    
+     /**
+     * Establece el ID del foro.
+     * 
+     * @param id El nuevo ID del foro.
+     */
     public void setId(int id) {
         this.id = id;
     }
@@ -61,7 +88,12 @@ public class ForoClass {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
+    
+    /**
+     * Obtiene una versión resumida de la descripción del foro, eliminando etiquetas HTML y limitando a 200 caracteres.
+     * 
+     * @return La descripción resumida del foro.
+     */
     public String getDescripcionResumida() {
         // Reemplazar etiquetas en bloque por un espacio
         String textoConEspacios = descripcion.replaceAll("(?i)<(p|div|h[1-6])[^>]*>", " ")

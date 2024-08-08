@@ -5,8 +5,9 @@
 package MODELO.usuarios;
 
 /**
- *
- * @author Abelito
+ * Clase que representa un usuario en el sistema.
+ * Contiene los atributos y métodos para gestionar la información de un usuario.
+ * 
  */
 public class UsuarioClass {
 
@@ -19,10 +20,25 @@ public class UsuarioClass {
     private int estadoId;
     private int rol;
     private String grado;
-
+    
+    /**
+     * Constructor por defecto.
+     * Permite crear una instancia de {@link UsuarioClass} sin inicializar sus propiedades.
+     */
     public UsuarioClass() {
     }
-
+    
+    /**
+     * Constructor con parámetros para inicializar un usuario con datos específicos.
+     * 
+     * @param docUsu El documento de identificación del usuario.
+     * @param nombre El nombre del usuario.
+     * @param apellido El apellido del usuario.
+     * @param correo El correo electrónico del usuario.
+     * @param fechaRegistro La fecha de registro del usuario.
+     * @param estadoId El estado del usuario (activo/inactivo).
+     * @param rol El rol del usuario en el sistema.
+     */
     // Constructor
     public UsuarioClass(int docUsu, String nombre, String apellido, String correo, String fechaRegistro, int estadoId, int rol) {
         this.docUsu = docUsu;
@@ -33,12 +49,22 @@ public class UsuarioClass {
         this.estadoId = estadoId;
         this.rol = rol;
     }
-
+    
+    /**
+     * Obtiene el documento de identificación del usuario.
+     * 
+     * @return El documento de identificación del usuario.
+     */
     // Getters y Setters
     public int getDocUsu() {
         return docUsu;
     }
-
+    
+    /**
+     * Establece el documento de identificación del usuario.
+     * 
+     * @param docUsu El nuevo documento de identificación del usuario.
+     */
     public void setDocUsu(int docUsu) {
         this.docUsu = docUsu;
     }

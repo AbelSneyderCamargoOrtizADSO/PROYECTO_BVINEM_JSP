@@ -35,22 +35,22 @@ public class cerrar_sesion extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Maneja el método HTTP <code>GET</code>.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param request solicitud del servlet
+     * @param response respuesta del servlet
+     * @throws ServletException si ocurre un error específico del servlet
+     * @throws IOException si ocurre un error de entrada/salida
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession(false); // Obtener la sesión sin crear una nueva
         if (session != null) {
             session.invalidate(); // Invalidar la sesión actual
         }
-        response.sendRedirect("index.jsp"); 
+        response.sendRedirect("index.jsp");
     }
 
     /**

@@ -79,7 +79,7 @@ public class sv_login extends HttpServlet {
             }
 
             // VALIDACIONES
-            String errorMessage = Validador.validarLogin(dniStr, pass);
+            String errorMessage = Validador.validarLogin(dniStr, pass); // Verifica que no esten vacios
 
             if (errorMessage != null) {
                 request.setAttribute("error", errorMessage);

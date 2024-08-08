@@ -5,8 +5,8 @@
 package MODELO;
 
 /**
- *
- * @author Abelito
+ * Clase que representa un documento.
+ * Contiene los atributos y métodos para gestionar la información de un documento.
  */
 public class DocumentoClass {
 
@@ -25,10 +25,29 @@ public class DocumentoClass {
     private String archivoPDF;
     private int userDoc;
     
+    /**
+     * Constructor por defecto.
+     * Permite crear una instancia de {@link DocumentoClass} sin inicializar sus propiedades.
+     */
     public DocumentoClass() {
 
     }
-
+    
+    /**
+     * Constructor con parámetros para inicializar un documento con datos específicos.
+     * 
+     * @param id El ID del documento.
+     * @param titulo El título del documento.
+     * @param autor El autor del documento.
+     * @param descripcion La descripción del documento.
+     * @param year El año de publicación del documento.
+     * @param idioma El idioma del documento.
+     * @param asignatura La asignatura del documento.
+     * @param tipo El tipo del documento.
+     * @param miniaturaPath La ruta de la miniatura del documento.
+     * @param userDoc El ID del usuario que subió el documento.
+     * @param archivoPDF La ruta del archivo PDF del documento.
+     */
     public DocumentoClass(int id, String titulo, String autor, String descripcion, String year, String idioma, String asignatura, String tipo, String miniaturaPath, int userDoc, String archivoPDF) {
         this.id = id;
         this.titulo = titulo;
@@ -42,11 +61,21 @@ public class DocumentoClass {
         this.userDoc = userDoc;
         this.archivoPDF = archivoPDF;
     }
-
+    
+    /**
+     * Obtiene el ID del documento.
+     * 
+     * @return El ID del documento.
+     */
     public int getId() {
         return id;
     }
-
+    
+    /**
+     * Establece el ID del documento.
+     * 
+     * @param id El nuevo ID del documento.
+     */
     public void setId(int id) {
         this.id = id;
     }

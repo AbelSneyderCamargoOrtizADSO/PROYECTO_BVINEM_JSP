@@ -11,18 +11,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Abelito
+ * Clase que maneja las operaciones de la base de datos relacionadas con los idiomas.
+ * Utiliza la clase {@link Conexion} para manejar las conexiones a la base de datos.
+ * 
+ * @see Conexion
+ * @see IdiomaClass
  */
 
 public class IdiomasDAO {
 
     private Conexion conexion;
-
+    
+    /**
+     * Constructor que inicializa el objeto de conexión.
+     */
     public IdiomasDAO() {
         this.conexion = new Conexion();
     }
-
+    
+    /**
+     * Método para agregar un nuevo idioma a la base de datos.
+     * 
+     * @param idioma El objeto {@link IdiomaClass} que contiene los datos del idioma.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void agregarIdioma(IdiomaClass idioma) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -40,7 +52,13 @@ public class IdiomasDAO {
             conexion.close(conex, stat, null);
         }
     }
-
+    
+    /**
+     * Método para editar un idioma existente en la base de datos.
+     * 
+     * @param idioma El objeto {@link IdiomaClass} que contiene los datos actualizados del idioma.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void editarIdioma(IdiomaClass idioma) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -60,8 +78,13 @@ public class IdiomasDAO {
         }
     }
     
+    /**
+     * Método para obtener todos los idiomas de la base de datos.
+     * 
+     * @return Una lista de objetos {@link IdiomaClass} que contiene todos los idiomas.
+     */
     public List<IdiomaClass> obtenerIdiomas() {
-        List<IdiomaClass> idiomas = new ArrayList<>();
+        List<IdiomaClass> idiomas = new ArrayList<>(); // Crea una nueva lista de objetos IdiomaClass utilizando ArrayList para almacenar los idiomas.
 
         // Crear una instancia de la clase de conexión
         Conexion conexion = new Conexion();
@@ -88,7 +111,7 @@ public class IdiomasDAO {
                 String nombre = rs.getString("nom_idioma");
                 boolean estado = rs.getBoolean("estado");
 
-                idiomas.add(new IdiomaClass(id, nombre, estado));
+                idiomas.add(new IdiomaClass(id, nombre, estado)); // Añade el objeto IdiomaClass creado a la lista de idiomas.
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,6 +123,13 @@ public class IdiomasDAO {
         return idiomas;
     }
     
+    /**
+     * Método para cambiar el estado de un idioma en la base de datos.
+     * 
+     * @param idioma El objeto {@link IdiomaClass} que representa el idioma a actualizar.
+     * @param estado El nuevo estado del idioma.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void cambiarEstado(IdiomaClass idioma, boolean estado) throws SQLException {
         Connection conex = null;
         PreparedStatement statUsuario = null;
@@ -116,11 +146,23 @@ public class IdiomasDAO {
             throw e;
         }
     }
-
+    
+    /**
+     * Método para inhabilitar un idioma en la base de datos.
+     * 
+     * @param idioma El objeto {@link IdiomaClass} que representa el idioma a inhabilitar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void inhabilitarIdioma(IdiomaClass idioma) throws SQLException {
         cambiarEstado(idioma, false);
     }
-
+    
+    /**
+     * Método para habilitar un idioma en la base de datos.
+     * 
+     * @param idioma El objeto {@link IdiomaClass} que representa el idioma a habilitar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void habilitarIdioma(IdiomaClass idioma) throws SQLException {
         cambiarEstado(idioma, true);
     }

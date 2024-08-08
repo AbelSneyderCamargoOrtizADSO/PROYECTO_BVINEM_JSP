@@ -11,10 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Método para obtener todos los tipos de foro activos. Envía la lista de tipos
+ * de foro al controlador del formulario para agregar el foro.
  *
- * @author Abelito
+ * @return Una lista de objetos {@link TipoForoClass} que contiene todos los tipos de foro activos.
  */
 public class FormForo {
+    // Crea una nueva lista de objetos TipoForoClass utilizando ArrayList para almacenar los tipos de foro.
     // Método para obtener todos tipos de foro
     public List<TipoForoClass> obtenerTiposForo() {
         List<TipoForoClass> tiposforo = new ArrayList<>();

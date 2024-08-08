@@ -81,7 +81,7 @@ public class sv_categorias extends HttpServlet {
         TipoForoDAO tipoforoDAO = new TipoForoDAO();
 
         // Variable para almacenar la lista de resultados
-        List<?> resultados = null;
+        List<?> resultados = null; // El ? es una lista que puede contener cualquier tipo de objeto. 
 
         // Lógica para determinar qué lista obtener según el parámetro categoria
         if (categoria != null) {

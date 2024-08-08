@@ -74,7 +74,8 @@ public class sv_documentos extends HttpServlet {
         List<AsignaturaClass> asignaturas = formDoc.obtenerAsignaturas();
         List<IdiomaClass> idiomas = formDoc.obtenerIdiomas();
         List<TipoClass> tipos = formDoc.obtenerTipos();
-
+        
+        // Asignar los filtros o id del filtro al objeto documento con SET
         if (asignatura != null) {
             documento.setAsignaturaId(Integer.parseInt(asignatura));
         }
@@ -89,7 +90,7 @@ public class sv_documentos extends HttpServlet {
         if (asignatura == null && idioma == null && tipo == null) {
             documentos = documentoDAO.ListarDocumentos();
         } else {
-            documentos = documentoDAO.FiltrarDocumentos(documento);
+            documentos = documentoDAO.FiltrarDocumentos(documento); // Se le asigna a la lista documentos la lista retornada en el metodo FiltrarDocumentos de la clase documentoDAO
         }
 
         request.setAttribute("documentos", documentos);
@@ -133,17 +134,25 @@ public class sv_documentos extends HttpServlet {
                 documentoDAO.eliminarDocumento(documento);
 
                 // Eliminar la miniatura del sistema de archivos
+                // Obtener la ruta del contexto del servlet en el sistema de archivos
                 String rutaContexto = getServletContext().getRealPath("/"); // PROYECTO_BVINEM_JSP\target\PROYECTO_BVINEM-1.0-SNAPSHOT\
+                // Ajusta la ruta para apuntar al directorio de la aplicación web en lugar del directorio de compilación
                 String rutaAlterada = rutaContexto.replace("\\target\\PROYECTO_BVINEM-1.0-SNAPSHOT\\", "\\src\\main\\webapp");
+                 // Construye la ruta completa del archivo de miniatura
                 String rutaArchivoMiniatura = rutaAlterada + File.separator + rutaMiniatura;
+                // Construye la ruta completa del archivo PDF
                 String rutaArchivoPDF = rutaAlterada + File.separator + rutaPDF;
-
+                
+                // Crea un objeto File para la miniatura
                 File archivoMiniatura = new File(rutaArchivoMiniatura);
+                // Verifica si el archivo de miniatura existe y, de ser así, lo elimina
                 if (archivoMiniatura.exists()) {
                     archivoMiniatura.delete();
                 }
-
+                
+                // Crea un objeto File para el PDF
                 File archivoPDF = new File(rutaArchivoPDF);
+                // Verifica si el archivo PDF existe y, de ser así, lo elimina
                 if (archivoPDF.exists()) {
                     archivoPDF.delete();
                 }

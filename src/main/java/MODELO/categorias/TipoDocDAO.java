@@ -10,17 +10,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Abelito
+ * Clase que maneja las operaciones de la base de datos relacionadas con los tipos de documento.
+ * Utiliza la clase {@link Conexion} para manejar las conexiones a la base de datos.
+ * 
+ * @see Conexion
+ * @see TipoClass
  */
 public class TipoDocDAO {
 
     private Conexion conexion;
-
+    
+    /**
+     * Constructor que inicializa el objeto de conexión.
+     */
     public TipoDocDAO() {
         this.conexion = new Conexion();
     }
-
+    
+    /**
+     * Método para agregar un nuevo tipo de documento a la base de datos.
+     * 
+     * @param tipodoc El objeto {@link TipoClass} que contiene los datos del tipo de documento.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void agregarTipoDoc(TipoClass tipodoc) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -38,7 +50,13 @@ public class TipoDocDAO {
             conexion.close(conex, stat, null);
         }
     }
-
+    
+    /**
+     * Método para editar un tipo de documento existente en la base de datos.
+     * 
+     * @param tipodoc El objeto {@link TipoClass} que contiene los datos actualizados del tipo de documento.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void editarTipoDoc(TipoClass tipodoc) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -58,8 +76,13 @@ public class TipoDocDAO {
         }
     }
     
+     /**
+     * Método para obtener todos los tipos de documento de la base de datos.
+     * 
+     * @return Una lista de objetos {@link TipoClass} que contiene todos los tipos de documento.
+     */
     public List<TipoClass> obtenerTipos() {
-        List<TipoClass> tipos = new ArrayList<>();
+        List<TipoClass> tipos = new ArrayList<>(); // Crea una nueva lista de objetos TipoClass utilizando ArrayList para almacenar los tipos de documento.
 
         // Crear una instancia de la clase de conexión
         Conexion conexion = new Conexion();
@@ -86,7 +109,7 @@ public class TipoDocDAO {
                 String nombre = rs.getString("nom_tipo");
                 boolean estado = rs.getBoolean("estado");
 
-                tipos.add(new TipoClass(id, nombre, estado));
+                tipos.add(new TipoClass(id, nombre, estado)); // Añade el objeto TipoClass creado a la lista de tipos de documento.
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,6 +121,13 @@ public class TipoDocDAO {
         return tipos;
     }
     
+    /**
+     * Método para cambiar el estado de un tipo de documento en la base de datos.
+     * 
+     * @param tipodoc El objeto {@link TipoClass} que representa el tipo de documento a actualizar.
+     * @param estado El nuevo estado del tipo de documento.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void cambiarEstado(TipoClass tipodoc, boolean estado) throws SQLException {
         Connection conex = null;
         PreparedStatement statUsuario = null;
@@ -114,11 +144,23 @@ public class TipoDocDAO {
             throw e;
         }
     }
-
+    
+    /**
+     * Método para inhabilitar un tipo de documento en la base de datos.
+     * 
+     * @param tipodoc El objeto {@link TipoClass} que representa el tipo de documento a inhabilitar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void inhabilitarTipoDoc(TipoClass tipodoc) throws SQLException {
         cambiarEstado(tipodoc, false);
     }
-
+    
+    /**
+     * Método para habilitar un tipo de documento en la base de datos.
+     * 
+     * @param tipodoc El objeto {@link TipoClass} que representa el tipo de documento a habilitar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void habilitarTipoDoc(TipoClass tipodoc) throws SQLException {
         cambiarEstado(tipodoc, true);
     }

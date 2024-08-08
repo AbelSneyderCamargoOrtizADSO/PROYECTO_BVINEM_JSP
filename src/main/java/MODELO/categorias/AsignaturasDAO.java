@@ -10,17 +10,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Abelito
+ * Clase que maneja las operaciones de la base de datos relacionadas con las asignaturas.
+ * Utiliza la clase {@link Conexion} para manejar las conexiones a la base de datos.
+ * 
+ * @see Conexion
+ * @see AsignaturaClass
  */
 public class AsignaturasDAO {
 
     private Conexion conexion;
-
+    
+    /**
+     * Constructor que inicializa el objeto de conexión.
+     */
     public AsignaturasDAO() {
         this.conexion = new Conexion();
     }
-
+    
+    /**
+     * Método para agregar una nueva asignatura a la base de datos.
+     * 
+     * @param asignatura El objeto {@link AsignaturaClass} que contiene los datos de la asignatura.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void agregarAsignatura(AsignaturaClass asignatura) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -38,7 +50,13 @@ public class AsignaturasDAO {
             conexion.close(conex, stat, null);
         }
     }
-
+    
+    /**
+     * Método para editar una asignatura existente en la base de datos.
+     * 
+     * @param asignatura El objeto {@link AsignaturaClass} que contiene los datos actualizados de la asignatura.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void editarAsignatura(AsignaturaClass asignatura) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -57,7 +75,12 @@ public class AsignaturasDAO {
             conexion.close(conex, stat, null);
         }
     }
-
+    
+    /**
+     * Método para obtener todas las asignaturas de la base de datos.
+     * 
+     * @return Una lista de objetos {@link AsignaturaClass} que contiene todas las asignaturas.
+     */
     // Método para obtener todas las asignaturas
     public List<AsignaturaClass> obtenerAsignaturas() {
         // Crear una lista vacía para almacenar las asignaturas que se obtendrán de la base de datos
@@ -107,7 +130,14 @@ public class AsignaturasDAO {
         // Devolver la lista de asignaturas obtenidas de la base de datos
         return asignaturas;
     }
-
+    
+    /**
+     * Método para cambiar el estado de una asignatura en la base de datos.
+     * 
+     * @param asignatura El objeto {@link AsignaturaClass} que representa la asignatura a actualizar.
+     * @param estado El nuevo estado de la asignatura.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void cambiarEstado(AsignaturaClass asignatura, boolean estado) throws SQLException {
         Connection conex = null;
         PreparedStatement statUsuario = null;
@@ -124,11 +154,23 @@ public class AsignaturasDAO {
             throw e;
         }
     }
-
+    
+    /**
+     * Método para inhabilitar una asignatura en la base de datos.
+     * 
+     * @param asignatura El objeto {@link AsignaturaClass} que representa la asignatura a inhabilitar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void inhabilitarAsignatura(AsignaturaClass asignatura) throws SQLException {
         cambiarEstado(asignatura, false);
     }
-
+    
+    /**
+     * Método para habilitar una asignatura en la base de datos.
+     * 
+     * @param asignatura El objeto {@link AsignaturaClass} que representa la asignatura a habilitar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void habilitarAsignatura(AsignaturaClass asignatura) throws SQLException {
         cambiarEstado(asignatura, true);
     }

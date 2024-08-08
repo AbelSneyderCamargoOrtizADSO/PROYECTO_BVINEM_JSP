@@ -8,11 +8,29 @@ import MODELO.usuarios.UsuarioClass;
 import java.sql.*;
 
 /**
- *
- * @author Abelito
+ * Clase que maneja la validación de usuarios durante el proceso de inicio de sesión.
+ * Utiliza la clase {@link Conexion} para manejar las conexiones a la base de datos.
+ * 
+ * @see Conexion
+ * @see UsuarioClass
+ * @see HashUtil
  */
 public class login_class {
-
+    
+    /**
+     * Método para validar las credenciales de un usuario.
+     * 
+     * @param usuario El objeto {@link UsuarioClass} que contiene las credenciales del usuario.
+     * @return Un String que indica el resultado de la validación:
+     * <ul>
+     *   <li>"valido" si las credenciales son correctas y el usuario está habilitado.</li>
+     *   <li>"contraseña_incorrecta" si la contraseña es incorrecta.</li>
+     *   <li>"inhabilitado" si el usuario está inhabilitado.</li>
+     *   <li>"usuario_no_encontrado" si el usuario no existe.</li>
+     *   <li>"superadmin" si el usuario es un superadministrador.</li>
+     * </ul>
+     * @throws Exception Si ocurre un error al interactuar con la base de datos.
+     */
     public String validarUsuario(UsuarioClass usuario) throws Exception {
 
         // creamos la instancia de la clase conexion 

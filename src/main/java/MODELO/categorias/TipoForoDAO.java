@@ -10,17 +10,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Abelito
+ * Clase que maneja las operaciones de la base de datos relacionadas con los tipos de foro.
+ * Utiliza la clase {@link Conexion} para manejar las conexiones a la base de datos.
+ * 
+ * @see Conexion
+ * @see TipoForoClass
  */
 public class TipoForoDAO {
 
     private Conexion conexion;
-
+    
+    /**
+     * Constructor que inicializa el objeto de conexión.
+     */
     public TipoForoDAO() {
         this.conexion = new Conexion();
     }
-
+    
+    /**
+     * Método para agregar un nuevo tipo de foro a la base de datos.
+     * 
+     * @param tipoforo El objeto {@link TipoForoClass} que contiene los datos del tipo de foro.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void agregarTipoForo(TipoForoClass tipoforo) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -38,7 +50,13 @@ public class TipoForoDAO {
             conexion.close(conex, stat, null);
         }
     }
-
+    
+    /**
+     * Método para editar un tipo de foro existente en la base de datos.
+     * 
+     * @param tipoforo El objeto {@link TipoForoClass} que contiene los datos actualizados del tipo de foro.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void editarTipoForo(TipoForoClass tipoforo) throws SQLException {
         Connection conex = null;
         PreparedStatement stat = null;
@@ -57,9 +75,14 @@ public class TipoForoDAO {
             conexion.close(conex, stat, null);
         }
     }
-
+    
+    /**
+     * Método para obtener todos los tipos de foro de la base de datos.
+     * 
+     * @return Una lista de objetos {@link TipoForoClass} que contiene todos los tipos de foro.
+     */
     public List<TipoForoClass> obtenerTiposForo() {
-        List<TipoForoClass> tiposforo = new ArrayList<>();
+        List<TipoForoClass> tiposforo = new ArrayList<>(); // Crea una nueva lista de objetos TipoForoClass utilizando ArrayList para almacenar los tipos de foro.
 
         // Crear una instancia de la clase de conexión
         Conexion conexion = new Conexion();
@@ -86,7 +109,7 @@ public class TipoForoDAO {
                 String nombre = rs.getString("nom_tp_foro");
                 boolean estado = rs.getBoolean("estado");
 
-                tiposforo.add(new TipoForoClass(id, nombre, estado));
+                tiposforo.add(new TipoForoClass(id, nombre, estado)); // Añade el objeto TipoForoClass creado a la lista de tipos de foro.
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,7 +120,14 @@ public class TipoForoDAO {
 
         return tiposforo;
     }
-
+    
+    /**
+     * Método para cambiar el estado de un tipo de foro en la base de datos.
+     * 
+     * @param tipoforo El objeto {@link TipoForoClass} que representa el tipo de foro a actualizar.
+     * @param estado El nuevo estado del tipo de foro.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void cambiarEstado(TipoForoClass tipoforo, boolean estado) throws SQLException {
         Connection conex = null;
         PreparedStatement statUsuario = null;
@@ -114,11 +144,23 @@ public class TipoForoDAO {
             throw e;
         }
     }
-
+    
+    /**
+     * Método para inhabilitar un tipo de foro en la base de datos.
+     * 
+     * @param tipoforo El objeto {@link TipoForoClass} que representa el tipo de foro a inhabilitar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void inhabilitarTipoForo(TipoForoClass tipoforo) throws SQLException {
         cambiarEstado(tipoforo, false);
     }
 
+    /**
+     * Método para habilitar un tipo de foro en la base de datos.
+     * 
+     * @param tipoforo El objeto {@link TipoForoClass} que representa el tipo de foro a habilitar.
+     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     */
     public void habilitarTipoForo(TipoForoClass tipoforo) throws SQLException {
         cambiarEstado(tipoforo, true);
     }

@@ -49,7 +49,7 @@ public class DocumentoDAO {
             stat.setInt(7, documento.getUserDoc());
             stat.setInt(8, documento.getAsignaturaId());
             stat.setInt(9, documento.getIdiomaId());
-            stat.setInt(10, documento.getAsignaturaId());
+            stat.setInt(10, documento.getTipoId());
 
             stat.executeUpdate();
 

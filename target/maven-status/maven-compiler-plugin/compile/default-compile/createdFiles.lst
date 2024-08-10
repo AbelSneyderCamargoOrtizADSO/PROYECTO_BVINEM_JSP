@@ -6,7 +6,6 @@ MODELO\categorias\TipoDocDAO.class
 CONTROLADOR\servlets\sv_busqueda.class
 MODELO\usuarios\UsuarioClass.class
 MODELO\categorias\TipoClass.class
-CONTROLADOR\servlets\filter_pag.class
 MODELO\categorias\IdiomaClass.class
 CONTROLADOR\servlets\usuarios\sv_usuario.class
 MODELO\categorias\AsignaturaClass.class

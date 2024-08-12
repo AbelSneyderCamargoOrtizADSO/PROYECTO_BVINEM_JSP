@@ -36,7 +36,7 @@
         <main>
             <section class="container">
                 <div id="form">
-                    <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="form form__valid">
+                    <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="form" novalidate>
                         <a href="${pageContext.request.contextPath}/sv_documentos" class="form__cerrar"><i class="bi bi-x-circle-fill"></i></a>
                         <input type="hidden" name="userId" value="${usuario.docUsu}">
                         <input id="tipoUsuario" type="hidden" name="tipoUsuario" value="${rol}">
@@ -44,19 +44,19 @@
                         <input type="hidden" name="tipoEdicion" value="misDatos">
                         <div class="form__group">
                             <label for="documento" class="form__label">Documento de Identidad</label>
-                            <input type="text" id="documento" class="form__input solo-numeros obligatorio" value="${usuario.docUsu}" name="nuevoDoc" maxlength="10">
+                            <input type="text" id="documento" class="form__input solo-numeros" value="${usuario.docUsu}" name="nuevoDoc" maxlength="10" required>
                         </div>
                         <div class="form__group">
                             <label for="nombres" class="form__label">Nombres</label>
-                            <input type="text" id="nombres" class="form__input solo-letras obligatorio" name="nombres" value="${usuario.nombre}">
+                            <input type="text" id="nombres" class="form__input solo-letras" name="nombres" value="${usuario.nombre}" required>
                         </div>
                         <div class="form__group">
                             <label for="apellidos" class="form__label">Apellidos</label>
-                            <input type="text" id="apellidos" class="form__input solo-letras obligatorio" name="apellidos" value="${usuario.apellido}">
+                            <input type="text" id="apellidos" class="form__input solo-letras" name="apellidos" value="${usuario.apellido}" required>
                         </div>
                         <div class="form__group">
                             <label for="correo" class="form__label">Correo Electrónico</label>
-                            <input type="text" id="correo" class="form__input obligatorio" name="correo" value="${usuario.correo}">
+                            <input type="text" id="correo" class="form__input" name="correo" value="${usuario.correo}" required>
                         </div>
                         <div class="form__group">
                             <label for="contrasena" class="form__label">Cambiar contraseña</label>
@@ -68,6 +68,12 @@
                         </div>
                         <div class="form__group">
                             <span><b>Fecha de registro:</b> ${usuario.fechaRegistro}</span>
+                        </div>
+                        <div class="form__group">
+                            <label for="aceptarTerminos" class="form__label">
+                                <input type="checkbox" id="aceptarTerminos" name="aceptarTerminos" required>
+                                Acepto los <a href="${pageContext.request.contextPath}/vistas/tyc.jsp" target="_blank">términos y condiciones</a> de edición de perfil.
+                            </label>
                         </div>
                         <button id="btnEnviar" type="submit" class="form__btn">Guardar cambios</button>
                     </form>

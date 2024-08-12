@@ -35,26 +35,26 @@
                         <img src="assets/estu.png" alt="" class="container__img">
                     </figure>
 
-                    <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="container__form form__valid">
+                    <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="form container__form" novalidate>
                         <h2 class="form__title">ESTUDIANTE</h2>
                         <input type="hidden" name="tipoUsuario" value="estudiante">
                         <div class="form__group">
-                            <input type="text" class="form__input solo-numeros obligatorio" placeholder="Documento de identidad" name="nuevoDoc" maxlength="10">
+                            <input type="text" id="dni" class="form__input solo-numeros" placeholder="Documento de identidad" name="nuevoDoc" required maxlength="10">
                         </div>
                         <div class="form__group">
-                            <input type="text" class="form__input solo-letras obligatorio" placeholder="Nombres" name="nombres">
+                            <input type="text" id="nombres" class="form__input solo-letras" placeholder="Nombres" name="nombres" required>
                         </div>
                         <div class="form__group">
-                            <input type="text" class="form__input solo-letras obligatorio" placeholder="Apellidos" name="apellidos">
+                            <input type="text" id="apellidos" class="form__input solo-letras" placeholder="Apellidos" name="apellidos" required>
                         </div>
                         <div class="form__group">
-                            <input type="text" class="form__input obligatorio" placeholder="Correo electrónico" name="correo">
+                            <input type="text" id="correo" class="form__input" placeholder="Correo electrónico" name="correo" required>
                         </div>
                         <div class="form__group">
-                            <input type="password" class="form__input obligatorio" placeholder="Contraseña" name="password">
+                            <input type="password" id="password" class="form__input" placeholder="Contraseña" name="password" required>
                         </div>
                         <div class="form__group">
-                            <input type="password" class="form__input obligatorio" name="confirmPass" placeholder="Confirmar contraseña">
+                            <input type="password" id="confirmPass" class="form__input" name="confirmPass" placeholder="Confirmar contraseña" required>
                         </div>
                         <button class="form__btn" type="submit" name="regEstudiante">Registrarse</button>
 
@@ -79,7 +79,7 @@
                 }
             });
         </script>
-        <script src="${pageContext.request.contextPath}/js/validaciones.js" type="module"></script>
+        <script src="${pageContext.request.contextPath}/js/register.js" type="module"></script>
     </body>
 
 </html>

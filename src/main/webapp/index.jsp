@@ -56,15 +56,15 @@
                         <img src="assets/estu.png" alt="" class="container__img">
                     </figure>
 
-                    <form action="sv_login" method="POST" class="container__form form__valid">
+                    <form action="sv_login" method="POST" class="form container__form" novalidate>
                         <h2 class="form__title">ESTUDIANTE</h2>
 
                         <div class="form__group">
-                            <input type="text" class="form__input solo-numeros obligatorio" placeholder="Documento de identidad" name="dni" maxlength="10">
+                            <input type="text" class="form__input dni solo-numeros" placeholder="Documento de identidad" name="dni" maxlength="10" required>
                         </div>
 
                         <div class="form__group">
-                            <input type="password" class="form__input obligatorio" placeholder="Contraseña" name="password">
+                            <input type="password" class="form__input pass" placeholder="Contraseña" name="password" required>
                         </div>
 
                         <button class="form__btn" name="ingresarEstu">Ingresar</button>
@@ -79,14 +79,14 @@
                         <img src="assets/profe.png" alt="" class="container__img">
                     </figure>
 
-                    <form action="sv_login" method="POST" class="container__form container__form--doc form__valid">
+                    <form action="sv_login" method="POST" class="form container__form container__form--doc" novalidate>
                         <h2 class="form__title form__title--doc">DOCENTE</h2>
 
                         <div class="form__group">
-                            <input type="text" class="form__input form__input--doc solo-numeros obligatorio" placeholder="Documento de identidad" name="dni" maxlength="10">
+                            <input type="text" class="form__input form__input--doc dni solo-numeros" placeholder="Documento de identidad" name="dni" maxlength="10" required>
                         </div>
                         <div class="form__group">
-                            <input type="password" class="form__input form__input--doc obligatorio" placeholder="Contraseña" name="password">
+                            <input type="password" class="form__input form__input--doc pass" placeholder="Contraseña" name="password" required>
                         </div>
 
                         <button class="form__btn form__btn--doc" name="ingresarDocen">Ingresar</button>
@@ -99,14 +99,14 @@
                         <img src="assets/admin.png" alt="" class="container__img">
                     </figure>
 
-                    <form action="sv_login" method="POST" class="container__form container__form--admin form__valid">
+                    <form action="sv_login" method="POST" class="form container__form container__form--admin" novalidate>
                         <h2 class="form__title form__title--admin">ADMINISTRADOR</h2>
 
                         <div class="form__group">
-                            <input type="text" class="form__input form__input--admin solo-numeros obligatorio" placeholder="Documento de identidad" name="dni" maxlength="10">
+                            <input type="text" class="form__input form__input--admin dni solo-numeros" placeholder="Documento de identidad" name="dni" maxlength="10" required>
                         </div>
                         <div class="form__group">
-                            <input type="password" class="form__input form__input--admin obligatorio" placeholder="Contraseña" name="password">
+                            <input type="password" class="form__input form__input--admin pass" placeholder="Contraseña" name="password" required>
                         </div>
 
                         <button class="form__btn form__btn--admin" name="ingresarAdmin">Ingresar</button>
@@ -116,7 +116,6 @@
 
         </main>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
         <script>
             // Mostrar SweetAlert si hay un mensaje de error en la sesión
             window.addEventListener('load', function () {
@@ -141,47 +140,6 @@
                 }
             });
         </script>
-
-        <script>
-            let cestu = document.getElementById("container__estu");
-            let cdoc = document.getElementById("container__doc");
-            let cadmin = document.getElementById("container__admin");
-            let btnadmin = document.getElementById("btn__admin");
-            let btndoc = document.getElementById("btn__doc");
-            let btnestu = document.getElementById("btn__estu");
-
-            // Escuchador de evento para el botón de administrador
-            btnadmin.addEventListener("click", function () {
-                cestu.classList.add("disable");
-                cdoc.classList.add("disable");
-                cadmin.classList.remove("disable");
-                btnadmin.classList.add("select");
-                btndoc.classList.remove("select");
-                btnestu.classList.remove("select");
-            });
-
-            // Escuchador de evento para el botón de docente
-            btndoc.addEventListener("click", function () {
-                cestu.classList.add("disable");
-                cdoc.classList.remove("disable");
-                cadmin.classList.add("disable");
-                btnadmin.classList.remove("select");
-                btndoc.classList.add("select");
-                btnestu.classList.remove("select");
-            });
-
-            // Escuchador de evento para el botón de estudiante
-            btnestu.addEventListener("click", function () {
-                cestu.classList.remove("disable");
-                cdoc.classList.add("disable");
-                cadmin.classList.add("disable");
-                btnadmin.classList.remove("select");
-                btndoc.classList.remove("select");
-                btnestu.classList.add("select");
-            });
-        </script>
+        <script src="${pageContext.request.contextPath}/js/index.js" type="module"></script>
     </body>
-
-    <script src="${pageContext.request.contextPath}/js/validaciones.js" type="module"></script>
-
 </html>

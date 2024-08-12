@@ -71,7 +71,7 @@
                     </tbody>
                 </table>
 
-                <form id="formEditar" class="form__valid display--none" action="${pageContext.request.contextPath}/sv_categorias" method="POST">
+                <form id="formEditar" class="display--none" action="${pageContext.request.contextPath}/sv_categorias" method="POST" novalidate>
                     <div class="modal__content modal__content--wd">
                         <div class="modal__header">
                             <h2>Editar ${categoria}</h2>
@@ -81,13 +81,13 @@
                         <input type="hidden" name="categoria" value="${categoria}">
                         <input type="hidden" name="id" id="editId">
                         <div class="form__group">
-                            <input type="text" name="nombre" id="editNombre" class="modal__input obligatorio solo-letras" placeholder="Editar ${categoria}">
+                            <input type="text" name="nombre" id="editNombre" class="modal__input solo-letras" placeholder="Editar ${categoria}" maxlength="20" required>
                         </div>
                         <button class="modal__btn modal__btn--wd" type="submit">Editar</button>
                     </div>
                 </form>
 
-                <form id="formAgregar" class="form__valid display--none" action="${pageContext.request.contextPath}/sv_categorias" method="POST">
+                <form id="formAgregar" class="display--none" action="${pageContext.request.contextPath}/sv_categorias" method="POST" novalidate>
                     <div class="modal__content modal__content--wd">
                         <div class="modal__header">
                             <h2>Agregar ${categoria}</h2>
@@ -96,7 +96,7 @@
                         <input type="hidden" name="action" value="Add">
                         <input type="hidden" name="categoria" value="${categoria}">
                         <div class="form__group">
-                            <input type="text" name="nombre" class="modal__input obligatorio solo-letras" placeholder="Ingrese el nombre">
+                            <input type="text" name="nombre" class="modal__input solo-letras" placeholder="Ingrese el nombre" maxlength="20" required>
                         </div>
                         <button class="modal__btn modal__btn--wd" type="submit">Agregar</button>
                     </div>

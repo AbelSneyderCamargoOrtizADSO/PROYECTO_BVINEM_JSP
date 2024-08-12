@@ -253,7 +253,7 @@ h2{
 
 /* MODAL - FORMULARIO EDITAR FORO */
 .modal {
-    display: none;
+    display: block;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -298,12 +298,16 @@ h2{
     overflow-y: auto;
     background-color: #fefefe;
 }
+.modal__group{
+    margin-bottom: 20px;
+}
 .modal__input{
     padding: 12px 15px;
     border-radius: var(--radius);
-    margin-bottom: 20px;
     outline: none;
     border: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 .margin-top{
     margin-top: 20px;
@@ -323,6 +327,24 @@ h2{
 }
 .modal__button:hover {
     background-color: #45a049;
+}
+
+.display--none {
+    display: none;
+}
+
+.error{
+    border: 2px solid red;
+}
+
+.correcto{
+    border: 2px solid #04d24c;
+}
+
+.mensaje-error{
+    color: red;
+    font-size: 12px;
+    display: block;
 }
 
 @media screen and (max-width:1300px){

@@ -3,8 +3,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
-const editarRespuBtn = document.querySelectorAll(".editarRespuBtn");
+import {abrirModal, cerrarModal} from './modules/modal.js';
+import is_valid from './modules/valid.js';
+import confirmar from './modules/confirmDelete.js';
 
+// Variables
+const editarForo = document.querySelector("#editarForoBtn");
+const editarRespuBtn = document.querySelectorAll(".editarRespuBtn");
+const modalEditarRespuesta = document.getElementById("modalEditarRespuesta");
+const modalEditarForo = document.getElementById('modalEditarForo');
+const cerrar = document.querySelectorAll(".modal__close");
+
+const respuForm = document.getElementById('respuForm');
+const respuesta = document.getElementById('respuesta');
+
+const editarRespuestaForm = document.getElementById('editarRespuestaForm');
+const respuestaEditada = document.getElementById('respuestaEditada');
+
+const editarForoForm = document.getElementById('editarForoForm');
+const foroEditado = document.getElementById('foroEditado');
+
+
+// Asignar los textos enriquecidos a los textarea
 var quill = new Quill('#editor', {
     theme: 'snow'
 });
@@ -17,116 +37,79 @@ var quillEditForo = new Quill('#editorForo', {
     theme: 'snow'
 });
 
-document.getElementById('respuForm').addEventListener('submit', function () {
-    document.getElementById('respuesta').value = quill.root.innerHTML;
+respuForm.addEventListener('submit', function () {
+    respuesta.value = quill.root.innerHTML;
+    is_valid(event, "#respuForm [required]");
 });
 
-document.getElementById('editarRespuestaForm').addEventListener('submit', function () {
-    document.getElementById('respuestaEditada').value = quillEdit.root.innerHTML;
+editarRespuestaForm.addEventListener('submit', function () {
+    respuestaEditada.value = quillEdit.root.innerHTML;
+    is_valid(event, "#editarRespuestaForm [required]");
 });
 
-document.getElementById('editarForoForm').addEventListener('submit', function () {
-    document.getElementById('foroEditado').value = quillEditForo.root.innerHTML;
+editarForoForm.addEventListener('submit', function () {
+    foroEditado.value = quillEditForo.root.innerHTML;
+    is_valid(event, "#editarForoForm [required]");
 });
 
-function abrirModal(id) {
-    let contenido = document.getElementById('contenidoRespuesta' + id).innerHTML;
-    contenido = limpiarParrafosVacios(contenido); // Limpia los párrafos vacíos antes de insertar en Quill
-    quillEdit.root.innerHTML = contenido;
-    document.getElementById('respuestaIdEdit').value = id;
-    document.getElementById('modalEditarRespuesta').style.display = 'block';
-}
 
-editarRespuBtn.forEach(btn => {
-    let idRespuesta = btn.getAttribute('data-id');
-    btn.addEventListener("click", () => abrirModal(idRespuesta));
-});
+// Editar Foro
+editarForo.addEventListener("click", () => abrirModalEditarForo());
 
 function abrirModalEditarForo() {
     let contenido = document.querySelector('.present__text').innerHTML;
     contenido = limpiarParrafosVacios(contenido); // Limpia los párrafos vacíos antes de insertar en Quill
     quillEditForo.root.innerHTML = contenido;
-    document.getElementById('modalEditarForo').style.display = 'block';
+    abrirModal(modalEditarForo);
 }
 
+// Editar Respuesta
+function modalEditarRespu(id) {
+    let contenido = document.getElementById('contenidoRespuesta' + id).innerHTML;
+    contenido = limpiarParrafosVacios(contenido); // Limpia los párrafos vacíos antes de insertar en Quill
+    quillEdit.root.innerHTML = contenido;
+    document.getElementById('respuestaIdEdit').value = id;
+    abrirModal(modalEditarRespuesta);
+}
+
+editarRespuBtn.forEach(btn => {
+    let idRespuesta = btn.getAttribute('data-id');
+    btn.addEventListener("click", () => modalEditarRespu(idRespuesta));
+});
+
+// Cerrar modal
+cerrar.forEach(btn => {
+    btn.addEventListener("click", () => cerrarModal(btn.closest(".modal")));
+});
+
+window.onclick = function (event) {
+    if (event.target === modalEditarRespuesta) {
+        cerrarModal(modalEditarRespuesta);
+    }
+
+    if (event.target === modalEditarForo) {
+        cerrarModal(modalEditarForo);
+    }
+};
+
+// Limpiar parrafos
 function limpiarParrafosVacios(contenido) {
     // Elimina las etiquetas <p> vacías
     contenido = contenido.replace(/<p>\s*<\/p>/g, '');
     return contenido.trim();
 }
 
-function cerrarModal() {
-    document.getElementById('modalEditarRespuesta').style.display = 'none';
-}
-
-function cerrarModalEditarForo() {
-    document.getElementById('modalEditarForo').style.display = 'none';
-}
-
-window.onclick = function (event) {
-    if (event.target === document.getElementById('modalEditarRespuesta')) {
-        cerrarModal();
-    }
-
-    if (event.target === document.getElementById('modalEditarForo')) {
-        cerrarModalEditarForo();
-    }
-}
-
+// Confirmar eliminacion
 //FORO
 document.querySelectorAll('.eliminarForo').forEach(button => {
-    button.addEventListener('click', function () {
-        const form = this.closest('form'); // Encuentra el formulario más cercano
-
-        Swal.fire({
-            title: '¿Estás seguro de eliminar este Foro?',
-            text: "¡Esta acción no se puede deshacer!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Se creal el input con name = "eliminarRespu" en true para que sea identificado en la condicional del servlet 
-                const inputEliminar = document.createElement('input');
-                inputEliminar.type = 'hidden';
-                inputEliminar.name = 'eliminarForo';
-                inputEliminar.value = 'true';
-                form.appendChild(inputEliminar);
-
-                form.submit(); // Envía el formulario si el usuario confirma
-            }
-        });
+    button.addEventListener('click', (event) => {
+        confirmar(event, "¿Estás seguro de eliminar este Foro?", "¡Esta acción no se puede deshacer!", "eliminarForo", "true");
     });
 });
 
 // RESPUESTAS
 document.querySelectorAll('.eliminarRespu').forEach(button => {
-    button.addEventListener('click', function () {
-        const form = this.closest('form'); // Encuentra el formulario más cercano
-
-        Swal.fire({
-            title: '¿Estás seguro de eliminar esta respuesta?',
-            text: "¡Esta acción no se puede deshacer!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Se creal el input con name = "eliminarRespu" en true para que sea identificado en la condicional del servlet 
-                const inputEliminar = document.createElement('input');
-                inputEliminar.type = 'hidden';
-                inputEliminar.name = 'eliminarRespu';
-                inputEliminar.value = 'true';
-                form.appendChild(inputEliminar);
-
-                form.submit(); // Envía el formulario si el usuario confirma
-            }
-        });
+    button.addEventListener('click', (event) => {
+        confirmar(event, "¿Estás seguro de eliminar esta respuesta?", "¡Esta acción no se puede deshacer!", "eliminarRespu", "true");
     });
 });

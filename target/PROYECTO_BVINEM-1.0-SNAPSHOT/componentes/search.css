@@ -1,0 +1,144 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 11/08/2024, 11:14:14 p. m.
+    Author     : Abelito
+*/
+
+.search {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--green);
+    padding: 3px;
+    border-radius: var(--radius);
+    background-color: white;
+    width: 500px;
+    box-sizing: border-box;
+}
+
+.search__input {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.search__select {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+    color: var(--green);
+    background-color: #009696;
+    border-radius: 0;
+    border-left: 1px solid var(--green);
+    border-right: 1px solid var(--green);
+    cursor: pointer;
+}
+
+.search__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    background-color: var(--green);
+    border: none;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    cursor: pointer;
+    color: white;
+    outline: none;
+}
+
+.search__icon {
+    width: 20px;
+    height: 20px;
+    fill: white;
+}
+
+.search__input::placeholder {
+    color: var(--green);
+}
+
+
+.resultados {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    margin-top: 5px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.resultado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.resultado:hover {
+    background-color: #f0f0f0;
+}
+
+.resultado__title {
+    margin: 0;
+    max-width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resultado__autor,
+.resultado__year,
+.resultado__id {
+    font-size: 14px;
+    color: #666;
+    margin-left: 10px;
+    flex-shrink: 0; /* Evitar que el año o autor se reduzcan en tamaño */
+}
+
+.empty {
+    font-size: 16px;
+    color: #666;
+    text-align: center;
+}
+
+@media screen and (max-width: 800px){
+    :root{
+        --box-pd: 0 15px;
+    }
+    
+    .search{
+        width: 100vw;
+    }
+    
+    .resultados {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 95vw;
+        box-sizing: border-box;
+    }
+
+    .search__input {
+        padding: 3px;
+        font-size: 14px;
+    }
+}

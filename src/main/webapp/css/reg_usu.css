@@ -70,6 +70,20 @@ body {
     max-width: 100% !important;
 }
 
+.error{
+    border: 2px solid red;
+}
+
+.correcto{
+    border: 2px solid #04d24c;
+}
+
+.mensaje-error{
+    color: red;
+    font-size: 12px;
+    display: block;
+}
+
 @media screen and (max-width: 900px) {
     .form{
         width: 100%;

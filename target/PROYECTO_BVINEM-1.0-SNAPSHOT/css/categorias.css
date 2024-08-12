@@ -65,4 +65,17 @@ body {
     width: 400px;
 }
 
+.error{
+    border: 2px solid red;
+}
+
+.correcto{
+    border: 2px solid #04d24c;
+}
+
+.mensaje-error{
+    color: red;
+    font-size: 12px;
+    display: block;
+}
 

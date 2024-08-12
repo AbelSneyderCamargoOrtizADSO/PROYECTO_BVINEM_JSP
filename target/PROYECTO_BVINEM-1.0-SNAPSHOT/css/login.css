@@ -107,6 +107,7 @@ main{
     height: var(--btn-h);
     width: 270px;
     max-width: 70vw;
+    outline: none;
 }
 
 .form__btn{
@@ -182,6 +183,10 @@ main{
 
 .error{
     border: 2px solid red;
+}
+
+.correcto{
+    border: 2px solid #04d24c;
 }
 
 .mensaje-error{

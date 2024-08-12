@@ -65,7 +65,7 @@
                                     <input type="hidden" name="action" value="eliminarForo">
                                     <button type="button" class="eliminarForo"><img src="assets/papelera.png" alt="Eliminar Foro"/></button>
                                 </form>
-                                <button class="editarForo" onclick="abrirModalEditarForo()"><img src="assets/editar.png" alt="Editar Foro"/></button>
+                                <button id="editarForoBtn" class="editarForo"><img src="assets/editar.png" alt="Editar Foro"/></button>
                             </div>
                         </c:if>
                         <c:if test="${(rol == '3' || rol == '4') && foro.usuarioDoc != sessionScope.UserDoc}">
@@ -81,11 +81,11 @@
                 </article>
 
                 <article class="respu">
-                    <form action="${pageContext.request.contextPath}/sv_respuestas" class="form__coment" id="respuForm" method="POST">
+                    <form action="${pageContext.request.contextPath}/sv_respuestas" class="form__coment" id="respuForm" method="POST" novalidate>
                         <h2 class="form__title">Publica tu respuesta</h2>
                         <div class="form__group">
                             <div id="editor"></div>
-                            <textarea class="form__textarea" id="respuesta" name="respuesta" style="display:none;"></textarea>
+                            <textarea class="form__textarea" id="respuesta" name="respuesta" style="display:none;" required></textarea>
                             <input type="hidden" name="foroId" value="${foro.id}">
                             <input type="hidden" name="action" value="enviarRespu">
 
@@ -133,14 +133,18 @@
             </section>
         </main>
 
-        <div id="modalEditarForo" class="modal">
+        <div id="modalEditarForo" class="display--none">
             <div class="modal__content">
-                <span class="modal__close" onclick="cerrarModalEditarForo()">&times;</span>
+                <span class="modal__close">&times;</span>
                 <h2 class="modal__title">Editar Foro</h2>
-                <form id="editarForoForm" class="modal__form" action="${pageContext.request.contextPath}/mostrar_foro" method="POST">
-                    <input type="text" class="modal__input" name="tituloForo" value="${foro.titulo}">
-                    <div id="editorForo" class="modal__editor"></div>
-                    <textarea id="foroEditado" class="modal__textarea" name="foroEditado" style="display:none;"></textarea>
+                <form id="editarForoForm" class="modal__form" action="${pageContext.request.contextPath}/mostrar_foro" method="POST" novalidate>
+                    <div class="modal__group">
+                        <input type="text" class="modal__input" name="tituloForo" value="${foro.titulo}" required>
+                    </div>
+                    <div class="form__group">
+                        <div id="editorForo" class="modal__editor"></div>
+                        <textarea id="foroEditado" class="modal__textarea" name="foroEditado" style="display:none;" required></textarea>
+                    </div>
                     <input type="hidden" name="foroId" id="foroIdEdit" value="${foro.id}">
                     <input type="hidden" name="action" value="editarForo">
                     <button type="submit" class="form__btn margin-top">Guardar Cambios</button>
@@ -148,13 +152,15 @@
             </div>
         </div>
 
-        <div id="modalEditarRespuesta" class="modal">
+        <div id="modalEditarRespuesta" class="display--none">
             <div class="modal__content">
-                <span class="modal__close" onclick="cerrarModal()">&times;</span>
+                <span class="modal__close">&times;</span>
                 <h2 class="modal__title">Editar Respuesta</h2>
-                <form id="editarRespuestaForm" class="modal__form" action="${pageContext.request.contextPath}/sv_respuestas" method="POST">
-                    <div id="editorRespuesta" class="modal__editor"></div>
-                    <textarea id="respuestaEditada" class="modal__textarea" name="respuesta" style="display:none;"></textarea>
+                <form id="editarRespuestaForm" class="modal__form" action="${pageContext.request.contextPath}/sv_respuestas" method="POST" novalidate>
+                    <div class="form__group">
+                        <div id="editorRespuesta" class="modal__editor"></div>
+                        <textarea id="respuestaEditada" class="modal__textarea" name="respuesta" style="display:none;" required></textarea>
+                    </div>
                     <input type="hidden" name="respuestaId" id="respuestaIdEdit">
                     <input type="hidden" name="foroId" value="${foro.id}">
                     <input type="hidden" name="action" value="editarRespu">
@@ -189,6 +195,6 @@
                 }
             });
         </script>
-        <script src="js/foro.js"></script>
+        <script src="js/foro.js" type="module"></script>
     </body>
 </html>

@@ -29,23 +29,23 @@
 
         <main>
             <section class="container">
-                <form action="${pageContext.request.contextPath}/subir_doc" method="POST" class="container__form form__valid" enctype="multipart/form-data">
+                <form action="${pageContext.request.contextPath}/subir_doc" method="POST" class="container__form" enctype="multipart/form-data" novalidate>
                     <div class="container__inputs">
                         <div class="form__group">
-                            <input type="text" class="container__input obligatorio" placeholder="Título del documento" name="titulo" maxlength="40">
+                            <input type="text" id="titulo" class="container__input" placeholder="Título del documento" name="titulo" maxlength="40" required>
                         </div>
                         <div class="form__group">
-                            <input type="text" class="container__input obligatorio solo-letras" placeholder="Autor del documento" name="autor" maxlength="35">
+                            <input type="text" id="autor" class="container__input solo-letras" placeholder="Autor del documento" name="autor" maxlength="35" required>
                         </div>
                         <div class="form__group">
-                            <textarea class="container__input container__input-textarea obligatorio" placeholder="Descripción del documento" name="descripcion" rows="4" maxlength="320"></textarea>
+                            <textarea id="descrip" class="container__input container__input-textarea" placeholder="Descripción del documento" name="descripcion" rows="4" maxlength="320" required></textarea>
                         </div>
                         <div class="form__group">
-                            <input type="text" class="container__input obligatorio solo-numeros" placeholder="Año de publicación" name="año" maxlength="5">
+                            <input id="year" type="text" class="container__input solo-numeros" placeholder="Año de publicación" name="año" maxlength="5" required>
                         </div>
 
                         <div class="form__group">
-                            <select class="container__select obligatorio" name="asignatura">
+                            <select id="asignatura" class="container__select" name="asignatura" required>
                                 <option value="" disabled selected>Seleccione la asignatura</option>
                                 <c:forEach var="asignatura" items="${asignaturas}">
                                     <option value="${asignatura.id}">${asignatura.nombre}</option>
@@ -53,7 +53,7 @@
                             </select>
                         </div>    
                         <div class="form__group">        
-                            <select class="container__select obligatorio" name="idioma">
+                            <select id="idioma" class="container__select" name="idioma" required>
                                 <option value="" disabled selected>Seleccione el idioma</option>
                                 <c:forEach var="idioma" items="${idiomas}">
                                     <option value="${idioma.id}">${idioma.nombre}</option>
@@ -61,7 +61,7 @@
                             </select>
                         </div>    
                         <div class="form__group">
-                            <select class="container__select obligatorio" name="tipo">
+                            <select id="tipo" class="container__select" name="tipo" required>
                                 <option value="" disabled selected>Seleccione el tipo de documento</option>
                                 <c:forEach var="tipo" items="${tipos}">
                                     <option value="${tipo.id}">${tipo.nombre}</option>
@@ -71,12 +71,12 @@
 
                         <div class="form__group">
                             <label><b>Cargar miniatura o portada del libro</b></label>
-                            <input id="inputImagen" type="file" class="container__input obligatorio" name="miniatura" accept=".jpg, .jpeg, .png">
+                            <input id="inputImagen" type="file" class="container__input" name="miniatura" accept=".jpg, .jpeg, .png" required>
                         </div>
 
                         <div class="form__group">
                             <label><b>Cargar Libro o documento en PDF</b></label>
-                            <input id="inputPdf" type="file" class="container__input obligatorio" name="documentoPDF" accept="application/pdf">
+                            <input id="inputPdf" type="file" class="container__input" name="documentoPDF" accept="application/pdf" required>
                         </div>
 
                         <a class="cerrar" href="${pageContext.request.contextPath}/sv_documentos"><i class="bi bi-x-circle-fill"></i></a>
@@ -107,7 +107,6 @@
                 }
             });
         </script>
-        <script src="js/validaciones.js" type="module"></script>
         <script src="js/subirdoc.js" type="module"></script>
 
     </body>

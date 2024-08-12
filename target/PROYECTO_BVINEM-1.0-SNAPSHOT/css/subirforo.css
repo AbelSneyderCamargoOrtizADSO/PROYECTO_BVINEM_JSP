@@ -67,6 +67,7 @@ body {
     font-size: 16px;
     transition: border-color 0.3s;
     box-sizing: border-box;
+    outline: none;
 }
 
 .form__input:focus,
@@ -135,6 +136,24 @@ body {
     border-radius: var(--radius);
     top: 14px;
     right: 14px;
+}
+
+.error{
+    border: 2px solid red;
+}
+
+.correcto{
+    border: 2px solid #04d24c;
+}
+
+.mensaje-error{
+    color: red;
+    font-size: 12px;
+    display: block;
+}
+
+.form__group--sz .mensaje-error{
+    font-size: 16px;
 }
 
 /* RESPONSIVE */

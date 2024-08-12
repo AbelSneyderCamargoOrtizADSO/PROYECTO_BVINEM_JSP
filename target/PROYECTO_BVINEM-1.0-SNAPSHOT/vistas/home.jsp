@@ -94,27 +94,27 @@
                 </c:forEach>
             </section>
             
-            <div id="editModal" class="modal">
+            <div id="editModal" class="display--none">
                 <div class="modal-content">
                     <span class="close" id="closeModal">&times;</span>
-                    <form id="editForm" method="POST" action="sv_documentos" class="form form__valid">
+                    <form id="editForm" method="POST" action="sv_documentos" class="form" novalidate>
                         <h1 class="form__title">Editar documento</h1>
                         <input type="hidden" name="docId" id="editId">
                         <div class="form__group">
                             <label for="editTitulo">Título:</label>
-                            <input type="text" name="titulo" id="editTitulo" class="form__input obligatorio" maxlength="40">
+                            <input type="text" name="titulo" id="editTitulo" class="form__input" maxlength="40" required>
                         </div>
                         <div class="form__group">
                             <label for="editAutor">Autor:</label>
-                            <input type="text" name="autor" id="editAutor" class="form__input solo-letras obligatorio" maxlength="35">
+                            <input type="text" name="autor" id="editAutor" class="form__input solo-letras" maxlength="35" required>
                         </div>
                         <div class="form__group">
                             <label for="editDescripcion">Descripción:</label>
-                            <textarea name="descripcion" id="editDescripcion" class="form__input obligatorio" rows="4" maxlength="320"></textarea>
+                            <textarea name="descripcion" id="editDescripcion" class="form__input" rows="4" maxlength="320" required></textarea>
                         </div>
                         <div class="form__group">
                             <label for="editYear">Año de Publicación:</label>
-                            <input type="text" name="year" id="editYear" class="form__input solo-numeros obligatorio" maxlength="5">
+                            <input type="text" name="year" id="editYear" class="form__input solo-numeros" maxlength="5" required>
                         </div>
                         <button type="submit" name="editDocumento" class="form__btn filter__btn filter__btn-bg">Guardar Cambios</button>
                     </form>

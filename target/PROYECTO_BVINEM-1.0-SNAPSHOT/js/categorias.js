@@ -3,9 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
-import { validarFormularioCampos } from "./validaciones.js";
-
-validarFormularioCampos();
+import vacio from './modules/vacios.js';
+import is_valid from './modules/valid.js';
+import soloLetras from './modules/letras.js';
+import { limpiarMensajeError } from './modules/mensajeError.js';
+import limitedInputs from './modules/length.js';
+import {abrirModal, cerrarModal} from './modules/modal.js';
+import confirmar from './modules/confirmDelete.js';
 
 let titulo = document.querySelector(".header__title");
 titulo.textContent = "Editar las categorias";
@@ -17,51 +21,60 @@ let formAgregar = document.getElementById("formAgregar");
 let inputId = document.getElementById("editId");
 let inputNombre = document.getElementById("editNombre");
 let btnAgregar = document.getElementById("btnAgregar");
+const letras = document.querySelectorAll("form .solo-letras");
+const inputs = document.querySelectorAll(".modal__input");
 
-
+// Modal
+// Abrir modal agregar
 btnAgregar.addEventListener("click", () => {
-    formAgregar.classList.remove("display--none");
-    formAgregar.classList.add("modal");
+    abrirModal(formAgregar);
 });
 
+// Abrir modal editar
 btnsEditar.forEach(btn => {
     btn.addEventListener("click", () => {
         inputId.value = btn.dataset.id;
         inputNombre.value = btn.dataset.nombre;
-
-        formEditar.classList.remove("display--none");
-        formEditar.classList.add("modal");
+        abrirModal(formEditar);
     });
 });
 
+// Cerrar modales
 document.querySelectorAll(".modal__close").forEach(button => {
     button.addEventListener("click", () => {
-        button.closest(".modal").classList.add("display--none");
+        cerrarModal(button.closest(".modal"));
     });
 });
 
-document.querySelectorAll(".Inhabilitar").forEach(button => {
-    button.addEventListener('click', function () {
-        const form = this.closest('form');
-        Swal.fire({
-            title: '¿Estás segur@?',
-            text: "Podrás habilitarlo nuevamente",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, inhabilitar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const inputEliminar = document.createElement('input');
-                inputEliminar.type = 'hidden';
-                inputEliminar.name = 'action';
-                inputEliminar.value = 'inhabilitar';
-                form.appendChild(inputEliminar);
-                form.submit();
-            }
-        });
+// Validaciones
+formEditar.addEventListener("submit", (event) => {
+    is_valid(event, "#formEditar [required]");
+});
+
+formAgregar.addEventListener("submit", (event) => {
+    is_valid(event, "#formAgregar [required]");
+});
+
+letras.forEach(campo => {
+    campo.addEventListener("keypress", soloLetras);
+});
+
+inputs.forEach(campo => {
+    campo.addEventListener("blur", (event) => {
+        vacio(event, campo);
+    });
+
+    campo.addEventListener("keypress", (event) => {
+        limpiarMensajeError(event, campo);
+    });
+});
+
+limitedInputs("input[maxlength]");
+
+// Confirmar eliminacion
+document.querySelectorAll('.Inhabilitar').forEach(button => {
+    button.addEventListener('click', (event) => {
+        confirmar(event, "¿Estás segur@?", "Podrás habilitarlo nuevamente", "action", "inhabilitar");
     });
 });
 

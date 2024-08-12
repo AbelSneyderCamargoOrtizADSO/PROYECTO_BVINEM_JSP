@@ -36,14 +36,14 @@
 
         <main>
             <div class="form-container">
-                <form action="${pageContext.request.contextPath}/subir_foro" method="POST" class="form form__valid" id="foroForm">
+                <form action="${pageContext.request.contextPath}/subir_foro" method="POST" class="form" id="foroForm" novalidate>
                     <div class="form__group">
                         <label class="form__label" for="titulo">Título del Foro</label>
-                        <input class="form__input obligatorio" type="text" id="titulo" name="titulo" maxlength="50">
+                        <input class="form__input" type="text" id="titulo" name="titulo" maxlength="50" required>
                     </div>
                     <div class="form__group form__group-select">
                         <div class="form__group grow">
-                            <select class="form__select obligatorio" name="asignatura" id="asignatura">
+                            <select class="form__select" name="asignatura" id="asignatura" required>
                                 <option value="" disabled selected>Seleccione la asignatura</option>
                                 <c:forEach var="asignatura" items="${asignaturas}">
                                     <option value="${asignatura.id}">${asignatura.nombre}</option>
@@ -52,7 +52,7 @@
                         </div>
                         
                         <div class="form__group grow">
-                            <select class="form__select obligatorio" name="idioma" id="idioma">
+                            <select class="form__select" name="idioma" id="idioma" required>
                                 <option value="" disabled selected>Seleccione el idioma</option>
                                 <c:forEach var="idioma" items="${idiomas}">
                                     <option value="${idioma.id}">${idioma.nombre}</option>
@@ -61,7 +61,7 @@
                         </div>   
                         
                         <div class="form__group grow">
-                            <select class="form__select obligatorio" name="tipof" id="tipof">
+                            <select class="form__select" name="tipof" id="tipof" required>
                                 <option value="" disabled selected>Seleccione el tipo de foro</option>
                                 <c:forEach var="tipo" items="${tiposforo}">
                                     <option value="${tipo.id}">${tipo.nombre}</option>
@@ -69,10 +69,10 @@
                             </select>
                         </div>    
                     </div>
-                    <div class="form__group">
+                    <div class="form__group form__group--sz">
                         <label class="form__label" for="descripcion">Descripción</label>
                         <div id="editor"></div>
-                        <textarea class="form__textarea" id="descripcion" name="descripcion" style="display:none;"></textarea>
+                        <textarea class="form__textarea" id="descripcion" name="descripcion" style="display:none;" required></textarea>
                     </div>
 
                     <a class="cerrar" href="${pageContext.request.contextPath}/sv_foros"><i class="bi bi-x-circle-fill"></i></a>
@@ -97,19 +97,8 @@
                     });
             <% session.removeAttribute("error");%>
                 }
-            });
-            
-            let titulo = document.querySelector(".header__title");
-            titulo.textContent = "Crear Nuevo Foro";
-            
-            var quill = new Quill('#editor', {
-                theme: 'snow'
-            });
-            
-            document.getElementById('foroForm').addEventListener('submit', function () {
-                document.getElementById('descripcion').value = quill.root.innerHTML;
-            });
+            });      
         </script>
-        <script src="js/validaciones.js" type="module"></script>
+        <script src="js/subirforo.js" type="module"></script>
     </body>
 </html>

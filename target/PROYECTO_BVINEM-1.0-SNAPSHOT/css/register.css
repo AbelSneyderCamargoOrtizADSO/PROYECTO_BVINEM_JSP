@@ -90,6 +90,10 @@ body{
     width: 270px;
 }
 
+.form__input:focus{
+    outline: none;
+}
+
 .form__btn{
     padding: 13px 30px;
     border-radius: 10px;
@@ -111,7 +115,11 @@ body{
 }
 
 .error{
-    border: 2px solid red !important;
+    border: 2px solid red;
+}
+
+.correcto{
+    border: 2px solid #04d24c;
 }
 
 .mensaje-error{

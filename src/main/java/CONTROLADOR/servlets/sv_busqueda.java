@@ -7,6 +7,7 @@ package CONTROLADOR.servlets;
 import MODELO.BusquedaClass;
 import MODELO.DocumentoClass;
 import MODELO.foros.ForoClass;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -49,31 +50,39 @@ public class sv_busqueda extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=UTF-8");
+
         HttpSession session = request.getSession(false);
-        
+
         if (session == null || session.getAttribute("logueado") == null) {
             request.setAttribute("error", "Por favor, inicie sesión.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
             return;
         }
-        
-        String query = request.getParameter("query"); // Envia el texto de busqueda
-        String tipo = request.getParameter("tipo"); // Documento o foro
+
+        String query = request.getParameter("query");
+        String tipo = request.getParameter("tipo");
 
         BusquedaClass busqueda = new BusquedaClass();
-        List<DocumentoClass> resultadosLibros = null; // Declaramos la lista para almacenar resultados de los libros
+        List<DocumentoClass> resultadosLibros = null;
         List<ForoClass> resultadosForos = null;
 
-        if ("libros".equalsIgnoreCase(tipo)) { // Verifica si el valor de la variable "tipo" es igual a "libros" (sin considerar mayúsculas o minúsculas)
-            resultadosLibros = busqueda.buscarDocumentos(query); // Asignamos a la variable la lista retornada en el metodo buscarDocumentos de la clase BusquedaClass
+        if ("libros".equalsIgnoreCase(tipo)) {
+            resultadosLibros = busqueda.buscarDocumentos(query);
         } else if ("foros".equalsIgnoreCase(tipo)) {
             resultadosForos = busqueda.buscarForos(query);
         }
 
-        request.setAttribute("resultadosLibros", resultadosLibros);
-        request.setAttribute("resultadosForos", resultadosForos);
-        request.setAttribute("tipo", tipo);
-        request.getRequestDispatcher("vistas/busqueda.jsp").forward(request, response);
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
+        if ("libros".equalsIgnoreCase(tipo)) {
+            out.write(new Gson().toJson(resultadosLibros));  // Usar Gson para convertir la lista a JSON
+        } else if ("foros".equalsIgnoreCase(tipo)) {
+            out.write(new Gson().toJson(resultadosForos)); // Convierte la lista resultadosLibros a una cadena JSON usando la biblioteca Gson y luego escribe esa cadena en la respuesta HTTP.
+        }
+        out.flush(); // Asegurar que todo el contenido escrito sea enviado al cliente
     }
 
     /**

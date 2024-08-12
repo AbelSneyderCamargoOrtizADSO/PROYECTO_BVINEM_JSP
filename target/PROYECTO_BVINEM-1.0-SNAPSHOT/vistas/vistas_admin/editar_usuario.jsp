@@ -26,26 +26,26 @@
         <main>
             <section class="container container--margin">
                 <div id="form">
-                    <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="form form__valid">
+                    <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="form" novalidate>
                         <a href="${pageContext.request.contextPath}/sv_usuario" class="form__cerrar"><i class="bi bi-x-circle-fill"></i></a>
                         <input type="hidden" name="userId" value="${usuario.docUsu}">
                         <input type="hidden" id="rol" value="${usuario.rol}">
                         <input id="tipoUsuario" type="hidden" name="tipoUsuario" value="${tipoUser}">
                         <div class="form__group">
                             <label for="documento" class="form__label">Documento de Identidad</label>
-                            <input type="text" id="documento" class="form__input solo-numeros obligatorio" value="${usuario.docUsu}" name="nuevoDoc">
+                            <input type="text" id="documento" class="form__input solo-numeros" value="${usuario.docUsu}" name="nuevoDoc" required>
                         </div>
                         <div class="form__group">
                             <label for="nombres" class="form__label">Nombres</label>
-                            <input type="text" id="nombres" class="form__input solo-letras obligatorio" name="nombres" value="${usuario.nombre}">
+                            <input type="text" id="nombres" class="form__input solo-letras" name="nombres" value="${usuario.nombre}" required>
                         </div>
                         <div class="form__group">
                             <label for="apellidos" class="form__label">Apellidos</label>
-                            <input type="text" id="apellidos" class="form__input solo-letras obligatorio" name="apellidos" value="${usuario.apellido}">
+                            <input type="text" id="apellidos" class="form__input solo-letras" name="apellidos" value="${usuario.apellido}" required>
                         </div>
                         <div class="form__group">
                             <label for="correo" class="form__label">Correo Electrónico</label>
-                            <input type="text" id="correo" class="form__input obligatorio" name="correo" value="${usuario.correo}">
+                            <input type="text" id="correo" class="form__input" name="correo" value="${usuario.correo}" required>
                         </div>
                         <div class="form__group">
                             <label for="contrasena" class="form__label">Cambiar contraseña</label>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="form__group">
                             <label for="cambiarRol" class="form__label">Cambiar rol</label>
-                            <select class="form__select obligatorio" name="rol" id="cambiarRol">
+                            <select class="form__select" name="rol" id="cambiarRol" required>
                                 <c:if test="${rol == '4'}">
                                     <option class="select__rol" value="3">Administrador</option>
                                 </c:if>

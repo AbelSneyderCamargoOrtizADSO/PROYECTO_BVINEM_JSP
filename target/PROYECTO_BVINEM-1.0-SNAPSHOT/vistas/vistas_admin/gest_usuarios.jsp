@@ -266,8 +266,7 @@
             }
         </script>
 
-        <script src="js/gestionar.js"></script>
-        <script src="js/validaciones.js" type="module"></script>
+        <script src="js/gestionar.js" type="module"></script>
         <script src="js/pagination.js"></script>
     </body>
 </html>

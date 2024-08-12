@@ -3,9 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
-import {validarFormularioCampos} from "./validaciones.js"
-
-validarFormularioCampos();
+import vacio from './modules/vacios.js';
+import is_valid from './modules/valid.js';
+import soloLetras from './modules/letras.js';
+import soloNumeros from './modules/numeros.js';
+import { limpiarMensajeError } from './modules/mensajeError.js';
+import limitedInputs from './modules/length.js';
+import {abrirModal, cerrarModal} from './modules/modal.js';
+import clearSelects from './modules/filtrosForm.js';
+import confirmar from './modules/confirmDelete.js';
 
 const btnEditar = document.querySelectorAll('.editDoc');
 const editId = document.getElementById('editId');
@@ -13,9 +19,16 @@ const editTitulo = document.getElementById('editTitulo');
 const editAutor = document.getElementById('editAutor');
 const editDescripcion = document.getElementById('editDescripcion');
 const editYear = document.getElementById('editYear');
-const closeModal = document.getElementById('editModal');
+const modal = document.getElementById('editModal');
+const closeModal = document.getElementById('closeModal');
+const filterForm = document.getElementById('filter__form');
 
+const form = document.querySelector("#editForm");
+const letras = document.querySelectorAll("form .solo-letras");
+const numeros = document.querySelectorAll("form .solo-numeros");
+const inputs = document.querySelectorAll(".form__input");
 
+// Modal
 btnEditar.forEach(btn => {
     btn.addEventListener("click", function () {
         const book = this.closest('.books__book');
@@ -26,50 +39,48 @@ btnEditar.forEach(btn => {
         editDescripcion.value = book.dataset.descripcion;
         editYear.value = book.dataset.year;
 
-        closeModal.style.display = 'block';
+        abrirModal(modal);
     });
 });
 
-// Añadir un evento de clic para cerrar el modal
-document.getElementById('closeModal').addEventListener('click', function () {
-    document.getElementById('editModal').style.display = 'none';
+closeModal.addEventListener('click', function () {
+    cerrarModal(modal);
+});
+
+// Validaciones
+form.addEventListener("submit", (event) => {
+    is_valid(event, "form [required]");
+});
+
+letras.forEach(campo => {
+    campo.addEventListener("keypress", soloLetras);
+});
+
+numeros.forEach(campo => {
+    campo.addEventListener("keypress", soloNumeros);
+});
+
+inputs.forEach(campo => {
+    campo.addEventListener("blur", (event) => {
+        vacio(event, campo);
+    });
+
+    campo.addEventListener("keypress", (event) => {
+        limpiarMensajeError(event, campo);
+    });
 });
 
 // EVITAR ENVIO DE FORMULARIO CON FILTROS VACIOS
-document.getElementById('filter__form').addEventListener('submit', function (event) {
-    // Obtener todos los select del formulario
-    let selects = this.querySelectorAll('select'); // Aquí, this hace referencia al elemento al que se adjunto el evento addEventListener (es decir el formulario) 
-
-    // Iterar sobre los select y eliminar aquellos que están vacíos
-    selects.forEach(select => {
-        if (!select.value) {
-            select.name = '';  // Eliminar el nombre del campo para que no sea enviado
-        }
-    });
+filterForm.addEventListener('submit', function (event) {
+    let selects = this.querySelectorAll('select');  
+    clearSelects(event, selects);
 });
 
 document.querySelectorAll('.eliminarDoc').forEach(button => {
-    button.addEventListener('click', function () {
-        const form = this.closest('form');
-        Swal.fire({
-            title: '¿Estás seguro de eliminar este libro?',
-            text: "Esta opción no es reversible",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const inputEliminar = document.createElement('input');
-                inputEliminar.type = 'hidden';
-                inputEliminar.name = 'eliminarDocumento';
-                inputEliminar.value = 'true';
-                form.appendChild(inputEliminar);
-                form.submit();
-            }
-        });
+    button.addEventListener('click', (event) => {
+        confirmar(event, "¿Estás seguro de eliminar este libro?", "Esta opción no es reversible", "eliminarDocumento", "true");
     });
 });
+
+limitedInputs("input[maxlength]");
 

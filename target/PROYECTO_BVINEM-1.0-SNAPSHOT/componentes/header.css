@@ -1,4 +1,7 @@
 
+
+@import url(search.css);
+
 /*    HEADER    */
 .header{
     display: flex;
@@ -19,69 +22,8 @@
     width: 65px;
 }
 
-.header__search{
-    border: 2px solid var(--green);
-    padding: var(--search-pd);
-    border-radius: var(--radius);
-    background: none;
-    width: 500px;
-}
-
 .header__search {
-    display: flex;
-    align-items: center;
-    border: 2px solid var(--green);
-    padding: 3px;
-    border-radius: var(--radius);
-    background-color: white;
-    width: 500px;
-    box-sizing: border-box;
-}
-
-.search__input {
-    flex-grow: 1;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    outline: none;
-    border-radius: var(--radius) 0 0 var(--radius);
-}
-
-.search__select {
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    background: none;
-    outline: none;
-    color: var(--green);
-    background-color: #009696;
-    border-radius: 0;
-    border-left: 1px solid var(--green);
-    border-right: 1px solid var(--green);
-    cursor: pointer;
-}
-
-.search___button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 15px;
-    background-color: var(--green);
-    border: none;
-    border-radius: 0 var(--radius) var(--radius) 0;
-    cursor: pointer;
-    color: white;
-    outline: none;
-}
-
-.search__icon {
-    width: 20px;
-    height: 20px;
-    fill: white;
-}
-
-.search__input::placeholder {
-    color: var(--green);
+    position: relative;
 }
 
 .header__title{
@@ -137,8 +79,6 @@
     text-decoration: underline;
 }
 
-
-
 .header__menu{
     display: flex;
     align-items: center;
@@ -186,7 +126,7 @@
     }
 }
 
-@media screen and (max-width: 690px){
+@media screen and (max-width: 800px){
     :root{
         --box-pd: 0 15px;
     }
@@ -205,25 +145,16 @@
     }
 
     .header__search{
-        width: 100%;
+        max-width: 100vw;
         position: absolute;
         bottom: -50px;
         left: 0;
+        align-items: center;
     }
 
     .header__search{
         order: 4;
     }
-
-    .search__input {
-        padding: 3px;
-        font-size: 14px;
-    }
-
-}
-
-.error{
-    border: 2px solid red !important;
 }
 
 .mensaje-error{

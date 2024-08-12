@@ -197,7 +197,7 @@ body{
 
 /*  MODAL  */
 .modal {
-    display: none;
+    display: block;
     position: fixed;
     z-index: 999;
     left: 0;
@@ -277,6 +277,24 @@ body{
 .modal-content label {
     margin-top: 10px;
     font-weight: 700;
+}
+
+.error{
+    border: 2px solid red;
+}
+
+.correcto{
+    border: 2px solid #04d24c;
+}
+
+.mensaje-error{
+    color: red;
+    font-size: 12px;
+    display: block;
+}
+
+.display--none {
+    display: none;
 }
 
 @media screen and (max-width:1200px) {

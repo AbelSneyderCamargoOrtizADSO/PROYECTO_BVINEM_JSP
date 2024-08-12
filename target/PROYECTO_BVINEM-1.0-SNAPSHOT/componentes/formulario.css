@@ -67,7 +67,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 
 .form__input:focus,
 .formulario__select:focus {
-    border-color: var(--greenh);
     outline: none;
 }
 
@@ -93,7 +92,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 }
 
 .error{
-    border: 2px solid red !important;
+    border: 2px solid red;
+}
+
+.correcto{
+    border: 2px solid #04d24c;
 }
 
 .mensaje-error{

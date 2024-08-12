@@ -52,7 +52,7 @@ public class BusquedaClass {
         try {
             conex = conexion.Conexion();
             stat = conex.prepareStatement(sql);
-            stat.setString(1, query + "%");
+            stat.setString(1, "%" + query + "%");
             rs = stat.executeQuery();
 
             while (rs.next()) {
@@ -102,7 +102,7 @@ public class BusquedaClass {
         try {
             conex = conexion.Conexion();
             stat = conex.prepareStatement(sql);
-            stat.setString(1, query + "%");
+            stat.setString(1, "%" + query + "%");
             rs = stat.executeQuery();
 
             while (rs.next()) {

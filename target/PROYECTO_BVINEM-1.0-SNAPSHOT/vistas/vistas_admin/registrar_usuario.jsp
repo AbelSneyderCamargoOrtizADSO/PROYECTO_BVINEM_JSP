@@ -25,7 +25,7 @@
         <main>
             <section class="container">
                 <div id="form">
-                    <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="form form--width form__valid">
+                    <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="form form--width" novalidate>
                         <a href="${pageContext.request.contextPath}/sv_usuario" class="form__cerrar"><i class="bi bi-x-circle-fill"></i></a>
                         <h2 class="form__title">Registrar ${tipoUser}</h2>
                         <input type="hidden" name="userId" value="${usuario.docUsu}">
@@ -33,32 +33,39 @@
                         <input id="tipoUsuario" type="hidden" name="tipoUsuario" value="${tipoUser}">
                         <div class="form__group">
                             <label for="documento" class="form__label form__label--color">Documento de Identidad</label>
-                            <input type="text" id="documento" class="form__input solo-numeros obligatorio" value="${usuario.docUsu}" name="nuevoDoc" maxlength="10">
+                            <input type="text" id="documento" class="form__input solo-numeros" value="${usuario.docUsu}" name="nuevoDoc" maxlength="10" required>
                         </div>
                         <div class="form__group-container">
                             <div class="form__group">
                                 <label for="nombres" class="form__label form__label--color">Nombres</label>
-                                <input type="text" id="nombres" class="form__input solo-letras obligatorio" name="nombres" value="${usuario.nombre}">
+                                <input type="text" id="nombres" class="form__input solo-letras" name="nombres" value="${usuario.nombre}" required>
                             </div>
                             <div class="form__group">
                                 <label for="apellidos" class="form__label form__label--color">Apellidos</label>
-                                <input type="text" id="apellidos" class="form__input solo-letras obligatorio" name="apellidos" value="${usuario.apellido}">
+                                <input type="text" id="apellidos" class="form__input solo-letras" name="apellidos" value="${usuario.apellido}" required>
                             </div>
                         </div>
                         <div class="form__group">
                             <label for="correo" class="form__label form__label--color">Correo Electrónico</label>
-                            <input type="text" id="correo" class="form__input obligatorio" name="correo" value="${usuario.correo}">
+                            <input type="text" id="correo" class="form__input" name="correo" value="${usuario.correo}" required>
                         </div>
                         
                         <div class="form__group-container">
                             <div class="form__group">
                                 <label for="contrasena" class="form__label form__label--color">Contraseña</label>
-                                <input type="password" id="contrasena" class="form__input obligatorio" name="password">
+                                <input type="password" id="contrasena" class="form__input" name="password" required>
                             </div>
                             <div class="form__group">
                                 <label for="contrasena" class="form__label form__label--color">Confirmar contraseña</label>
-                                <input type="password" id="confirContra" class="form__input" name="confirmPass">
+                                <input type="password" id="confirContra" class="form__input" name="confirmPass" required>
                             </div>
+                        </div>
+                        
+                        <div class="form__group">
+                            <label for="aceptarTerminos" class="form__label">
+                                <input type="checkbox" id="aceptarTerminos" name="aceptarTerminos" required>
+                                Acepto los <a href="${pageContext.request.contextPath}/vistas/tyc.jsp" target="_blank">términos y condiciones</a> de registro de usuario.
+                            </label>
                         </div>
                         <button id="btnEnviar" type="submit" class="form__btn form__btn--bg" disabled>Guardar cambios</button>
                     </form>

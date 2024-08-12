@@ -55,6 +55,7 @@ body{
     border-radius: var(--radius);
     background-color: var(--green3);
     height: var(--btn-h);
+    outline: none;
 }
 
 .container__input-textarea{
@@ -115,6 +116,14 @@ body{
     width: 350px;
     height: 530px;
     object-fit: cover;
+}
+
+.error{
+    border: 2px solid red;
+}
+
+.correcto{
+    border: 2px solid #04d24c;
 }
 
 /*  RESPONSIVE  */

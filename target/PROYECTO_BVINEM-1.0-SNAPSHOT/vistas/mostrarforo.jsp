@@ -56,16 +56,16 @@
                             Publicado por: ${foro.rolUsuario} - ${foro.nombreUsuario}
                         </p>
 
-                        <a href="${pageContext.request.contextPath}/sv_foros" class="present__cerrar"><i class="bi bi-x-circle-fill"></i></a>
+                        <a href="${pageContext.request.contextPath}/sv_foros" class="cerrar"><i class="bi bi-x-circle-fill"></i></a>
 
                         <c:if test="${foro.usuarioDoc == sessionScope.UserDoc}">
                             <div class="respu__crud margin-bottom">
                                 <form action="${pageContext.request.contextPath}/mostrar_foro" method="POST" class="form_eliminar">
                                     <input type="hidden" name="foroId" value="${foro.id}">
                                     <input type="hidden" name="action" value="eliminarForo">
-                                    <button type="button" class="eliminarForo"><img src="assets/papelera.png" alt="Eliminar Foro"/></button>
+                                    <button type="button" class="eliminarForo eliminar"><img class="delete__icon" src="assets/papelera.png" alt="Eliminar Foro"/></button>
                                 </form>
-                                <button id="editarForoBtn" class="editarForo"><img src="assets/editar.png" alt="Editar Foro"/></button>
+                                <button id="editarForoBtn" class="editar"><img class="edit__icon" src="assets/editar.png" alt="Editar Foro"/></button>
                             </div>
                         </c:if>
                         <c:if test="${(rol == '3' || rol == '4') && foro.usuarioDoc != sessionScope.UserDoc}">
@@ -73,7 +73,7 @@
                                 <form action="${pageContext.request.contextPath}/mostrar_foro" method="POST" class="form_eliminar">
                                     <input type="hidden" name="foroId" value="${foro.id}">
                                     <input type="hidden" name="action" value="eliminarForo">
-                                    <button type="button" class="eliminarForo"><img src="assets/papelera.png" alt="Eliminar Foro"/></button>
+                                    <button type="button" class="eliminarForo eliminar"><img class="delete__icon" src="assets/papelera.png" alt="Eliminar Foro"/></button>
                                 </form>
                             </div>
                         </c:if>
@@ -81,28 +81,28 @@
                 </article>
 
                 <article class="respu">
-                    <form action="${pageContext.request.contextPath}/sv_respuestas" class="form__coment" id="respuForm" method="POST" novalidate>
-                        <h2 class="form__title">Publica tu respuesta</h2>
-                        <div class="form__group">
+                    <form action="${pageContext.request.contextPath}/sv_respuestas" class="coment" id="respuForm" method="POST" novalidate>
+                        <h2 class="coment__title">Publica tu respuesta</h2>
+                        <div class="coment__group">
                             <div id="editor"></div>
-                            <textarea class="form__textarea" id="respuesta" name="respuesta" style="display:none;" required></textarea>
+                            <textarea class="coment__textarea" id="respuesta" name="respuesta" style="display:none;" required></textarea>
                             <input type="hidden" name="foroId" value="${foro.id}">
                             <input type="hidden" name="action" value="enviarRespu">
 
                         </div>
-                        <button class="form__btn" type="submit">Publicar</button>
+                        <button class="coment__btn" type="submit">Publicar</button>
                     </form>
 
                     <h2 class="respu__title">RESPUESTAS</h2>
 
                     <c:forEach var="respuesta" items="${respuestas}" varStatus="status">
                         <div class="respu__card">
-                            <div class="card__info">
-                                <p class="card__name">${respuesta.rolUsuario}: ${respuesta.nombreUsuario}</p>
-                                <p class="card__fecha">${respuesta.fechaPublicacion} <br> <span class="card__num">#${status.index + 1}</span></p>
+                            <div class="respu__info">
+                                <p class="respu__name">${respuesta.rolUsuario}: ${respuesta.nombreUsuario}</p>
+                                <p class="respu__fecha">${respuesta.fechaPublicacion} <br> <span class="respu__num">#${status.index + 1}</span></p>
                             </div>
                             <div class="separador"></div>
-                            <div class="contenidoRespuesta" id="contenidoRespuesta${respuesta.id}">
+                            <div class="respu__text contenidoRespuesta" id="contenidoRespuesta${respuesta.id}">
                                 ${respuesta.contenido}
                             </div>
 
@@ -112,9 +112,9 @@
                                         <input type="hidden" name="respuestaId" value="${respuesta.id}">
                                         <input type="hidden" name="foroId" value="${foro.id}">
                                         <input type="hidden" name="action" value="eliminarRespu">
-                                        <button type="button" class="eliminarRespu"><img src="assets/papelera.png" alt="alt"/></button>
+                                        <button type="button" class="eliminarRespu eliminar"><img class="delete__icon" src="assets/papelera.png" alt="alt"/></button>
                                     </form>
-                                    <button class="editarRespuBtn editarRespu" data-id="${respuesta.id}"><img src="assets/editar.png" alt="alt"/></button>
+                                    <button class="editarRespuBtn editar" data-id="${respuesta.id}"><img class="edit__icon" clas src="assets/editar.png" alt="alt"/></button>
                                 </div>
                             </c:if>
                             <c:if test="${(rol == '3' || rol == '4') && respuesta.usuarioId != sessionScope.UserDoc}">
@@ -123,7 +123,7 @@
                                         <input type="hidden" name="respuestaId" value="${respuesta.id}">
                                         <input type="hidden" name="foroId" value="${foro.id}">
                                         <input type="hidden" name="action" value="eliminarRespu">
-                                        <button type="button" class="eliminarRespu"><img src="assets/papelera.png" alt="alt"/></button>
+                                        <button type="button" class="eliminarRespu eliminar"><img class="delete__icon" src="assets/papelera.png" alt="alt"/></button>
                                     </form>
                                 </div>
                             </c:if>
@@ -134,9 +134,11 @@
         </main>
 
         <div id="modalEditarForo" class="display--none">
-            <div class="modal__content">
-                <span class="modal__close">&times;</span>
-                <h2 class="modal__title">Editar Foro</h2>
+            <div class="modal__content modal__content--bg">
+                <div class="modal__header">
+                    <h2 class="modal__title modal__title--sz">Editar Foro</h2>
+                    <span class="modal__close">&times;</span>
+                </div>
                 <form id="editarForoForm" class="modal__form" action="${pageContext.request.contextPath}/mostrar_foro" method="POST" novalidate>
                     <div class="modal__group">
                         <input type="text" class="modal__input" name="tituloForo" value="${foro.titulo}" required>
@@ -147,15 +149,17 @@
                     </div>
                     <input type="hidden" name="foroId" id="foroIdEdit" value="${foro.id}">
                     <input type="hidden" name="action" value="editarForo">
-                    <button type="submit" class="form__btn margin-top">Guardar Cambios</button>
+                    <button type="submit" class="modal__btn modal__btn--align">Guardar Cambios</button>
                 </form>
             </div>
         </div>
 
-        <div id="modalEditarRespuesta" class="display--none">
-            <div class="modal__content">
-                <span class="modal__close">&times;</span>
-                <h2 class="modal__title">Editar Respuesta</h2>
+        <div id="modalEditarRespuesta" class="display--none ">
+            <div class="modal__content modal__content--bg">
+                <div class="modal__header">
+                    <h2 class="modal__title modal__title--sz">Editar Respuesta</h2>
+                    <span class="modal__close">&times;</span>
+                </div>
                 <form id="editarRespuestaForm" class="modal__form" action="${pageContext.request.contextPath}/sv_respuestas" method="POST" novalidate>
                     <div class="form__group">
                         <div id="editorRespuesta" class="modal__editor"></div>
@@ -164,7 +168,7 @@
                     <input type="hidden" name="respuestaId" id="respuestaIdEdit">
                     <input type="hidden" name="foroId" value="${foro.id}">
                     <input type="hidden" name="action" value="editarRespu">
-                    <button type="submit" class="form__btn margin-top">Guardar Cambios</button>
+                    <button type="submit" class="modal__btn modal__btn--align">Guardar Cambios</button>
                 </form>
             </div>
         </div>

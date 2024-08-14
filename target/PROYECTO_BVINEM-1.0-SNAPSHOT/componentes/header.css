@@ -24,6 +24,7 @@
 
 .header__search {
     position: relative;
+    z-index: 999;
 }
 
 .header__title{
@@ -148,17 +149,12 @@
         max-width: 100vw;
         position: absolute;
         bottom: -50px;
-        left: 0;
+        left: 50%;
+        transform: translateX(-50%);
         align-items: center;
     }
 
     .header__search{
         order: 4;
     }
-}
-
-.mensaje-error{
-    color: red;
-    font-size: 12px;
-    display: block;
 }

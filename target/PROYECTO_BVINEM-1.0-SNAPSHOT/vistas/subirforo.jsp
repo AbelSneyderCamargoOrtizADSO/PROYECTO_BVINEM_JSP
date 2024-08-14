@@ -36,12 +36,12 @@
 
         <main>
             <div class="form-container">
-                <form action="${pageContext.request.contextPath}/subir_foro" method="POST" class="form" id="foroForm" novalidate>
+                <form action="${pageContext.request.contextPath}/subir_foro" method="POST" class="form form--wd" id="foroForm" novalidate>
                     <div class="form__group">
                         <label class="form__label" for="titulo">Título del Foro</label>
                         <input class="form__input" type="text" id="titulo" name="titulo" maxlength="50" required>
                     </div>
-                    <div class="form__group form__group-select">
+                    <div class="form__group form__group--flex">
                         <div class="form__group grow">
                             <select class="form__select" name="asignatura" id="asignatura" required>
                                 <option value="" disabled selected>Seleccione la asignatura</option>
@@ -77,7 +77,7 @@
 
                     <a class="cerrar" href="${pageContext.request.contextPath}/sv_foros"><i class="bi bi-x-circle-fill"></i></a>
 
-                    <button class="form__button" type="submit" id="submitBtn" name="enviar">Publicar</button>
+                    <button class="form__btn" type="submit" id="submitBtn" name="enviar">Publicar</button>
                 </form>
             </div>
         </main>

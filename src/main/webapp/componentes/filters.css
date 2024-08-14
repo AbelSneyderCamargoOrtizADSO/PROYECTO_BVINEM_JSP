@@ -1,0 +1,102 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+
+/*    FILTROS   */
+.filter{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: var(--filters-h);
+}
+
+.filter__toggle {
+    display: none; 
+    background-color: var(--green);
+    color: white;
+    padding: 10px 15px;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.filter__title{
+    font-size: 30px;
+    margin: 10px 0 0 0;
+}
+
+.filter__filters{
+    display: flex;
+    gap: 15px;
+    background-color: var(--greenfil);
+    padding: 10px 15px;
+    border-radius: var(--radius);
+}
+
+.filter__select{
+    padding: 10px 10px;
+    width: 150px;
+    border-radius: var(--radius);
+    border: 1px solid var(--green);
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+
+    background: url('https://cdn0.iconfinder.com/data/icons/lightly-2-interface/24/chevron-down-512.png');
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
+    background-position: right;
+    background-origin: content-box;
+}
+
+.filter__btn{
+    height: var(--btn-height);
+    padding: var(--btn-pd);
+    border-radius: var(--radius);
+    border: 0;
+    background-color: var(--blue);
+    color: var(--blue3);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter__btn-bg{
+    background-color: var(--green);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1000px) {
+    .filter{
+        flex-direction: column;
+        gap: 10px;
+        height: auto;
+        margin: 40px auto;
+        box-sizing: border-box;
+    }
+
+    .filter__toggle {
+        display: block;
+    }
+
+    .filter__filters{
+        display: none;
+        flex-direction: column;
+        gap: 15px;
+        width: 80%;
+        max-width: 300px;
+    }
+
+    .active {
+        display: flex;
+    }
+
+    .filter__select, .filter__btn {
+        width: 100%;
+    }
+}

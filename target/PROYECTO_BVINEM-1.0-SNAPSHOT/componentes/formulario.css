@@ -63,10 +63,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     border-radius: 5px;
     width: 100%;
     box-sizing: border-box;
+    font-family: sans-serif;
 }
 
 .form__input:focus,
-.formulario__select:focus {
+.form__select:focus {
     outline: none;
 }
 
@@ -80,10 +81,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     background-color: var(--blugreen);
     color: var(--green3);
     border: 0;
+    transition: transform 0.2s ease;
 }
 
 .form__btn:hover {
     opacity: .8;
+    transform: scale(1.05);
 }
 
 .form__btn:disabled{
@@ -110,15 +113,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
         width: 100%;
         box-sizing: border-box;;
     }
-    
-    .form__group {
-        min-width: 100%;
-    }
 }
 
 @media screen and (max-width: 650px){
     .form{
-        
         padding: 30px 20px;
     }
 }

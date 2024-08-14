@@ -2,12 +2,9 @@
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
 */
-/* 
-    Created on : 5/08/2024, 12:22:04 a. m.
-    Author     : Abelito
-*/
 
-.btn__principal--green{
+/* Boton principal */
+.btn__principal{
     height: var(--btn-height);
     padding: var(--btn-pd);
     border-radius: var(--radius);
@@ -18,11 +15,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     align-self: center;
 }
 
-.btn--hover:hover {
-    opacity: .8;
-    transform: scale(1.05);
-}
-
+/* Tercer boton */
 .btn--third {
     height: var(--btn-height);
     padding: var(--btn-pd);
@@ -38,4 +31,82 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 .btn--third:hover {
     filter: contrast(120%);
     transform: scale(1.05);
+}
+
+/*  Modificador: agregarle hover al boton  */
+.btn--hover:hover {
+    opacity: .8;
+    transform: scale(1.05);
+}
+
+/* Boton de link  */
+.btn__link{
+    height: var(--btn-height);
+    padding: var(--btn-pd);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4682b4;
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius);
+    align-content: center;
+}
+
+.btn__link:hover {
+    opacity: .8;
+}
+
+/*  Boton de redireccionar  */
+.btn__redirect{
+    height: var(--btn-height);
+    padding: var(--btn-pd);
+    border-radius: var(--radius);
+    border: 0;
+    background-color: var(--blue);
+    color: var(--blue3);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*  Botones de CRUD */
+.btn__delete{
+    position: absolute;
+    top: 5px;
+    z-index: 998;
+    left: 8px;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    background-color: lightcoral;
+    border-radius: 60%;
+}
+
+.btn__edit{
+    position: absolute;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    background-color: lightgoldenrodyellow;
+    border-radius: 60%;
+    top: 5px;
+    z-index: 998;
+    left: 55px;
+}
+
+.delete__icon, .edit__icon{
+    width: 20px;
+}
+
+/*  Boton de X de cerrar  */
+.cerrar{
+    position: absolute;
+    color: crimson;
+    font-size: 25px;
+    border-radius: var(--radius);
+    top: 14px;
+    right: 14px;
+    opacity: .6;
 }

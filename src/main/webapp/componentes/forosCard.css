@@ -1,0 +1,63 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+
+.card{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bluefil);
+    border-radius: var(--radius);
+    padding: var(--card-pd);
+    text-decoration: none;
+    color: black;
+    hyphens: auto;
+    word-wrap: break-word;
+}
+
+.card:hover{
+    cursor: pointer;
+    transition: all .5s ease-in-out;
+    transform: scale(1.05);
+}
+
+.card__info{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.card__icon{
+    width: 55px;
+    height: 55px;
+    border-radius: var(--radius);
+}
+
+.card__title{
+    line-height: 20px;
+    font-weight: 600;
+}
+
+.card__text{
+    font-size: clamp(14px, 2vw, 16px);
+}
+
+.card__fecha{
+    font-weight: lighter;
+    font-size: 14px;
+}
+
+.card__tipo{
+    position: absolute;
+    right: 0;
+    top: -8px;
+}
+
+.card__tags{
+    font-weight: 600;
+    text-decoration: underline;
+    margin: 0;
+    color: var(--blue);
+}
+

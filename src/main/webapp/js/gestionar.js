@@ -22,7 +22,7 @@ inputBuscar.addEventListener("input", () => {
 });
 
 // Confirmar eliminacion
-document.querySelectorAll('.eliminarDocente, .eliminarEstudiante, .eliminarAdministrador').forEach(button => {
+document.querySelectorAll('.eliminarUsuario').forEach(button => {
     button.addEventListener('click', (event) => {
         confirmar(event, "¿Estás seguro de inhabilitar este Usuario?", "Podrás habilitarlo nuevamente", "actionDel", "inhabilitarUsu");
     });

@@ -37,9 +37,10 @@
 
         <main>
             <section class="filter">
-                <a class="filter__btn" href="${pageContext.request.contextPath}/sv_documentos">🢀 Ir a biblioteca</a>
+                <button class="filter__toggle filter__btn-bg" id="filterToggle">Mostrar Filtros</button>
+                <a class="btn__redirect btn__redirect--bg" href="${pageContext.request.contextPath}/sv_documentos">🢀 Ir a biblioteca</a>
                 <h1 class="filter__title">FOROS</h1>
-                <form class="filter__filters" method="GET" action="sv_foros" id="filter__form">
+                <form class="filter__filters filter__filters--bg" method="GET" action="sv_foros" id="filter__form">
                     <select class="filter__select" name="asignatura">
                         <option value="">Asignatura</option>
                         <c:forEach var="asignatura" items="${asignaturas}">
@@ -67,7 +68,7 @@
 
             <section class="foros">
                 <c:forEach var="foro" items="${foros}">
-                    <a class="foros__card" href="mostrar_foro?id=${foro.id}">
+                    <a class="card" href="mostrar_foro?id=${foro.id}">
                         <div class="card__info">
                             <img src="assets/foro.jpg" alt="" class="card__icon">
                             <p class="card__title">${foro.titulo} <br> <span class="card__fecha">${foro.fecha}</span></p>
@@ -81,21 +82,8 @@
         </main>
     </body>
 
-    <!-- EVITAR ENVIO DE FORMULARIO CON FILTROS VACIOS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.getElementById('filter__form').addEventListener('submit', function (event) {
-            // Obtener todos los select del formulario
-            let selects = this.querySelectorAll('select'); // Aquí, this hace referencia al elemento al que se adjunto el evento addEventListener (es decir el formulario) 
-
-            // Iterar sobre los select y eliminar aquellos que están vacíos
-            selects.forEach(select => {
-                if (!select.value) {
-                    select.name = '';  // Eliminar el nombre del campo para que no sea enviado
-                }
-            });
-        });
-
         // Mostrar SweetAlert si hay un mensaje de error en la sesión
         window.addEventListener('load', function () {
             const successMessage = '<%= session.getAttribute("success")%>';
@@ -105,8 +93,9 @@
                     title: 'Éxito',
                     text: successMessage,
                 });
-                <% session.removeAttribute("success");%>
+        <% session.removeAttribute("success");%>
             }
         });
     </script>
+    <script src="js/foros.js" type="module"></script>
 </html>

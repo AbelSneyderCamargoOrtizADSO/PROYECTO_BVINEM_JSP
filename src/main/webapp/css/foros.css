@@ -1,5 +1,8 @@
 @import url(variables.css);
 @import url(../componentes/header.css);
+@import url(../componentes/filters.css);
+@import url(../componentes/botones.css);
+@import url(../componentes/forosCard.css);
 
 body{
     font-family: sans-serif;
@@ -7,62 +10,16 @@ body{
     background-color: var(--blue3);
 }
 
-/*    FILTROS   */
-.filter{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: var(--filters-h);
+.filter__filters--bg{
+    background-color: var(--bluefil);
 }
-.filter__btn{
-    height: var(--btn-height);
-    padding: var(--btn-pd);
-    border-radius: var(--radius);
-    border: 0;
-    background-color: var(--green);
-    color: var(--green3);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 .filter__btn-bg{
     background-color: var(--blue);
-    color: var(--blue3);
-    cursor: pointer;
 }
-.filter__title{
-    font-size: var(--title-sz);
-    color: var(--blue);
-    text-align: center;
-}
-.filter__filters{
-    display: flex;
-    gap: 15px;
-    background-color: var(--bluefil);
-    padding: 10px 15px;
-    border-radius: var(--radius);
-}
-.filter__select{
-    padding: 10px 10px;
-    width: 150px;
-    border-radius: var(--radius);
-    border: 1px solid var(--blue);
 
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-
-    background: url('https://cdn0.iconfinder.com/data/icons/lightly-2-interface/24/chevron-down-512.png');
-    background-repeat: no-repeat;
-    background-size: 15px 15px;
-    background-position: right;
-    background-origin: content-box;
-}
-.filter__select option{
-    background-color: var(--blue3);
-    padding: 50px;
+.btn__redirect--bg{
+    background-color: var(--green);
 }
 
 /*    FOROS   */
@@ -72,64 +29,7 @@ body{
     gap: 35px;
     padding: var(--box-pd);
     width: calc(100% - 180px);
-}
-
-.foros__card{
-    display: flex;
-    flex-direction: column;
-    background-color: var(--bluefil);
-    border-radius: var(--radius);
-    padding: var(--card-pd);
-    text-decoration: none;
-    color: black;
-    hyphens: auto;
-    word-wrap: break-word;
-}
-
-.foros__card:hover{
-    cursor: pointer;
-    transition: all .5s ease-in-out;
-    transform: scale(1.05);
-}
-
-.card__info{
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    position: relative;
-}
-
-.card__icon{
-    width: 55px;
-    height: 55px;
-    border-radius: var(--radius);
-}
-
-.card__title{
-    line-height: 20px;
-    font-weight: 600;
-}
-
-.card__text{
-    font-size: clamp(14px, 2vw, 16px);
-}
-
-.card__fecha{
-    font-weight: lighter;
-    font-size: 14px;
-}
-
-.card__tipo{
-    position: absolute;
-    right: 0;
-    top: -8px;
-}
-
-.card__tags{
-    font-weight: 600;
-    text-decoration: underline;
-    margin: 0;
-    color: var(--blue);
+    margin-bottom: 50px;
 }
 
 @media screen and (max-width:1200px){
@@ -137,24 +37,6 @@ body{
         --box-pd: 0 35px;
     }
 
-    .filter{
-        flex-direction: column;
-        height: 230px;
-        margin: 20px 0;
-    }
-
-    .filter__title{
-        order: -1;
-    }
-
-    .filter__filters{
-        order: -1;
-    }
-
-    .filter__title{
-        margin: 0;
-    }
-    
     .foros{
         width: auto;
     }
@@ -163,15 +45,6 @@ body{
 @media screen and (max-width:650px){
     :root{
         --box-pd: 0 15px;
-    }
-
-    .filter__filters{
-        max-width: 90vw;
-        overflow-x: scroll;
-    }
-
-    .filter__select{
-        min-width: 150px;
     }
 
     .foros{

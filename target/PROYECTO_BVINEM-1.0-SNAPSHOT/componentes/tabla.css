@@ -64,6 +64,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     color: white;
 }
 
+.table__btn--blue {
+    background-color: var(--blue2);
+    color: white;
+}
+
 .table__row:nth-child(odd) {
     background-color: #f9f9f9;
 }
@@ -112,7 +117,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
         align-items: center;
         padding: 0;
         border-bottom: 1px solid #dddddd;
-        padding-right: 10px;
+        margin-right: 10px;
+        box-sizing: border-box;
+        flex-wrap: wrap;
     }
 
     .table__cell::before {

@@ -1,0 +1,102 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+
+/*      ROLES       */
+.roles__title{
+    font-size: var(--title-sz);
+    margin: 0;
+    color: var(--yellow);
+}
+
+.roles{
+    grid-area: roles;
+    background-color: var(--yellow3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.roles__btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-radius: 50%;
+    padding: 15px 25px;
+    background-color: var(--green2);
+    border: 0;
+}
+
+.btn__img{
+    width: 45px;
+}
+
+/*      FORM ESTUDIANTE        */
+.container__log{
+  grid-area: formu;
+  display: grid;
+  grid-template-areas: " icono "
+                        " form ";
+}
+
+.container__figure{
+    grid-area: icono;
+    background-color: var(--green1);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+    grid-area: form;
+    background-color: var(--green2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    font-size: 16px;
+    padding: 20px 0;
+}
+
+.form__title{
+  font-size: clamp(30px, 3vw, 36px);
+  color: var(--green3);
+}
+
+.form__input{
+    padding: 10px 10px 10px 15px;
+    border-radius: var(--radius);
+    border: 0;
+    background-color: var(--green3);
+    height: var(--btn-h);
+    width: 270px;
+    max-width: 70vw;
+    outline: none;
+}
+
+.form__link{
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--green);
+    margin-left: 20px;
+}
+
+.error{
+    border: 2px solid red;
+}
+
+.correcto{
+    border: 2px solid #04d24c;
+}
+
+.mensaje-error{
+    color: red;
+    font-size: 12px;
+    display: block;
+}

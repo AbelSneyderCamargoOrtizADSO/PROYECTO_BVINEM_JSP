@@ -62,7 +62,7 @@ body {
 .container{
     display: flex;
     justify-content: center;
-    margin-top: 80px;
+    margin: 80px 10px 30px 10px;
 }
 
 .form--width{

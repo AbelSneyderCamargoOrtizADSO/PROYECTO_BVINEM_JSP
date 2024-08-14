@@ -9,7 +9,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 
 @import url(../css/variables.css);
 @import url(../componentes/header.css);
-@import url(../componentes/coment_form.css);
+@import url(../componentes/comentForm.css);
+@import url(../componentes/respuesta.css);
+@import url(../componentes/modal.css);
+@import url(../componentes/botones.css);
 
 
 body{
@@ -115,44 +118,13 @@ h2{
 }
 
 
-/*    RESPUESTA FORM    */
+/*    RESPUESTA   */
 .respu{
     color: var(--blue);
     display: flex;
     flex-direction: column;
     gap: 12px;
     margin-bottom: 50px;
-}
-
-/*    RESPUESTAS    */
-.respu__title{
-    font-size: var(--title2-sz);
-    text-align: center;
-    background-color: var(--bluefil);
-    padding: 10px 0;
-    margin: 0;
-}
-.respu__card{
-    display: flex;
-    flex-direction: column;
-    padding: var(--card-pd);
-    background-color: var(--bluefil);
-    max-width: var(--box-width);
-    word-wrap: break-word;
-}
-.respu__card p > img{
-    max-width: 100%;
-    object-fit: cover;
-    height: auto;
-}
-.respu__card p, h2, h3{
-    margin: 10px 0;
-}
-.respu__card:last-child {
-    border-radius: 0 0 var(--radius) var(--radius);
-}
-.form__group{
-    width: 100%
 }
 
 #editor{
@@ -169,164 +141,43 @@ h2{
     border: 2px solid #eee !important;
 }
 
-.card__name{
-    font-weight: 700;
-    margin: 0;
-}
-.card__info{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.card__text{
-    font-size: var(--text-sz);
-}
-.card__fecha{
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    gap: 5px;
-    margin: 0;
-    text-align: end;
-}
-.card__num{
-    font-weight: 700;
-}
-.card__curso{
-    font-weight: 500;
-}
-
-.separador{
-    width: 100%;
-    background-color: var(--blue3);
-    height: 1px;
-    margin: 5px 0;
-}
-
 /* FORMULARIO ELIMINAR FORO*/
-.respu__crud{
-    display: flex;
-    justify-content: end;
-    gap: 15px;
-    flex-direction: row-reverse;
-    margin-top: 10px;
-}
-
 .form_eliminar{
     align-self: end;
 }
-.eliminarRespu {
+
+.eliminar {
     border: none;
     cursor: pointer;
     padding: 8px;
     background-color: lightcoral;
     border-radius: 60%;
 }
-.eliminarForo{
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    background-color: lightcoral;
-    border-radius: 60%;
-}
-.eliminarRespu img {
-    width: 20px;
-}
 
-.editarRespu{
+.editar{
     border: none;
     cursor: pointer;
     padding: 8px;
     background-color: lightgoldenrodyellow;
     border-radius: 60%;
 }
-.editarForo{
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    background-color: lightgoldenrodyellow;
-    border-radius: 60%;
-}
-.editarRespu img{
-    width: 20px;
-}
 
-/* MODAL - FORMULARIO EDITAR FORO */
-.modal {
-    display: block;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: rgba(0,0,0,0.4);
-}
-.modal__content {
-    background-color: var(--bluefil);
-    margin: 8% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 70vw;
-    border-radius: 8px;
-}
-.modal__close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-.modal__close:hover,
-.modal__close:focus {
-    color: black;
-    text-decoration: none;
-}
-.modal__title {
-    margin-top: 0;
-    font-size: 24px;
-    color: var(--blue);
-    text-align: center;
-}
-.modal__form {
-    display: flex;
-    flex-direction: column;
-}
-.modal__editor{
-    max-height: 500px;
-    overflow-y: auto;
-    background-color: #fefefe;
-}
-.modal__group{
-    margin-bottom: 20px;
-}
-.modal__input{
-    padding: 12px 15px;
-    border-radius: var(--radius);
-    outline: none;
-    border: 0;
-    width: 100%;
-    box-sizing: border-box;
-}
-.margin-top{
-    margin-top: 20px;
-}
+
+/*  MODAL - MODIFICADORES*/
 .margin-bottom{
     margin-bottom: 20px;
 }
-.modal__button {
-    align-self: flex-end;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+
+.modal__content--bg{
+    background-color: var(--bluefil);
 }
-.modal__button:hover {
-    background-color: #45a049;
+
+.modal__title--sz{
+    font-size: 25px;
+}
+
+.modal__btn--align{
+    align-self: center;
 }
 
 .display--none {
@@ -362,10 +213,6 @@ h2{
     .present__figure{
         display: none;
     }
-
-    .form__coment{
-        padding: 30px;
-    }
 }
 
 @media screen and (max-width:700px){
@@ -375,17 +222,5 @@ h2{
 
     .present__tags{
         margin-top: 40px;
-    }
-
-    .respu__form{
-        padding: 30px;
-    }
-
-    .form__coment{
-        padding: 15px;
-    }
-
-    .modal__editor{
-        max-height: 60vh;
     }
 }

@@ -127,7 +127,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     }
     
     .search{
-        width: 100vw;
+        width: calc(100vw - 10px);
+        max-width: 100%;
     }
     
     .resultados {
@@ -140,5 +141,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     .search__input {
         padding: 3px;
         font-size: 14px;
+    }
+    
+    .search__select{
+        padding: 10px 3px;
+        font-size: 14px; 
     }
 }

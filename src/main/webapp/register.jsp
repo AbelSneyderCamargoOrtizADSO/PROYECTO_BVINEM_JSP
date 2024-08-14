@@ -20,7 +20,7 @@
     <body>
         <main>
             <section class="container">
-                <div class="roles">
+                <div class="roles roles--hg">
                     <h1 class="roles__title">REGISTRARSE</h1>
                     <img src="assets/escu.png" alt="" class="roles__img">
 
@@ -30,12 +30,12 @@
                     </button>
                 </div>
 
-                <div class="container__log">
-                    <figure class="container__figure">
+                <div class="container__log container__log--rows">
+                    <figure class="container__figure form--pd">
                         <img src="assets/estu.png" alt="" class="container__img">
                     </figure>
 
-                    <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="form container__form" novalidate>
+                    <form action="${pageContext.request.contextPath}/sv_usuario" method="POST" class="form form--pd" novalidate>
                         <h2 class="form__title">ESTUDIANTE</h2>
                         <input type="hidden" name="tipoUsuario" value="estudiante">
                         <div class="form__group">
@@ -56,7 +56,7 @@
                         <div class="form__group">
                             <input type="password" id="confirmPass" class="form__input" name="confirmPass" placeholder="Confirmar contraseña" required>
                         </div>
-                        <button class="form__btn" type="submit" name="regEstudiante">Registrarse</button>
+                        <button class="btn__principal" type="submit" name="regEstudiante">Registrarse</button>
 
                         <p class="form__reg">¿Ya te has registrado? <a href="index.jsp" class="form__link">INICIAR SESION</a></p>
                     </form>

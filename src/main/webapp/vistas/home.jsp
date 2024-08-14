@@ -36,6 +36,7 @@
 
         <main>
             <section class="filter">
+                <button class="filter__toggle" id="filterToggle">Mostrar Filtros</button>
                 <form class="filter__filters" method="GET" action="sv_documentos" id="filter__form">
                     <select class="filter__select" name="asignatura">
                         <option value="">Asignatura</option>
@@ -60,7 +61,7 @@
                     <button class="filter__btn filter__btn-bg" type="submit">Filtrar</button>
                 </form>
 
-                <a class="filter__btn" href="${pageContext.request.contextPath}/sv_foros">Ir a foros ➜</a>
+                <a class="btn__redirect" href="${pageContext.request.contextPath}/sv_foros">Ir a foros ➜</a>
             </section>
 
             <section class="books">
@@ -84,39 +85,41 @@
                                 <input type="hidden" name="docId" value="${documento.id}">
                                 <input type="hidden" name="rutaMiniatura" value="${documento.miniaturaPath}">
                                 <input type="hidden" name="rutaPDF" value="${documento.archivoPDF}">
-                                <button type="button" class="eliminarDoc"><img src="assets/papelera.png" alt="Eliminar Foro"/></button>
+                                <button type="button" class="btn__delete eliminarDoc"><img src="assets/papelera.png" alt="Eliminar Foro"/></button>
                             </form>
                         </c:if>
                         <c:if test="${documento.userDoc == sessionScope.UserDoc}">
-                            <button type="button" class="editDoc" data-documento='${documento}'><img src="assets/editar.png" alt="Editar Documento"/></button>
-                        </c:if>
+                            <button type="button" class="btn__edit editDoc" data-documento='${documento}'><img src="assets/editar.png" alt="Editar Documento"/></button>
+                            </c:if>
                     </div>
                 </c:forEach>
             </section>
-            
+
             <div id="editModal" class="display--none">
-                <div class="modal-content">
-                    <span class="close" id="closeModal">&times;</span>
-                    <form id="editForm" method="POST" action="sv_documentos" class="form" novalidate>
-                        <h1 class="form__title">Editar documento</h1>
+                <div class="modal__content modal__content--wd">
+                    <div class="modal__header">
+                        <h2 class="modal__title">Editar documento</h1>
+                        <span class="modal__close" id="closeModal">&times;</span>
+                    </div>
+                    <form id="editForm" method="POST" action="sv_documentos" class="modal__form" novalidate>
                         <input type="hidden" name="docId" id="editId">
-                        <div class="form__group">
-                            <label for="editTitulo">Título:</label>
-                            <input type="text" name="titulo" id="editTitulo" class="form__input" maxlength="40" required>
+                        <div class="modal__group">
+                            <label for="editTitulo" class="modal__label">Título:</label>
+                            <input type="text" name="titulo" id="editTitulo" class="modal__input" maxlength="40" required>
                         </div>
-                        <div class="form__group">
-                            <label for="editAutor">Autor:</label>
-                            <input type="text" name="autor" id="editAutor" class="form__input solo-letras" maxlength="35" required>
+                        <div class="modal__group">
+                            <label for="editAutor" class="modal__label">Autor:</label>
+                            <input type="text" name="autor" id="editAutor" class="modal__input solo-letras" maxlength="35" required>
                         </div>
-                        <div class="form__group">
-                            <label for="editDescripcion">Descripción:</label>
-                            <textarea name="descripcion" id="editDescripcion" class="form__input" rows="4" maxlength="320" required></textarea>
+                        <div class="modal__group">
+                            <label for="editDescripcion" class="modal__label">Descripción:</label>
+                            <textarea name="descripcion" id="editDescripcion" class="modal__input" rows="5" maxlength="320" required></textarea>
                         </div>
-                        <div class="form__group">
-                            <label for="editYear">Año de Publicación:</label>
-                            <input type="text" name="year" id="editYear" class="form__input solo-numeros" maxlength="5" required>
+                        <div class="modal__group">
+                            <label for="editYear" class="modal__label">Año de Publicación:</label>
+                            <input type="text" name="year" id="editYear" class="modal__input solo-numeros" maxlength="5" required>
                         </div>
-                        <button type="submit" name="editDocumento" class="form__btn filter__btn filter__btn-bg">Guardar Cambios</button>
+                        <button type="submit" name="editDocumento" class="modal__btn modal__btn--center">Guardar Cambios</button>
                     </form>
                 </div>
             </div>
@@ -125,7 +128,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             // Mostrar SweetAlert si hay un mensaje de error en la sesión
-            window.addEventListener('load', function () {  
+            window.addEventListener('load', function () {
                 const errorMessage = '<%= session.getAttribute("error")%>';
                 if (errorMessage && errorMessage !== 'null') {
                     Swal.fire({
@@ -133,7 +136,7 @@
                         title: 'Error',
                         text: errorMessage,
                     });
-                    <% session.removeAttribute("error");%>
+            <% session.removeAttribute("error");%>
                 }
                 const successMessage = '<%= session.getAttribute("success")%>';
                 if (successMessage && successMessage !== 'null') {
@@ -142,10 +145,9 @@
                         title: 'Éxito',
                         text: successMessage,
                     });
-                    <% session.removeAttribute("success");%>
+            <% session.removeAttribute("success");%>
                 }
             });
-            // PAGINACIONES
         </script>
         <script src="js/home.js" type="module"></script>
     </body>

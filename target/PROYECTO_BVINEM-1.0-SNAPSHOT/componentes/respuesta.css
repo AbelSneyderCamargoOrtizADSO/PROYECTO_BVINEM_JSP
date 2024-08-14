@@ -1,0 +1,90 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+
+/*    RESPUESTAS    */
+.respu__title{
+    font-size: var(--title2-sz);
+    text-align: center;
+    background-color: var(--bluefil);
+    padding: 10px 0;
+    margin: 0;
+}
+
+.respu__card{
+    display: flex;
+    flex-direction: column;
+    padding: var(--card-pd);
+    background-color: var(--bluefil);
+    max-width: var(--box-width);
+    word-wrap: break-word;
+}
+
+.respu__card p > img{
+    max-width: 100%;
+    object-fit: cover;
+    height: auto;
+}
+
+.respu__card p, h2, h3{
+    margin: 10px 0;
+}
+
+.respu__card:last-child {
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.respu__info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.respu__text{
+    font-size: var(--text-sz);
+}
+
+.respu__name{
+    font-weight: 700;
+    margin: 0;
+}
+
+.respu__fecha{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 5px;
+    margin: 0;
+    text-align: end;
+}
+
+.respu__num{
+    font-weight: 700;
+}
+
+.separador{
+    width: 100%;
+    background-color: var(--blue3);
+    height: 1px;
+    margin: 5px 0;
+}
+
+.respu__crud{
+    display: flex;
+    justify-content: end;
+    gap: 15px;
+    flex-direction: row-reverse;
+    margin-top: 10px;
+}
+
+@media screen and (max-width:700px){
+    :root{
+        --title2-sz: 22px;
+    }
+
+    .respu__form{
+        padding: 30px;
+    }
+
+}

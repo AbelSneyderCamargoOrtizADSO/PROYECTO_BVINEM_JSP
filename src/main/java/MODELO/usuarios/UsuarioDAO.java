@@ -278,7 +278,7 @@ public class UsuarioDAO {
      * @param docUsuario El documento de identificación del usuario que se desea buscar.
      * @return Una lista de objetos {@link UsuarioClass} que cumplen con los criterios de búsqueda.
      */
-    public List<UsuarioClass> buscarUsuarioPorDocumento(int rol, String docUsuario) {
+     public List<UsuarioClass> buscarUsuarioPorDocumento(int rol, String docUsuario) {
         String query = "SELECT * FROM tb_usuarios WHERE id_rol_fk = ? AND doc_usua LIKE ?";
         return mostrarUsuarios(query,rol, docUsuario + "%");
     }

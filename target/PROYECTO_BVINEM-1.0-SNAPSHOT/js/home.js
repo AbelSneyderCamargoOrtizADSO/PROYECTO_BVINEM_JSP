@@ -10,7 +10,7 @@ import soloNumeros from './modules/numeros.js';
 import { limpiarMensajeError } from './modules/mensajeError.js';
 import limitedInputs from './modules/length.js';
 import {abrirModal, cerrarModal} from './modules/modal.js';
-import clearSelects from './modules/filtrosForm.js';
+import clearSelects, { activeSelects } from './modules/filtrosForm.js';
 import confirmar from './modules/confirmDelete.js';
 
 const btnEditar = document.querySelectorAll('.editDoc');
@@ -21,12 +21,14 @@ const editDescripcion = document.getElementById('editDescripcion');
 const editYear = document.getElementById('editYear');
 const modal = document.getElementById('editModal');
 const closeModal = document.getElementById('closeModal');
+
 const filterForm = document.getElementById('filter__form');
+const filterToggle = document.getElementById('filterToggle');
 
 const form = document.querySelector("#editForm");
 const letras = document.querySelectorAll("form .solo-letras");
 const numeros = document.querySelectorAll("form .solo-numeros");
-const inputs = document.querySelectorAll(".form__input");
+const inputs = document.querySelectorAll(".modal__input");
 
 // Modal
 btnEditar.forEach(btn => {
@@ -71,8 +73,13 @@ inputs.forEach(campo => {
 });
 
 // EVITAR ENVIO DE FORMULARIO CON FILTROS VACIOS
-filterForm.addEventListener('submit', function (event) {
-    let selects = this.querySelectorAll('select');  
+// Responsive de filtros
+filterToggle.addEventListener('click', (event) => {
+    activeSelects(event, filterForm);
+});
+
+filterForm.addEventListener('submit', (event) => {
+    let selects = filterForm.querySelectorAll('select');
     clearSelects(event, selects);
 });
 

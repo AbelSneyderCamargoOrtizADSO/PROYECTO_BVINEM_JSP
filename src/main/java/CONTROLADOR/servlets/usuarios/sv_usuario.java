@@ -128,9 +128,7 @@ public class sv_usuario extends HttpServlet {
 
         if (actionDel != null) {
             // Determinar el tipo de documento según el tipo de usuario
-            String docParam = tipoUsuario.equals("docente") ? "docDocente" : tipoUsuario.equals("estudiante") ? "docEstudiante" : "docAdmin";
-            
-            int docUsuario = Integer.parseInt(request.getParameter(docParam));
+            int docUsuario = Integer.parseInt(request.getParameter("docUsuario"));
             usuario.setDocUsu(docUsuario);
 
             try {

@@ -54,7 +54,7 @@ editarForoForm.addEventListener('submit', function () {
 
 
 // Editar Foro
-editarForo.addEventListener("click", () => abrirModalEditarForo());
+if (editarForo) editarForo.addEventListener("click", () => abrirModalEditarForo());
 
 function abrirModalEditarForo() {
     let contenido = document.querySelector('.present__text').innerHTML;

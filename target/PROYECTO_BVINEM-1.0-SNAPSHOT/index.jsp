@@ -31,7 +31,7 @@
     <body>
         <main>
             <section class="container">
-                <div class="roles">
+                <div class="roles roles--pd">
                     <h1 class="roles__title">INGRESAR</h1>
                     <img src="assets/escu.png" alt="" class="roles__img">
 
@@ -56,7 +56,7 @@
                         <img src="assets/estu.png" alt="" class="container__img">
                     </figure>
 
-                    <form action="sv_login" method="POST" class="form container__form" novalidate>
+                    <form action="sv_login" method="POST" class="form" novalidate>
                         <h2 class="form__title">ESTUDIANTE</h2>
 
                         <div class="form__group">
@@ -67,7 +67,7 @@
                             <input type="password" class="form__input pass" placeholder="Contraseña" name="password" required>
                         </div>
 
-                        <button class="form__btn" name="ingresarEstu">Ingresar</button>
+                        <button class="btn__principal" name="ingresarEstu">Ingresar</button>
 
                         <p class="form__reg">¿Aun no te has registrado? <a href="register.jsp" class="form__link">REGISTRATE</a></p>
                     </form>
@@ -79,7 +79,7 @@
                         <img src="assets/profe.png" alt="" class="container__img">
                     </figure>
 
-                    <form action="sv_login" method="POST" class="form container__form container__form--doc" novalidate>
+                    <form action="sv_login" method="POST" class="form form--doc" novalidate>
                         <h2 class="form__title form__title--doc">DOCENTE</h2>
 
                         <div class="form__group">
@@ -89,7 +89,7 @@
                             <input type="password" class="form__input form__input--doc pass" placeholder="Contraseña" name="password" required>
                         </div>
 
-                        <button class="form__btn form__btn--doc" name="ingresarDocen">Ingresar</button>
+                        <button class="btn__principal btn__principal--doc" name="ingresarDocen">Ingresar</button>
                     </form>
                 </div>
 
@@ -99,7 +99,7 @@
                         <img src="assets/admin.png" alt="" class="container__img">
                     </figure>
 
-                    <form action="sv_login" method="POST" class="form container__form container__form--admin" novalidate>
+                    <form action="sv_login" method="POST" class="form form--admin" novalidate>
                         <h2 class="form__title form__title--admin">ADMINISTRADOR</h2>
 
                         <div class="form__group">
@@ -109,7 +109,7 @@
                             <input type="password" class="form__input form__input--admin pass" placeholder="Contraseña" name="password" required>
                         </div>
 
-                        <button class="form__btn form__btn--admin" name="ingresarAdmin">Ingresar</button>
+                        <button class="btn__principal btn__principal--admin" name="ingresarAdmin">Ingresar</button>
                     </form>
                 </div>
             </section>

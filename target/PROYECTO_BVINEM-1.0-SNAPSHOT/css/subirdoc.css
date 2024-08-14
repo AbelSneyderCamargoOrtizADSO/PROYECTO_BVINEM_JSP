@@ -1,5 +1,7 @@
 @import url(variables.css);
 @import url(../componentes/header.css);
+@import url(../componentes/formulario.css);
+
 
 body{
     font-family: sans-serif;
@@ -25,73 +27,17 @@ body{
     margin: 30px auto;
     flex-wrap: wrap;
     position: relative;
+    padding: 0 10px;
 }
 
-.container__form{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 600px;
-    gap: 10px;
-    position: relative;
+.form--pd{
+    background-color: var(--greenfil);
 }
-
-.container__inputs{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    background-color: var(--green2);
-    padding: 50px;
-    border-radius: var(--radius);
-    width: 310px;
-}
-
-.container__input{
-    padding: 10px 10px 10px 15px;
-    width: 285px;
-    border: 0;
-    border-radius: var(--radius);
+.form__input--bg{
     background-color: var(--green3);
-    height: var(--btn-h);
-    outline: none;
+    border: 1px solid var(--green2);
+    box-shadow: var(--sombra);
 }
-
-.container__input-textarea{
-    font-family: sans-serif;
-    height: auto;
-    resize: none;
-}
-
-.container__select{
-    padding: 10px 10px 10px 15px;
-    width: 285px;
-    border: 0;
-    border-radius: var(--radius);
-    background-color: var(--green3);
-    height: var(--btn-h);
-    box-sizing: content-box;
-}
-
-.container__btn{
-    padding: var(--btn-pd);
-    height: var(--btn-height);
-    border-radius: var(--radius);
-    border: 0;
-    background-color: var(--green);
-    color: var(--green3);
-}
-
-.cerrar{
-    position: absolute;
-    color: crimson;
-    font-size: 25px;
-    border-radius: var(--radius);
-    top: 14px;
-    right: 14px;
-}
-
 
 /*    PREV    */
 .container__prev{
@@ -137,25 +83,8 @@ body{
     .container{
         margin-top: 40px;
     }
-    
-    .container__form {
-        max-width: 90vw;
-    }
-    
-    .container__inputs{
-        width: 90vw;
-        box-sizing: border-box;
-        padding: 50px 30px;
-    }
-    
-    .container__input{
-        width: 100%;
-        box-sizing: border-box;
-        padding: 15px 10px;
-        height: auto;
-    }
-    
-    .container__select{
-        width: 92%;
+
+    .form--pd{
+        padding: 50px 20px;
     }
 }

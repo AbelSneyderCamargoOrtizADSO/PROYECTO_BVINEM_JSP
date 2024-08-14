@@ -1,7 +1,9 @@
 @import url(variables.css);
+@import url(../componentes/botones.css);
+@import url(../componentes/formAutenticacion.css);
 
 body{
-  font-family: sans-serif;
+    font-family: sans-serif;
 }
 
 .container{
@@ -10,164 +12,65 @@ body{
     display: grid;
     grid-template-columns: .5fr 1fr;
     grid-template-areas: "roles formu"
-                        "roles formu";
+        "roles formu";
 }
 
 /*      ROLES       */
-.roles__title{
-    font-size: var(--title-sz);
-    margin: 0;
-    color: var(--yellow);
-}
 
-.roles{
-    grid-area: roles;
-    background-color: var(--yellow3);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+.roles--hg{
     height: 100%;
 }
 
-.roles__btn{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    border-radius: 50%;
-    padding: 15px 25px;
-    background-color: var(--green2);
-    border: 0;
-}
-
-.btn__img{
-    width: 45px;
-}
-
 /*        FORM REGISTRO        */
-.container__log{
-  grid-area: formu;
-  display: grid;
-  grid-template-rows: 190px 1fr;
-  grid-template-areas: " icono "
-                        " form ";
+
+container__log--rows{
+    grid-template-rows: 190px 1fr;
 }
 
-.container__figure{
-    grid-area: icono;
-    background-color: var(--green1);
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.container__form{
-    grid-area: form;
-    background-color: var(--green2);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    font-size: 16px;
+.form--pd{
     padding: 20px 0;
 }
 
-.form__title{
-    font-size: var(--title-sz);
-    color: var(--green3);
-}
-
-.form__input{
-    padding: 10px 10px 10px 15px;
-    border-radius: 10px;
-    border: 0;
-    background-color: var(--green3);
-    height: var(--btn-h);
-    width: 270px;
-}
-
-.form__input:focus{
-    outline: none;
-}
-
-.form__btn{
-    padding: 13px 30px;
-    border-radius: 10px;
-    background-color: var(--green);
-    color: var(--green3);
-}
-
-.form__link{
-    text-decoration: none;
-    font-weight: 700;
-    color: var(--green);
-    margin-left: 20px;
-}
-
-.form__select{
-    padding: 0px 0px 0px 10px;
-    height: 44px;
-    width: 295px;
-}
-
-.error{
-    border: 2px solid red;
-}
-
-.correcto{
-    border: 2px solid #04d24c;
-}
-
-.mensaje-error{
-    color: red;
-    font-size: 12px;
-    display: block;
-}
-
 @media screen and (max-width: 1020px) {
-  .container{
-    width: 95vw;
-    grid-template-areas: "roles roles"
-                        "formu formu";
-  }
+    .container{
+        width: 95vw;
+        grid-template-areas: "roles roles"
+            "formu formu";
+    }
 
-  .container__figure{
-    display: none;
-  }
+    .container__figure{
+        display: none;
+    }
 
-  .container__log{
-    grid-template-rows: 1fr;
-  }
+    .container__log{
+        grid-template-rows: 1fr;
+    }
 
-  .roles{
-    flex-direction: row;
-    flex-wrap: wrap;
-    height: 200px;
-  }
+    .roles{
+        flex-direction: row;
+        flex-wrap: wrap;
+        height: 200px;
+    }
 
-  .roles__title{
-    margin: 0 100%;
-  }
+    .roles__title{
+        margin: 0 100%;
+    }
 
-  .roles__img{
-    display: none;
-  }
+    .roles__img{
+        display: none;
+    }
 
-  .form__input, .form__select{
-    width: 70vw;
-  }
+    .form__input, .form__select{
+        width: 70vw;
+    }
 
-  .form__reg{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 5px;
-    padding: 0 10px;
-  }
-  
+    .form__reg{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 5px;
+        padding: 0 10px;
+    }
+
 }

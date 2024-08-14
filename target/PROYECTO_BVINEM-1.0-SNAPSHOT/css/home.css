@@ -1,5 +1,10 @@
+
 @import url(variables.css);
 @import url(../componentes/header.css);
+@import url(../componentes/filters.css);
+@import url(../componentes/botones.css);
+@import url(../componentes/modal.css);
+@import url(../componentes/libroCard.css);
 
 body{
     font-family: sans-serif;
@@ -7,178 +12,6 @@ body{
     background-color: var(--green3);
 }
 
-/*    FILTROS   */
-.filter{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: var(--filters-h);
-}
-
-.filter__filters{
-    display: flex;
-    gap: 15px;
-    background-color: var(--greenfil);
-    padding: 10px 15px;
-    border-radius: var(--radius);
-}
-
-.filter__select{
-    padding: 10px 10px;
-    width: 150px;
-    border-radius: var(--radius);
-    border: 1px solid var(--green);
-
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-
-    background: url('https://cdn0.iconfinder.com/data/icons/lightly-2-interface/24/chevron-down-512.png');
-    background-repeat: no-repeat;
-    background-size: 15px 15px;
-    background-position: right;
-    background-origin: content-box;
-}
-
-.filter__btn{
-    height: var(--btn-height);
-    padding: var(--btn-pd);
-    border-radius: var(--radius);
-    border: 0;
-    background-color: var(--blue);
-    color: var(--blue3);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.filter__btn-bg{
-    background-color: var(--green);
-    cursor: pointer;
-}
-
-/*    LIBROS    */
-.books {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    padding: var(--box-pd);
-}
-
-.books__container {
-    position: relative;
-}
-
-.books__book {
-    width: 260px;
-    height: 378px;
-    position: relative;
-    position: relative;
-}
-
-.books__content{
-    text-decoration: none;
-    color: black;
-}
-
-.books__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.books__info {
-    background-color: var(--yellow3);
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    border-radius: var(--radius) var(--radius) 0 0;
-    padding: 10px 15px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px;
-    word-break: break-all;
-}
-
-.books__title {
-    font-weight: 600;
-}
-
-.books__autor {
-    margin: 0;
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-}
-
-.books__details {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(243, 228, 12, 0.9);
-    padding: 35px;
-    box-sizing: border-box;
-    display: none;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    gap: 10px;
-    z-index: 10;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.books__book:hover .books__details {
-    display: flex;
-    opacity: 1;
-}
-
-.books__details p{
-    text-align: justify;
-    hyphens: auto;
-    z-index: 999;
-    margin: 0;
-}
-
-.books__language{
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: var(--greenfil);
-    padding: 5px 10px;
-    border-radius: 0 0 0 var(--radius);
-}
-
-.eliminarDoc{
-    position: absolute;
-    top: 5px;
-    z-index: 998;
-    left: 8px;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    background-color: lightcoral;
-    border-radius: 60%;
-}
-.editDoc{
-    position: absolute;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    background-color: lightgoldenrodyellow;
-    border-radius: 60%;
-    top: 5px;
-    z-index: 998;
-    left: 55px;
-}
 .container{
     display: flex;
     justify-content: center;
@@ -187,96 +20,20 @@ body{
     gap: 40px;
 }
 
+.modal__content--wd{
+    width: 600px;
+}
+
+.modal__btn--center{
+    align-self: center;
+}
+
 .margin-right{
     margin-right: 30px;
 }
 
 .empty{
     text-align: center;
-}
-
-/*  MODAL  */
-.modal {
-    display: block;
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
-}
-
-.modal-content {
-    position: relative;
-    background-color: #fefefe;
-    margin: 10% auto;
-    padding: 40px;
-    border: 1px solid #888;
-    width: 600px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
-
-}
-
-.form{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    color: var(--green);
-}
-
-.form__title{
-    text-align: center;
-    margin: 0 0 20px 0;
-    font-size: clamp(25px, 3vw, 32px);
-}
-
-.form__group{
-    display: flex;
-    flex-direction: column;
-    margin: 0 0 20px 0;
-}
-
-.form__input{
-    width: 100%;
-    padding: 10px;
-    margin: 0;
-    border: 1px solid #ccc;
-    border-radius: var(--radius);
-    box-sizing: border-box;
-    resize: none;
-    font-family: sans-serif;
-    border: 1px solid var(--green2);
-}
-
-.form__btn{
-    align-self: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.close {
-    position: absolute;
-    color: #aaa;
-    font-size: 32px;
-    font-weight: bold;
-    top: 10px;
-    right: 20px;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.modal-content label {
-    margin-top: 10px;
-    font-weight: 700;
 }
 
 .error{
@@ -297,61 +54,8 @@ body{
     display: none;
 }
 
-@media screen and (max-width:1200px) {
-    .filter{
-        justify-content: center;
-        gap: 20px;
-        flex-direction: column;
-        margin: 30px 0;
-    }
-
-    .filter__filters{
-        max-width: 90vw;
-        overflow-x: scroll;
-    }
-
-    .filter__select{
-        min-width: 150px;
-    }
-}
-
 @media screen and (max-width:650px){
-    .books{
-        gap: 20px;
-    }
-
-    .books__book{
-        width: 200px;
-        height: 300px;
-    }
-
-    .books__details {
-        display: none !important;
-    }
-
     .margin-right{
         margin-right: 0;
     }
-
-    .modal-content {
-        width: 98%;
-        margin: 150px auto;
-        padding: 20px;
-        max-width: none;
-    }
-
-    .close {
-        font-size: 28px;
-        top: 5px;
-        right: 10px;
-    }
-
-    .form__input {
-        padding: 8px;
-    }
-
-    .form__btn {
-        padding: 10px 20px;
-    }
-
 }

@@ -49,41 +49,58 @@ public class sv_busqueda extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
+    
+        // Establecer la codificación de caracteres para la solicitud como UTF-8
         request.setCharacterEncoding("UTF-8");
+
+        // Establecer el tipo de contenido de la respuesta como JSON y la codificación de caracteres como UTF-8
         response.setContentType("application/json; charset=UTF-8");
 
+        // Obtener la sesión existente, pero no crear una nueva si no existe
         HttpSession session = request.getSession(false);
 
+        // Verificar si la sesión es nula o si el usuario no ha iniciado sesión
         if (session == null || session.getAttribute("logueado") == null) {
+            // Si no hay sesión o el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión con un mensaje de error
             request.setAttribute("error", "Por favor, inicie sesión.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
+            return; // Finalizar la ejecución del método para evitar más procesamiento
         }
 
-        String query = request.getParameter("query");
-        String tipo = request.getParameter("tipo");
+        // Obtener los parámetros de la solicitud
+        String query = request.getParameter("query"); // La cadena de búsqueda proporcionada por el usuario
+        String tipo = request.getParameter("tipo"); // El tipo de búsqueda (puede ser "libros" o "foros")
 
+        // Crear una instancia de la clase de búsqueda y listas para almacenar los resultados
         BusquedaClass busqueda = new BusquedaClass();
         List<DocumentoClass> resultadosLibros = null;
         List<ForoClass> resultadosForos = null;
 
+        // Determinar el tipo de búsqueda y realizar la búsqueda correspondiente
         if ("libros".equalsIgnoreCase(tipo)) {
+            // Buscar documentos (libros) utilizando la cadena de búsqueda
             resultadosLibros = busqueda.buscarDocumentos(query);
         } else if ("foros".equalsIgnoreCase(tipo)) {
+            // Buscar foros utilizando la cadena de búsqueda
             resultadosForos = busqueda.buscarForos(query);
         }
 
+        // Establecer el tipo de contenido de la respuesta como JSON 
         response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter(); // Obtener el objeto PrintWriter para escribir la respuesta
 
+        // Convertir los resultados de la búsqueda a JSON y escribirlos en la respuesta
         if ("libros".equalsIgnoreCase(tipo)) {
-            out.write(new Gson().toJson(resultadosLibros));  // Usar Gson para convertir la lista a JSON
+            out.write(new Gson().toJson(resultadosLibros)); // Convertir la lista de libros a JSON y escribir en la respuesta
         } else if ("foros".equalsIgnoreCase(tipo)) {
-            out.write(new Gson().toJson(resultadosForos)); // Convierte la lista resultadosLibros a una cadena JSON usando la biblioteca Gson y luego escribe esa cadena en la respuesta HTTP.
+            out.write(new Gson().toJson(resultadosForos)); // Convertir la lista de foros a JSON y escribir en la respuesta
         }
+
         out.flush(); // Asegurar que todo el contenido escrito sea enviado al cliente
+        // Link de consulta https://github.com/google/gson/blob/main/UserGuide.md 
     }
+
 
     /**
      * Handles the HTTP <code>POST</code> method.

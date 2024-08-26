@@ -28,54 +28,72 @@ public class AsignaturasDAO {
     }
     
     /**
-     * Método para agregar una nueva asignatura a la base de datos.
-     * 
-     * @param asignatura El objeto {@link AsignaturaClass} que contiene los datos de la asignatura.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+    * Método para agregar una nueva asignatura a la base de datos.
+    * 
+    * Este método inserta un nuevo registro en la tabla `tb_asignaturas`, utilizando los datos
+    * proporcionados en el objeto {@link AsignaturaClass}. El único campo que se inserta es el nombre
+    * de la asignatura.
+    * 
+    * @param asignatura El objeto {@link AsignaturaClass} que contiene los datos de la asignatura.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void agregarAsignatura(AsignaturaClass asignatura) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
+
+            // Consulta SQL para insertar una nueva asignatura en la base de datos
             String query = "INSERT INTO tb_asignaturas (nom_asig) VALUES(?)";
             stat = conex.prepareStatement(query);
-            stat.setString(1, asignatura.getNombre());
-            stat.executeUpdate();
+            stat.setString(1, asignatura.getNombre()); // Establece el nombre de la asignatura
+
+            stat.executeUpdate(); // Ejecuta la inserción en la base de datos
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }
-    
-    /**
-     * Método para editar una asignatura existente en la base de datos.
-     * 
-     * @param asignatura El objeto {@link AsignaturaClass} que contiene los datos actualizados de la asignatura.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+
+   /**
+    * Método para editar una asignatura existente en la base de datos.
+    * 
+    * Este método actualiza los datos de una asignatura en la tabla `tb_asignaturas`, utilizando
+    * el ID de la asignatura para identificar cuál se debe actualizar. El único campo que se
+    * puede modificar es el nombre de la asignatura.
+    * 
+    * @param asignatura El objeto {@link AsignaturaClass} que contiene los datos actualizados de la asignatura.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void editarAsignatura(AsignaturaClass asignatura) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
+
+            // Consulta SQL para actualizar el nombre de una asignatura existente en la base de datos
             String query = "UPDATE tb_asignaturas SET nom_asig = ? WHERE id_asig = ?";
             stat = conex.prepareStatement(query);
-            stat.setString(1, asignatura.getNombre());
-            stat.setInt(2, asignatura.getId());
-            stat.executeUpdate();
+            stat.setString(1, asignatura.getNombre()); // Establece el nuevo nombre de la asignatura
+            stat.setInt(2, asignatura.getId()); // Establece el ID de la asignatura que se va a actualizar
+
+            stat.executeUpdate(); // Ejecuta la actualización en la base de datos
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }
-    
+
     /**
      * Método para obtener todas las asignaturas de la base de datos.
      * 

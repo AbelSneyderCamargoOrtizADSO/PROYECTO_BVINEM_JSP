@@ -28,53 +28,72 @@ public class TipoForoDAO {
     }
     
     /**
-     * Método para agregar un nuevo tipo de foro a la base de datos.
-     * 
-     * @param tipoforo El objeto {@link TipoForoClass} que contiene los datos del tipo de foro.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+    * Método para agregar un nuevo tipo de foro a la base de datos.
+    * 
+    * Este método inserta un nuevo registro en la tabla `tb_tipo_foro`, utilizando los datos
+    * proporcionados en el objeto {@link TipoForoClass}. El único campo que se inserta es el nombre
+    * del tipo de foro.
+    * 
+    * @param tipoforo El objeto {@link TipoForoClass} que contiene los datos del tipo de foro.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void agregarTipoForo(TipoForoClass tipoforo) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
+
+            // Consulta SQL para insertar un nuevo tipo de foro en la base de datos
             String query = "INSERT INTO tb_tipo_foro (nom_tp_foro) VALUES(?)";
             stat = conex.prepareStatement(query);
-            stat.setString(1, tipoforo.getNombre());
-            stat.executeUpdate();
+            stat.setString(1, tipoforo.getNombre()); // Establece el nombre del tipo de foro
+
+            stat.executeUpdate(); // Ejecuta la inserción en la base de datos
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }
-    
-    /**
-     * Método para editar un tipo de foro existente en la base de datos.
-     * 
-     * @param tipoforo El objeto {@link TipoForoClass} que contiene los datos actualizados del tipo de foro.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+
+   /**
+    * Método para editar un tipo de foro existente en la base de datos.
+    * 
+    * Este método actualiza los datos de un tipo de foro en la tabla `tb_tipo_foro`, utilizando
+    * el ID del tipo de foro para identificar cuál se debe actualizar. El único campo que se
+    * puede modificar es el nombre del tipo de foro.
+    * 
+    * @param tipoforo El objeto {@link TipoForoClass} que contiene los datos actualizados del tipo de foro.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void editarTipoForo(TipoForoClass tipoforo) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
+
+            // Consulta SQL para actualizar el nombre de un tipo de foro existente en la base de datos
             String query = "UPDATE tb_tipo_foro SET nom_tp_foro = ? WHERE id_tp_foro = ?";
             stat = conex.prepareStatement(query);
-            stat.setString(1, tipoforo.getNombre());
-            stat.setInt(2, tipoforo.getId());
-            stat.executeUpdate();
+            stat.setString(1, tipoforo.getNombre()); // Establece el nuevo nombre del tipo de foro
+            stat.setInt(2, tipoforo.getId()); // Establece el ID del tipo de foro que se va a actualizar
+
+            stat.executeUpdate(); // Ejecuta la actualización en la base de datos
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }
+
     
     /**
      * Método para obtener todos los tipos de foro de la base de datos.

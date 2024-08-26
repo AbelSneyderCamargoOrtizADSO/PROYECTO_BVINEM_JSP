@@ -32,36 +32,45 @@ public class ForoDAO {
     }
     
     /**
-     * Método para subir un nuevo foro a la base de datos.
-     * 
-     * @param foro El objeto {@link ForoClass} que contiene los datos del foro.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+    * Método para subir un nuevo foro a la base de datos.
+    * 
+    * Este método inserta un nuevo registro en la tabla `tb_foro` de la base de datos, utilizando
+    * los datos proporcionados en el objeto {@link ForoClass}. Los campos incluyen el título del foro,
+    * la descripción, la fecha de creación (establecida automáticamente como la fecha y hora actual),
+    * el ID de la asignatura, el ID del usuario que crea el foro, el ID del idioma y el ID del tipo de foro.
+    * 
+    * @param foro El objeto {@link ForoClass} que contiene los datos del foro.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void subirForo(ForoClass foro) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
 
-            String query = "insert into tb_foro(tit_foro, descrip_foro, fecha_creacion, id_asig_fk, doc_usua_fk, id_idioma_fk, id_tpfr_fk) values(?,?,NOW(),?,?,?,?)";
+            // Consulta SQL para insertar un nuevo foro en la base de datos
+            String query = "INSERT INTO tb_foro(tit_foro, descrip_foro, fecha_creacion, id_asig_fk, doc_usua_fk, id_idioma_fk, id_tpfr_fk) VALUES(?,?,NOW(),?,?,?,?)";
             stat = conex.prepareStatement(query);
-            stat.setString(1, foro.getTitulo());
-            stat.setString(2, foro.getDescripcion());
-            stat.setInt(3, foro.getAsignaturaId());
-            stat.setInt(4, foro.getUsuarioDoc());
-            stat.setInt(5, foro.getIdiomaId());
-            stat.setInt(6, foro.getTipoId());
+            stat.setString(1, foro.getTitulo()); // Establece el título del foro
+            stat.setString(2, foro.getDescripcion()); // Establece la descripción del foro
+            stat.setInt(3, foro.getAsignaturaId()); // Establece el ID de la asignatura
+            stat.setInt(4, foro.getUsuarioDoc()); // Establece el ID del usuario que crea el foro
+            stat.setInt(5, foro.getIdiomaId()); // Establece el ID del idioma del foro
+            stat.setInt(6, foro.getTipoId()); // Establece el ID del tipo de foro
 
-            stat.executeUpdate();
+            stat.executeUpdate(); // Ejecuta la inserción en la base de datos
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }
+
     
     /**
      * Método para listar todos los foros.
@@ -198,25 +207,31 @@ public class ForoDAO {
     }
     
     /**
-     * Método para mostrar un foro específico por su ID.
-     * 
-     * @param foro El objeto {@link ForoClass} que contiene el ID del foro a buscar.
-     * @return El objeto {@link ForoClass} con los datos del foro encontrado.
-     */
+    * Método para mostrar un foro específico por su ID.
+    * 
+    * Este método realiza una consulta en la base de datos para obtener los datos completos
+    * de un foro específico, utilizando el ID proporcionado en el objeto {@link ForoClass}.
+    * La información recuperada incluye el título, descripción, fecha de creación, idioma,
+    * asignatura, tipo de foro, y los datos del usuario que creó el foro.
+    * 
+    * @param foro El objeto {@link ForoClass} que contiene el ID del foro a buscar.
+    * @return El objeto {@link ForoClass} con los datos del foro encontrado.
+    */
     public ForoClass mostrarForoPorId(ForoClass foro) {
-        Connection conex = null;
-        PreparedStatement stat = null;
-        ResultSet rs = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
+        ResultSet rs = null; // ResultSet para almacenar los resultados de la consulta
 
+        // Consulta SQL para obtener los datos del foro y sus relaciones con otras tablas
         String sql = "SELECT tb_foro.*, tb_idiomas.nom_idioma AS idioma, tb_asignaturas.nom_asig AS asignatura, tb_tipo_foro.nom_tp_foro AS tipo, "
-                + "tb_usuarios.nom_usua, tb_usuarios.ape_usua, tb_rol.nom_rol "
-                + "FROM tb_foro "
-                + "JOIN tb_idiomas ON tb_foro.id_idioma_fk = tb_idiomas.id_idioma "
-                + "JOIN tb_asignaturas ON tb_foro.id_asig_fk = tb_asignaturas.id_asig "
-                + "JOIN tb_usuarios ON tb_foro.doc_usua_fk = tb_usuarios.doc_usua "
-                + "JOIN tb_rol ON tb_usuarios.id_rol_fk = tb_rol.id_rol "
-                + "JOIN tb_tipo_foro ON tb_foro.id_tpfr_fk = tb_tipo_foro.id_tp_foro "
-                + "WHERE tb_foro.id_foro = ?";
+                   + "tb_usuarios.nom_usua, tb_usuarios.ape_usua, tb_rol.nom_rol "
+                   + "FROM tb_foro "
+                   + "JOIN tb_idiomas ON tb_foro.id_idioma_fk = tb_idiomas.id_idioma "
+                   + "JOIN tb_asignaturas ON tb_foro.id_asig_fk = tb_asignaturas.id_asig "
+                   + "JOIN tb_usuarios ON tb_foro.doc_usua_fk = tb_usuarios.doc_usua "
+                   + "JOIN tb_rol ON tb_usuarios.id_rol_fk = tb_rol.id_rol "
+                   + "JOIN tb_tipo_foro ON tb_foro.id_tpfr_fk = tb_tipo_foro.id_tp_foro "
+                   + "WHERE tb_foro.id_foro = ?";
 
         try {
             // Obtener una conexión a la base de datos
@@ -231,57 +246,67 @@ public class ForoDAO {
             // Ejecutar la consulta y obtener el resultado
             rs = stat.executeQuery();
 
+            // Si se encuentra un registro, se asignan los valores a los atributos del objeto foro
             if (rs.next()) {
-                foro.setTitulo(rs.getString("tit_foro"));
-                foro.setDescripcion(rs.getString("descrip_foro"));
-                foro.setFecha(rs.getString("fecha_creacion"));
-                foro.setIdioma(rs.getString("idioma"));
-                foro.setIdiomaId(rs.getInt("id_idioma_fk"));
-                foro.setAsignatura(rs.getString("asignatura"));
-                foro.setAsignaturaId(rs.getInt("id_asig_fk"));
-                foro.setTipo(rs.getString("tipo"));
-                foro.setTipoId(rs.getInt("id_tpfr_fk"));
-                foro.setNombreUsuario(rs.getString("nom_usua") + " " + rs.getString("ape_usua"));
-                foro.setRolUsuario(rs.getString("nom_rol"));
-                foro.setUsuarioDoc(rs.getInt("doc_usua_fk"));
+                foro.setTitulo(rs.getString("tit_foro")); // Establece el título del foro
+                foro.setDescripcion(rs.getString("descrip_foro")); // Establece la descripción del foro
+                foro.setFecha(rs.getString("fecha_creacion")); // Establece la fecha de creación del foro
+                foro.setIdioma(rs.getString("idioma")); // Establece el idioma del foro
+                foro.setIdiomaId(rs.getInt("id_idioma_fk")); // Establece el ID del idioma
+                foro.setAsignatura(rs.getString("asignatura")); // Establece la asignatura del foro
+                foro.setAsignaturaId(rs.getInt("id_asig_fk")); // Establece el ID de la asignatura
+                foro.setTipo(rs.getString("tipo")); // Establece el tipo de foro
+                foro.setTipoId(rs.getInt("id_tpfr_fk")); // Establece el ID del tipo de foro
+                foro.setNombreUsuario(rs.getString("nom_usua") + " " + rs.getString("ape_usua")); // Establece el nombre completo del usuario
+                foro.setRolUsuario(rs.getString("nom_rol")); // Establece el rol del usuario
+                foro.setUsuarioDoc(rs.getInt("doc_usua_fk")); // Establece el documento del usuario que creó el foro
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
         } finally {
-            // Cerrar
+            // Cierra la conexión, la sentencia preparada y el ResultSet
             conexion.close(conex, stat, rs);
         }
 
-        return foro;
+        return foro; // Retorna el objeto foro con los datos recuperados
     }
+
     
     /**
-     * Método para editar un foro existente.
-     * 
-     * @param foro El objeto {@link ForoClass} que contiene los datos actualizados del foro.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+    * Método para editar un foro existente.
+    * 
+    * Este método actualiza los datos de un foro en la base de datos, utilizando el ID del foro
+    * para identificar cuál se debe actualizar. Los campos que se pueden modificar incluyen
+    * el título y la descripción del foro.
+    * 
+    * @param foro El objeto {@link ForoClass} que contiene los datos actualizados del foro.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void editarForo(ForoClass foro) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
+
+            // Consulta SQL para actualizar el título y la descripción del foro
             String query = "UPDATE tb_foro SET tit_foro= ?, descrip_foro = ? WHERE id_foro = ?";
             stat = conex.prepareStatement(query);
-            stat.setString(1, foro.getTitulo());
-            stat.setString(2, foro.getDescripcion());
-            stat.setInt(3, foro.getId());
+            stat.setString(1, foro.getTitulo()); // Establece el nuevo título del foro
+            stat.setString(2, foro.getDescripcion()); // Establece la nueva descripción del foro
+            stat.setInt(3, foro.getId()); // Establece el ID del foro que se va a actualizar
 
-            stat.executeUpdate();
+            stat.executeUpdate(); // Ejecuta la actualización en la base de datos
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }
-    
+
     /**
      * Método para eliminar un foro y sus respuestas asociadas.
      * 

@@ -52,30 +52,37 @@ public class subir_foro extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Obtener la sesión existente, pero no crear una nueva si no existe
         HttpSession session = request.getSession(false);
-        
+
+        // Verificar si la sesión es nula o si el usuario no ha iniciado sesión
         if (session == null || session.getAttribute("logueado") == null) {
+            // Si no hay sesión o el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión con un mensaje de error
             request.setAttribute("error", "Por favor, inicie sesión.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
+            return; // Finalizar la ejecución del método 
         }
-        
+
+        // Instanciar los formularios necesarios para obtener datos de asignaturas, idiomas y tipos de foro
         FormDoc formDoc = new FormDoc();
         FormForo formForo = new FormForo();
 
+        // Obtener las listas de asignaturas, idiomas y tipos de foro
         List<AsignaturaClass> asignaturas = formDoc.obtenerAsignaturas();
         List<IdiomaClass> idiomas = formDoc.obtenerIdiomas();
         List<TipoForoClass> tiposforo = formForo.obtenerTiposForo();
 
-        request.setAttribute("asignaturas", asignaturas);
-        request.setAttribute("idiomas", idiomas);
-        request.setAttribute("tiposforo", tiposforo);
+        // Establecer las listas como atributos en la solicitud para que puedan ser utilizadas en la vista
+        request.setAttribute("asignaturas", asignaturas); // Lista de asignaturas
+        request.setAttribute("idiomas", idiomas); // Lista de idiomas
+        request.setAttribute("tiposforo", tiposforo); // Lista de tipos de foro
 
+        // Redirigir a la página de subir foro con los datos cargados
         request.getRequestDispatcher("vistas/subirforo.jsp").forward(request, response);
-
     }
+
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -118,10 +125,11 @@ public class subir_foro extends HttpServlet {
         if (errorMessage == null) errorMessage = Validador.validarIdioma(idioma);
         if (errorMessage == null) errorMessage = Validador.validarTipoForo(tipo);
 
+        // Si hubo algún error en las validaciones anteriores, se redirige al usuario a la página de subir foro.
         if (errorMessage != null) {
-            session.setAttribute("error", errorMessage);
-            response.sendRedirect("subir_foro");
-            return;
+            session.setAttribute("error", errorMessage); // Guardar el mensaje de error en la sesión
+            response.sendRedirect("subir_foro"); // Redirigir a la página de subida del foro
+            return; // Finalizar la ejecución del método
         }
 
         // ASIGNAMOS LOS SETTERS
@@ -132,14 +140,17 @@ public class subir_foro extends HttpServlet {
         foro.setIdiomaId(Integer.parseInt(idioma));
         foro.setTipoId(Integer.parseInt(tipo));
 
+        // Verificar si se ha enviado el formulario
         if (request.getParameter("enviar") != null) {
             try {
+                // Intentar subir el foro a la base de datos
                 forodao.subirForo(foro);
-                session.setAttribute("success", "Foro publicado correctamente");
-                response.sendRedirect("sv_foros");
+                session.setAttribute("success", "Foro publicado correctamente"); // Mensaje de éxito
+                response.sendRedirect("sv_foros"); // Redirigir a la lista de foros
             } catch (Exception error) {
-                error.printStackTrace();
-                response.getWriter().print("Error: " + error.getMessage());
+                // Manejar cualquier excepción que ocurra durante el proceso de subida
+                error.printStackTrace(); // Imprimir la traza del error para depuración
+                response.getWriter().print("Error: " + error.getMessage()); // Mostrar el mensaje de error en la respuesta
             }
         }
     }

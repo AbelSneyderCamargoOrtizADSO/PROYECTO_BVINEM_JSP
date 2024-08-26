@@ -98,8 +98,8 @@ public class sv_login extends HttpServlet {
             login_class validar = new login_class();
 
             try {
-                String resultadoValidacion = validar.validarUsuario(usuario);
-                switch (resultadoValidacion) {
+                String resultadoValidacion = validar.validarUsuario(usuario); // Recibimos el resultado del metodo validarUsuario
+                switch (resultadoValidacion) { // Dependiendo del resultado retornado guardamos las variables de sesion o redirigimos al index con mensaje de error
                     case "valido":
                         HttpSession session = request.getSession();
                         session.setAttribute("logueado", "1");

@@ -30,33 +30,41 @@ public class RespuestaForoDAO {
     }
     
     /**
-     * Método para subir una nueva respuesta al foro.
-     * 
-     * @param respuesta El objeto {@link RespuestaClass} que contiene los datos de la respuesta.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+    * Método para subir una nueva respuesta al foro.
+    * 
+    * Este método inserta una nueva respuesta en la tabla `tb_respuesta_foro` de la base de datos,
+    * estableciendo el contenido de la respuesta, la fecha de publicación actual, el ID del foro al 
+    * que pertenece la respuesta, y el ID del usuario que publica la respuesta.
+    * 
+    * @param respuesta El objeto {@link RespuestaClass} que contiene los datos de la respuesta.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void subirRespuesta(RespuestaClass respuesta) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
 
-            String query = "insert into tb_respuesta_foro(contenido, fecha_public, id_foro_fk, doc_usua_fk) values(?,NOW(),?,?)";
+            // Consulta SQL para insertar una nueva respuesta en el foro
+            String query = "INSERT INTO tb_respuesta_foro(contenido, fecha_public, id_foro_fk, doc_usua_fk) VALUES(?,NOW(),?,?)";
             stat = conex.prepareStatement(query);
-            stat.setString(1, respuesta.getContenido());
-            stat.setInt(2, respuesta.getIdForo());
-            stat.setInt(3, respuesta.getUsuarioId());
+            stat.setString(1, respuesta.getContenido()); // Establece el contenido de la respuesta
+            stat.setInt(2, respuesta.getIdForo()); // Establece el ID del foro al que pertenece la respuesta
+            stat.setInt(3, respuesta.getUsuarioId()); // Establece el ID del usuario que publica la respuesta
 
-            stat.executeUpdate();
+            stat.executeUpdate(); // Ejecuta la inserción en la base de datos
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }
+
     
     /**
      * Método para obtener una lista de respuestas de un foro específico.
@@ -111,52 +119,66 @@ public class RespuestaForoDAO {
     }
     
     /**
-     * Método para editar una respuesta existente en el foro.
-     * 
-     * @param respuesta El objeto {@link RespuestaClass} que contiene los datos actualizados de la respuesta.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+    * Método para editar una respuesta existente en el foro.
+    * 
+    * Este método actualiza el contenido de una respuesta existente en la tabla `tb_respuesta_foro` 
+    * de la base de datos, utilizando el ID de la respuesta para identificar cuál se debe actualizar.
+    * 
+    * @param respuesta El objeto {@link RespuestaClass} que contiene los datos actualizados de la respuesta.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void editarRespuesta(RespuestaClass respuesta) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
+
+            // Consulta SQL para actualizar el contenido de una respuesta en el foro
             String query = "UPDATE tb_respuesta_foro SET contenido = ? WHERE id_respu = ?";
             stat = conex.prepareStatement(query);
-            stat.setString(1, respuesta.getContenido());
-            stat.setInt(2, respuesta.getId());
+            stat.setString(1, respuesta.getContenido()); // Establece el nuevo contenido de la respuesta
+            stat.setInt(2, respuesta.getId()); // Establece el ID de la respuesta a actualizar
 
-            stat.executeUpdate();
+            stat.executeUpdate(); // Ejecuta la actualización en la base de datos
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }
-    
-    /**
-     * Método para eliminar una respuesta del foro.
-     * 
-     * @param respuesta El objeto {@link RespuestaClass} que representa la respuesta a eliminar.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+
+   /**
+    * Método para eliminar una respuesta del foro.
+    * 
+    * Este método elimina una respuesta existente de la tabla `tb_respuesta_foro` de la base de datos,
+    * utilizando el ID de la respuesta para identificar cuál se debe eliminar.
+    * 
+    * @param respuesta El objeto {@link RespuestaClass} que representa la respuesta a eliminar.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void eliminarRespuesta(RespuestaClass respuesta) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
+
+            // Consulta SQL para eliminar una respuesta del foro
             String query = "DELETE FROM tb_respuesta_foro WHERE id_respu = ?";
             stat = conex.prepareStatement(query);
-            stat.setInt(1, respuesta.getId());
+            stat.setInt(1, respuesta.getId()); // Establece el ID de la respuesta a eliminar
 
-            stat.executeUpdate();
+            stat.executeUpdate(); // Ejecuta la eliminación en la base de datos
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }

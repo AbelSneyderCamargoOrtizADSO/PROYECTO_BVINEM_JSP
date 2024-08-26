@@ -32,41 +32,47 @@ public class UsuarioDAO {
     }
     
     /**
-     * Método para agregar un nuevo usuario a la base de datos.
-     * 
-     * @param usuario El objeto {@link UsuarioClass} que contiene los datos del usuario.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+    * Método para agregar un nuevo usuario a la base de datos.
+    * 
+    * Este método toma un objeto {@link UsuarioClass} que contiene los datos del usuario,
+    * encripta la contraseña, y luego inserta un nuevo registro en la tabla `tb_usuarios`.
+    * 
+    * @param usuario El objeto {@link UsuarioClass} que contiene los datos del usuario.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void agregarUsuario(UsuarioClass usuario) throws SQLException {
-        Connection conex = null;
-        PreparedStatement statUsuario = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement statUsuario = null; // Sentencia SQL preparada para insertar el usuario
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
 
             // Encriptar la contraseña antes de guardarla
             String hashedPassword = HashUtil.hashPassword(usuario.getPass());
-            usuario.setPass(hashedPassword);
+            usuario.setPass(hashedPassword); // Actualiza la contraseña del usuario con la versión encriptada
 
-            // Insertar en tb_usuarios
+            // Insertar en la tabla tb_usuarios
             String queryUsuario = "INSERT INTO tb_usuarios (doc_usua, nom_usua, ape_usua, correo_usua, password, id_rol_fk, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, NOW())";
             statUsuario = conex.prepareStatement(queryUsuario);
-            statUsuario.setInt(1, usuario.getDocUsu());
-            statUsuario.setString(2, usuario.getNombre());
-            statUsuario.setString(3, usuario.getApellido());
-            statUsuario.setString(4, usuario.getCorreo());
-            statUsuario.setString(5, usuario.getPass());
-            statUsuario.setInt(6, usuario.getRol());
+            statUsuario.setInt(1, usuario.getDocUsu()); // Establece el documento del usuario
+            statUsuario.setString(2, usuario.getNombre()); // Establece el nombre del usuario
+            statUsuario.setString(3, usuario.getApellido()); // Establece el apellido del usuario
+            statUsuario.setString(4, usuario.getCorreo()); // Establece el correo del usuario
+            statUsuario.setString(5, usuario.getPass()); // Establece la contraseña encriptada del usuario
+            statUsuario.setInt(6, usuario.getRol()); // Establece el rol del usuario
 
-            statUsuario.executeUpdate();
-            
+            statUsuario.executeUpdate(); // Ejecuta la inserción en la base de datos
+
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error durante la inserción
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, statUsuario, null);
         }
     }
+
     
     /**
      * Método para editar un usuario existente en la base de datos.
@@ -215,49 +221,58 @@ public class UsuarioDAO {
     }
     
     /**
-     * Método privado para ejecutar una consulta SQL y retornar una lista de usuarios.
-     * 
-     * @param query La consulta SQL a ejecutar.
-     * @param parametro1 El primer parámetro de la consulta SQL.
-     * @param parametro2 El segundo parámetro de la consulta SQL (puede ser null).
-     * @return Una lista de objetos {@link UsuarioClass} que cumplen con los criterios de la consulta.
-     */
+    * Método privado para ejecutar una consulta SQL y retornar una lista de usuarios.
+    * 
+    * Este método se encarga de ejecutar la consulta SQL proporcionada, establecer los parámetros
+    * correspondientes, y construir una lista de objetos {@link UsuarioClass} con los resultados.
+    * 
+    * @param query La consulta SQL a ejecutar.
+    * @param parametro1 El primer parámetro de la consulta SQL, que es un entero.
+    * @param parametro2 El segundo parámetro de la consulta SQL, que es una cadena (puede ser null).
+    * @return Una lista de objetos {@link UsuarioClass} que cumplen con los criterios de la consulta.
+    */
     private List<UsuarioClass> mostrarUsuarios(String query, int parametro1, String parametro2) {
-        List<UsuarioClass> usuarios = new ArrayList<>();
-        Connection conex = null;
-        PreparedStatement stat = null;
-        ResultSet rs = null;
+        List<UsuarioClass> usuarios = new ArrayList<>(); // Lista que contendrá los usuarios resultantes
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
+        ResultSet rs = null; // ResultSet para almacenar los resultados de la consulta
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
-            stat = conex.prepareStatement(query);
+            stat = conex.prepareStatement(query); // Prepara la consulta SQL
 
+            // Establece el primer parámetro de la consulta
             stat.setInt(1, parametro1);
+
+            // Establece el segundo parámetro de la consulta si no es nulo
             if (parametro2 != null) {
                 stat.setString(2, parametro2);
             }
 
-            rs = stat.executeQuery();
+            rs = stat.executeQuery(); // Ejecuta la consulta y obtiene los resultados
 
+            // Itera sobre los resultados y construye objetos UsuarioClass
             while (rs.next()) {
-                int id = rs.getInt("doc_usua");
-                String nombres = rs.getString("nom_usua");
-                String apellidos = rs.getString("ape_usua");
-                String correo = rs.getString("correo_usua");
-                String fecha_reg = rs.getString("fecha_registro");
-                int estadoId = rs.getInt("id_estado_fk");
-                int rol = rs.getInt("id_rol_fk");
+                int id = rs.getInt("doc_usua"); // Obtiene el documento del usuario
+                String nombres = rs.getString("nom_usua"); // Obtiene el nombre del usuario
+                String apellidos = rs.getString("ape_usua"); // Obtiene el apellido del usuario
+                String correo = rs.getString("correo_usua"); // Obtiene el correo del usuario
+                String fecha_reg = rs.getString("fecha_registro"); // Obtiene la fecha de registro
+                int estadoId = rs.getInt("id_estado_fk"); // Obtiene el estado del usuario
+                int rol = rs.getInt("id_rol_fk"); // Obtiene el rol del usuario
 
-
+                // Agrega el objeto UsuarioClass a la lista de usuarios
                 usuarios.add(new UsuarioClass(id, nombres, apellidos, correo, fecha_reg, estadoId, rol));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
         } finally {
+            // Cierra la conexión, la sentencia preparada y el ResultSet
             conexion.close(conex, stat, rs);
         }
 
-        return usuarios;
+        return usuarios; // Retorna la lista de usuarios
     }
     
     /**

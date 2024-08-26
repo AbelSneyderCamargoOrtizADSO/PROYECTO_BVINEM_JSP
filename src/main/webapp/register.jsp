@@ -42,10 +42,10 @@
                             <input type="text" id="dni" class="form__input solo-numeros" placeholder="Documento de identidad" name="nuevoDoc" required maxlength="10">
                         </div>
                         <div class="form__group">
-                            <input type="text" id="nombres" class="form__input solo-letras" placeholder="Nombres" name="nombres" required>
+                            <input type="text" id="nombres" class="form__input solo-letras" placeholder="Nombres" name="nombres" maxlength="40" required>
                         </div>
                         <div class="form__group">
-                            <input type="text" id="apellidos" class="form__input solo-letras" placeholder="Apellidos" name="apellidos" required>
+                            <input type="text" id="apellidos" class="form__input solo-letras" placeholder="Apellidos" name="apellidos" maxlength="40" required>
                         </div>
                         <div class="form__group">
                             <input type="text" id="correo" class="form__input" placeholder="Correo electrónico" name="correo" required>

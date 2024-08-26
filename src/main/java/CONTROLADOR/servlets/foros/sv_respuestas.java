@@ -47,13 +47,16 @@ public class sv_respuestas extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
+        // Obtener la sesión existente, pero no crear una nueva si no existe
         HttpSession session = request.getSession(false);
-        
+
+        // Verificar si la sesión es nula o si el usuario no ha iniciado sesión
         if (session == null || session.getAttribute("logueado") == null) {
+            // Si no hay sesión o el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión con un mensaje de error
             request.setAttribute("error", "Por favor, inicie sesión.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
+            return; // Finalizar la ejecución del método para evitar que continúe
         }
     }
 
@@ -72,12 +75,6 @@ public class sv_respuestas extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         HttpSession session = request.getSession(false);
-
-        if (session == null) {
-            request.setAttribute("error", "Sesión expirada. Por favor, vuelva a iniciar sesión.");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
-        }
 
         RespuestaForoDAO respuDAO = new RespuestaForoDAO();
         RespuestaClass respuesta = new RespuestaClass();
@@ -103,48 +100,57 @@ public class sv_respuestas extends HttpServlet {
         String action = request.getParameter("action");
 
         try {
+            // Evaluar la acción solicitada por el usuario
             switch (action) {
                 case "enviarRespu":
+                    // Verificar si la respuesta es nula, está vacía o contiene solo un párrafo vacío
                     if (respu == null || respu.trim().isEmpty() || respu.equals("<p><br></p>")) {
                         session.setAttribute("error", "La respuesta no puede estar vacía");
                         response.sendRedirect("mostrar_foro?id=" + idforo);
-                        return;
+                        return; // Finalizar la ejecución para evitar más procesamiento
                     }
+                    // Verificar si el ID del foro es nulo o está vacío
                     if (idforo == null || idforo.trim().isEmpty()) {
                         session.setAttribute("error", "ID del foro vacio o no encontrado");
                         response.sendRedirect("mostrar_foro?id=" + idforo);
-                        return;
+                        return; // Finalizar la ejecución para evitar más procesamiento
                     }
+                    // Subir la respuesta a la base de datos
                     respuDAO.subirRespuesta(respuesta);
                     session.setAttribute("success", "Respuesta de foro publicada correctamente");
                     response.sendRedirect("mostrar_foro?id=" + idforo);
                     break;
 
                 case "editarRespu":
+                    // Verificar si la respuesta es nula, está vacía o contiene solo un párrafo vacío
                     if (respu == null || respu.trim().isEmpty() || respu.equals("<p><br></p>")) {
                         session.setAttribute("error", "La respuesta no puede estar vacía");
                         response.sendRedirect("mostrar_foro?id=" + idforo);
-                        return;
+                        return; // Finalizar la ejecución para evitar más procesamiento
                     }
+                    // Editar la respuesta en la base de datos
                     respuDAO.editarRespuesta(respuesta);
                     session.setAttribute("success", "Respuesta de foro editada correctamente");
                     response.sendRedirect("mostrar_foro?id=" + idforo);
                     break;
 
                 case "eliminarRespu":
+                    // Eliminar la respuesta de la base de datos
                     respuDAO.eliminarRespuesta(respuesta);
                     session.setAttribute("success", "Respuesta de foro eliminada correctamente");
                     response.sendRedirect("mostrar_foro?id=" + idforo);
                     break;
 
                 default:
+                    // Si la acción no es reconocida, establecer un mensaje de error
                     session.setAttribute("error", "Acción no reconocida");
                     response.sendRedirect("mostrar_foro?id=" + idforo);
                     break;
             }
         } catch (Exception error) {
-            error.printStackTrace();
-            response.getWriter().print("Error: " + error.getMessage());
+            // Manejar cualquier excepción que ocurra durante la ejecución del código
+            error.printStackTrace(); // Imprimir la traza del error para depuración
+            response.getWriter().print("Error: " + error.getMessage()); // Mostrar el mensaje de error en la respuesta
         }
     }
 

@@ -19,7 +19,7 @@ const descrip = document.querySelector("#descrip");
 const year = document.querySelector("#year");
 const asignatura = document.querySelector("#asignatura");
 const idioma = document.querySelector("#idioma");
-const tipo = document.querySelector("#tipo");
+const tipo = document.querySelector("#tipod");
 const miniatura = document.querySelector("#inputImagen");
 const pdf = document.querySelector("#inputPdf");
 
@@ -58,6 +58,18 @@ year.addEventListener("blur", (event) => {
   vacio(event, year);
 });
 
+asignatura.addEventListener("blur", (event) => {
+  vacio(event, asignatura);
+});
+
+idioma.addEventListener("blur", (event) => {
+  vacio(event, idioma);
+});
+
+tipo.addEventListener("blur", (event) => {
+  vacio(event, tipo);
+});
+
 
 // Limpiar mensajes
 title.addEventListener("keypress", (event) => {
@@ -74,6 +86,18 @@ descrip.addEventListener("keypress", (event) => {
 
 year.addEventListener("keypress", (event) => {
   limpiarMensajeError(event, year);
+});
+
+asignatura.addEventListener("change", (event) => {
+  limpiarMensajeError(event, asignatura);
+});
+
+idioma.addEventListener("change", (event) => {
+  limpiarMensajeError(event, idioma);
+});
+
+tipo.addEventListener("change", (event) => {
+  limpiarMensajeError(event, tipo);
 });
 
 limitedInputs("input[maxlength], textarea[maxlength]");

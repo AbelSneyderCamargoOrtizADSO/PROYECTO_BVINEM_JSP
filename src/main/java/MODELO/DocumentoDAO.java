@@ -26,41 +26,50 @@ public class DocumentoDAO {
     }
     
     /**
-     * Método para subir un nuevo documento a la base de datos.
-     * 
-     * @param documento El objeto {@link DocumentoClass} que contiene los datos del documento.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+    * Método para subir un nuevo documento a la base de datos.
+    * 
+    * Este método inserta un nuevo registro en la tabla `tb_documento`, utilizando los datos
+    * proporcionados en el objeto {@link DocumentoClass}. Los campos que se insertan incluyen
+    * el título, autor, descripción, año de publicación, miniatura, archivo PDF, y las claves
+    * foráneas correspondientes a la asignatura, idioma, tipo de documento, y el docente que
+    * sube el documento.
+    * 
+    * @param documento El objeto {@link DocumentoClass} que contiene los datos del documento.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void SubirDocumento(DocumentoClass documento) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
 
-            String query = "insert into tb_documento(titulo, autor, descripcion, year_publi, fecha_carga, miniatura, archivo, doc_docente_fk, id_asig_fk, id_idioma_fk, id_tipo_fk) values(?,?,?,?,NOW(),?,?,?,?,?,?)";
+            // Consulta SQL para insertar un nuevo documento en la base de datos
+            String query = "INSERT INTO tb_documento(titulo, autor, descripcion, year_publi, fecha_carga, miniatura, archivo, doc_docente_fk, id_asig_fk, id_idioma_fk, id_tipo_fk) VALUES(?,?,?,?,NOW(),?,?,?,?,?,?)";
             stat = conex.prepareStatement(query);
-            stat.setString(1, documento.getTitulo());
-            stat.setString(2, documento.getAutor());
-            stat.setString(3, documento.getDescripcion());
-            stat.setInt(4, Integer.parseInt(documento.getYear()));
-            stat.setString(5, documento.getMiniaturaPath());
-            stat.setString(6, documento.getArchivoPDF());
-            stat.setInt(7, documento.getUserDoc());
-            stat.setInt(8, documento.getAsignaturaId());
-            stat.setInt(9, documento.getIdiomaId());
-            stat.setInt(10, documento.getTipoId());
+            stat.setString(1, documento.getTitulo()); // Establece el título del documento
+            stat.setString(2, documento.getAutor()); // Establece el autor del documento
+            stat.setString(3, documento.getDescripcion()); // Establece la descripción del documento
+            stat.setInt(4, Integer.parseInt(documento.getYear())); // Establece el año de publicación del documento
+            stat.setString(5, documento.getMiniaturaPath()); // Establece la ruta de la miniatura del documento
+            stat.setString(6, documento.getArchivoPDF()); // Establece la ruta del archivo PDF
+            stat.setInt(7, documento.getUserDoc()); // Establece el ID del docente que sube el documento
+            stat.setInt(8, documento.getAsignaturaId()); // Establece el ID de la asignatura
+            stat.setInt(9, documento.getIdiomaId()); // Establece el ID del idioma
+            stat.setInt(10, documento.getTipoId()); // Establece el ID del tipo de documento
 
-            stat.executeUpdate();
+            stat.executeUpdate(); // Ejecuta la inserción en la base de datos
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }
-    
+
     /**
      * Método para listar todos los documentos de la base de datos.
      * 
@@ -197,58 +206,71 @@ public class DocumentoDAO {
     }
     
     /**
-     * Método para editar un documento existente en la base de datos.
-     * 
-     * @param documento El objeto {@link DocumentoClass} que contiene los datos actualizados del documento.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+    * Método para editar un documento existente en la base de datos.
+    * 
+    * Este método actualiza los datos de un documento en la tabla `tb_documento`, utilizando
+    * el ID del documento para identificar cuál se debe actualizar. Los campos que se pueden 
+    * modificar incluyen el título, autor, descripción y año de publicación del documento.
+    * 
+    * @param documento El objeto {@link DocumentoClass} que contiene los datos actualizados del documento.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void editarDocumento(DocumentoClass documento) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
 
+            // Consulta SQL para actualizar los campos del documento en la base de datos
             String query = "UPDATE tb_documento SET titulo = ?, autor = ?, descripcion = ?, year_publi = ? WHERE id_doc = ?";
             stat = conex.prepareStatement(query);
-            stat.setString(1, documento.getTitulo());
-            stat.setString(2, documento.getAutor());
-            stat.setString(3, documento.getDescripcion());
-            stat.setString(4, documento.getYear());
-            stat.setInt(5, documento.getId());
+            stat.setString(1, documento.getTitulo()); // Establece el nuevo título del documento
+            stat.setString(2, documento.getAutor()); // Establece el nuevo autor del documento
+            stat.setString(3, documento.getDescripcion()); // Establece la nueva descripción del documento
+            stat.setString(4, documento.getYear()); // Establece el nuevo año de publicación del documento
+            stat.setInt(5, documento.getId()); // Establece el ID del documento que se va a actualizar
 
-            stat.executeUpdate();
+            stat.executeUpdate(); // Ejecuta la actualización en la base de datos
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }
-    
-    /**
-     * Método para eliminar un documento de la base de datos.
-     * 
-     * @param documento El objeto {@link DocumentoClass} que representa el documento a eliminar.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+
+   /**
+    * Método para eliminar un documento de la base de datos.
+    * 
+    * Este método elimina un documento de la tabla `tb_documento` en la base de datos,
+    * utilizando el ID del documento para identificar cuál se debe eliminar.
+    * 
+    * @param documento El objeto {@link DocumentoClass} que representa el documento a eliminar.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void eliminarDocumento(DocumentoClass documento) throws SQLException {
-        
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
 
+            // Consulta SQL para eliminar un documento de la base de datos
             String query = "DELETE FROM tb_documento WHERE id_doc = ?";
             stat = conex.prepareStatement(query);
-            stat.setInt(1, documento.getId());
-            stat.executeUpdate();
+            stat.setInt(1, documento.getId()); // Establece el ID del documento que se va a eliminar
+
+            stat.executeUpdate(); // Ejecuta la eliminación en la base de datos
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }

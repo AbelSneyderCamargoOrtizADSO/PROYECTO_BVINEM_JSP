@@ -52,48 +52,60 @@ public class sv_foros extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
+        // Obtener la sesión existente, pero no crear una nueva si no existe
         HttpSession session = request.getSession(false);
 
+        // Verificar si la sesión es nula o si el usuario no ha iniciado sesión
         if (session == null || session.getAttribute("logueado") == null) {
+            // Si no hay sesión o el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión con un mensaje de error
             request.setAttribute("error", "Por favor, inicie sesión.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
+            return; // Finalizar la ejecución del método para evitar más procesamiento
         }
 
+        // Instanciar los DAOs y formularios necesarios
         ForoDAO forodao = new ForoDAO();
         FormDoc formDoc = new FormDoc();
         FormForo formForo = new FormForo();
 
         // SELECT FILTROS
+        // Obtener los parámetros de filtro (asignatura, idioma, tipo) desde la solicitud
         String asignatura = request.getParameter("asignatura");
         String idioma = request.getParameter("idioma");
         String tipo = request.getParameter("tipof");
 
+        // Obtener las listas de opciones para los filtros
         List<AsignaturaClass> asignaturas = formDoc.obtenerAsignaturas();
         List<IdiomaClass> idiomas = formDoc.obtenerIdiomas();
         List<TipoForoClass> tiposforo = formForo.obtenerTiposForo();
 
+        // Crear un objeto ForoClass para almacenar los filtros seleccionados
         ForoClass filtro = new ForoClass();
-        if (asignatura != null) filtro.setAsignaturaId(Integer.parseInt(asignatura));
-        if (idioma != null) filtro.setIdiomaId(Integer.parseInt(idioma));
-        if (tipo != null) filtro.setTipoId(Integer.parseInt(tipo));
-        
+        if (asignatura != null) filtro.setAsignaturaId(Integer.parseInt(asignatura)); // Filtro por asignatura
+        if (idioma != null) filtro.setIdiomaId(Integer.parseInt(idioma)); // Filtro por idioma
+        if (tipo != null) filtro.setTipoId(Integer.parseInt(tipo)); // Filtro por tipo de foro
+
+        // Obtener la lista de foros aplicando los filtros si están presentes
         List<ForoClass> foros;
         if (asignatura == null && idioma == null && tipo == null) {
+            // Si no se han seleccionado filtros, listar todos los foros
             foros = forodao.listarForos();
         } else {
+            // Si hay filtros seleccionados, filtrar los foros según los criterios
             foros = forodao.filtrarForos(filtro);
         }
 
-        request.setAttribute("asignaturas", asignaturas);
-        request.setAttribute("idiomas", idiomas);
-        request.setAttribute("tiposforo", tiposforo);
-        request.setAttribute("foros", foros);
+        // Establecer los atributos para enviar a la vista
+        request.setAttribute("asignaturas", asignaturas); // Lista de asignaturas para el filtro
+        request.setAttribute("idiomas", idiomas); // Lista de idiomas para el filtro
+        request.setAttribute("tiposforo", tiposforo); // Lista de tipos de foro para el filtro
+        request.setAttribute("foros", foros); // Lista de foros filtrados o completos
 
+        // Redirigir a la vista de foros con los datos cargados
         request.getRequestDispatcher("vistas/foros.jsp").forward(request, response);
-
     }
+
 
     /**
      * Handles the HTTP <code>POST</code> method.

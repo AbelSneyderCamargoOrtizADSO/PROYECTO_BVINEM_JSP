@@ -54,49 +54,61 @@ public class sv_documentos extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
+        // Obtener la sesión existente, pero no crear una nueva si no existe
         HttpSession session = request.getSession(false);
 
+        // Verificar si la sesión es nula o si el usuario no ha iniciado sesión
         if (session == null || session.getAttribute("logueado") == null) {
+            // Si no hay sesión o el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión con un mensaje de error
             request.setAttribute("error", "Por favor, inicie sesión.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
+            return; // Finalizar la ejecución del método para evitar más procesamiento
         }
 
+        // Instanciar los objetos necesarios para manejar los datos del formulario y los documentos
         FormDoc formDoc = new FormDoc();
         DocumentoDAO documentoDAO = new DocumentoDAO();
         DocumentoClass documento = new DocumentoClass();
 
+        // Obtener los parámetros de filtro (asignatura, idioma, tipo) desde la solicitud
         String asignatura = request.getParameter("asignatura");
         String idioma = request.getParameter("idioma");
         String tipo = request.getParameter("tipo");
 
+        // Obtener las listas de opciones para los filtros desde FormDoc
         List<AsignaturaClass> asignaturas = formDoc.obtenerAsignaturas();
         List<IdiomaClass> idiomas = formDoc.obtenerIdiomas();
         List<TipoClass> tipos = formDoc.obtenerTipos();
-        
-        // Asignar los filtros o id del filtro al objeto documento con SET
+
+        // Asignar los valores de los filtros al objeto documento usando los setters
         if (asignatura != null) {
-            documento.setAsignaturaId(Integer.parseInt(asignatura));
+            documento.setAsignaturaId(Integer.parseInt(asignatura)); // Asignar el ID de la asignatura al documento
         }
         if (idioma != null) {
-            documento.setIdiomaId(Integer.parseInt(idioma));
+            documento.setIdiomaId(Integer.parseInt(idioma)); // Asignar el ID del idioma al documento
         }
         if (tipo != null) {
-            documento.setTipoId(Integer.parseInt(tipo));
+            documento.setTipoId(Integer.parseInt(tipo)); // Asignar el ID del tipo de documento
         }
 
+        // Lista para almacenar los documentos según los filtros aplicados o todos si no hay filtros
         List<DocumentoClass> documentos;
         if (asignatura == null && idioma == null && tipo == null) {
+            // Si no hay filtros seleccionados, listar todos los documentos
             documentos = documentoDAO.ListarDocumentos();
         } else {
-            documentos = documentoDAO.FiltrarDocumentos(documento); // Se le asigna a la lista documentos la lista retornada en el metodo FiltrarDocumentos de la clase documentoDAO
+            // Si hay filtros seleccionados, filtrar los documentos según los criterios
+            documentos = documentoDAO.FiltrarDocumentos(documento); // Filtrar los documentos según los valores asignados en el objeto documento
         }
 
-        request.setAttribute("documentos", documentos);
-        request.setAttribute("asignaturas", asignaturas);
-        request.setAttribute("idiomas", idiomas);
-        request.setAttribute("tipos", tipos);
+        // Establecer los atributos para enviar a la vista
+        request.setAttribute("documentos", documentos); // Lista de documentos filtrados o completos
+        request.setAttribute("asignaturas", asignaturas); // Lista de asignaturas para el filtro
+        request.setAttribute("idiomas", idiomas); // Lista de idiomas para el filtro
+        request.setAttribute("tipos", tipos); // Lista de tipos de documento para el filtro
+
+        // Redirigir a la vista home.jsp con los datos cargados
         request.getRequestDispatcher("vistas/home.jsp").forward(request, response);
     }
 
@@ -123,10 +135,12 @@ public class sv_documentos extends HttpServlet {
         String autor = request.getParameter("autor");
         String descripcion = request.getParameter("descripcion");
         String year = request.getParameter("year");
-
+        
+        // Inicializamos las clases
         DocumentoDAO documentoDAO = new DocumentoDAO();
         DocumentoClass documento = new DocumentoClass();
         
+        // Establecer el ID del documento en el objeto documento
         documento.setId(idDocumento);
         
         if (request.getParameter("eliminarDocumento") != null) {
@@ -157,14 +171,15 @@ public class sv_documentos extends HttpServlet {
                     archivoPDF.delete();
                 }
 
-                System.out.println(rutaContexto);
+                // Establecer un mensaje de éxito en la sesión y redirigir a la página anterior
                 session.setAttribute("success", "Documento o libro eliminado exitosamente");
                 response.sendRedirect(request.getHeader("Referer"));
-                return;
+                return; // Finalizar la ejecución del método 
             } catch (SQLException e) {
-                e.printStackTrace();
-                response.getWriter().print("Error: " + e.getMessage());
-                return;
+                // Manejar cualquier excepción SQL que ocurra durante la eliminación del documento
+                e.printStackTrace(); // Imprimir la traza del error para depuración
+                response.getWriter().print("Error: " + e.getMessage()); // Mostrar el mensaje de error en la respuesta
+                return; // Finalizar la ejecución del método en caso de error
             }
         }
         
@@ -185,14 +200,25 @@ public class sv_documentos extends HttpServlet {
         documento.setDescripcion(descripcion);
         documento.setYear(year);
 
+        // Verificar si se ha solicitado la edición del documento
         if (request.getParameter("editDocumento") != null) {
             try {
+                // Intentar actualizar el documento en la base de datos utilizando el método editarDocumento del DAO
                 documentoDAO.editarDocumento(documento);
+
+                // Si la actualización es exitosa, establecer un mensaje de éxito en la sesión
                 session.setAttribute("success", "Documento actualizado exitosamente");
+
+                // Redirigir al usuario a la página anterior (referida en el encabezado "Referer")
                 response.sendRedirect(request.getHeader("Referer"));
             } catch (SQLException e) {
-                e.printStackTrace();
+                // Si ocurre un error SQL durante la actualización, capturar la excepción y manejarla
+                e.printStackTrace(); // Imprimir la traza del error para depuración
+
+                // Establecer un mensaje de error en la sesión con detalles sobre el problema
                 session.setAttribute("error", "Error al actualizar el documento: " + e.getMessage());
+
+                // Redirigir al usuario a la página principal de documentos
                 response.sendRedirect("sv_documentos");
             }
         }

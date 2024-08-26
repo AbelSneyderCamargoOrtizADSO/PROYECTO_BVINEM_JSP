@@ -44,14 +44,19 @@ public class cerrar_sesion extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
+        // Obtener la sesión existente, pero no crear una nueva si no existe
+        HttpSession session = request.getSession(false); 
 
-        HttpSession session = request.getSession(false); // Obtener la sesión sin crear una nueva
+        // Verificar si la sesión existe
         if (session != null) {
-            session.invalidate(); // Invalidar la sesión actual
+            session.invalidate(); // Invalidar la sesión actual, eliminando todos los atributos y cerrando la sesión del usuario
         }
+
+        // Redirigir al usuario a la página de inicio (index.jsp)
         response.sendRedirect("index.jsp");
     }
+
 
     /**
      * Handles the HTTP <code>POST</code> method.

@@ -30,54 +30,72 @@ public class IdiomasDAO {
     }
     
     /**
-     * Método para agregar un nuevo idioma a la base de datos.
-     * 
-     * @param idioma El objeto {@link IdiomaClass} que contiene los datos del idioma.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+    * Método para agregar un nuevo idioma a la base de datos.
+    * 
+    * Este método inserta un nuevo registro en la tabla `tb_idiomas`, utilizando los datos
+    * proporcionados en el objeto {@link IdiomaClass}. El único campo que se inserta es el nombre
+    * del idioma.
+    * 
+    * @param idioma El objeto {@link IdiomaClass} que contiene los datos del idioma.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void agregarIdioma(IdiomaClass idioma) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
+
+            // Consulta SQL para insertar un nuevo idioma en la base de datos
             String query = "INSERT INTO tb_idiomas (nom_idioma) VALUES(?)";
             stat = conex.prepareStatement(query);
-            stat.setString(1, idioma.getNombre());
-            stat.executeUpdate();
+            stat.setString(1, idioma.getNombre()); // Establece el nombre del idioma
+
+            stat.executeUpdate(); // Ejecuta la inserción en la base de datos
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }
-    
-    /**
-     * Método para editar un idioma existente en la base de datos.
-     * 
-     * @param idioma El objeto {@link IdiomaClass} que contiene los datos actualizados del idioma.
-     * @throws SQLException Si ocurre un error al interactuar con la base de datos.
-     */
+
+   /**
+    * Método para editar un idioma existente en la base de datos.
+    * 
+    * Este método actualiza los datos de un idioma en la tabla `tb_idiomas`, utilizando
+    * el ID del idioma para identificar cuál se debe actualizar. El único campo que se
+    * puede modificar es el nombre del idioma.
+    * 
+    * @param idioma El objeto {@link IdiomaClass} que contiene los datos actualizados del idioma.
+    * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+    */
     public void editarIdioma(IdiomaClass idioma) throws SQLException {
-        Connection conex = null;
-        PreparedStatement stat = null;
+        Connection conex = null; // Conexión a la base de datos
+        PreparedStatement stat = null; // Sentencia SQL preparada
 
         try {
+            // Establece la conexión con la base de datos
             conex = conexion.Conexion();
+
+            // Consulta SQL para actualizar el nombre de un idioma existente en la base de datos
             String query = "UPDATE tb_idiomas SET nom_idioma = ? WHERE id_idioma = ?";
             stat = conex.prepareStatement(query);
-            stat.setString(1, idioma.getNombre());
-            stat.setInt(2, idioma.getId());
-            stat.executeUpdate();
+            stat.setString(1, idioma.getNombre()); // Establece el nuevo nombre del idioma
+            stat.setInt(2, idioma.getId()); // Establece el ID del idioma que se va a actualizar
+
+            stat.executeUpdate(); // Ejecuta la actualización en la base de datos
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprime la excepción si ocurre un error
+            throw e; // Relanza la excepción para que sea manejada en un nivel superior
         } finally {
+            // Cierra la conexión y la sentencia preparada
             conexion.close(conex, stat, null);
         }
     }
-    
+
     /**
      * Método para obtener todos los idiomas de la base de datos.
      * 

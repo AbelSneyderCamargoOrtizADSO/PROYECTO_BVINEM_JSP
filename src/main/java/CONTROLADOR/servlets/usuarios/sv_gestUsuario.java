@@ -47,37 +47,51 @@ public class sv_gestUsuario extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
+        // Obtener la sesión existente, pero no crear una nueva si no existe
         HttpSession session = request.getSession(false);
 
+        // Verificar si la sesión es nula o si el usuario no ha iniciado sesión
         if (session == null || session.getAttribute("logueado") == null) {
+            // Si no hay sesión o el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión con un mensaje de error
             request.setAttribute("error", "Por favor, inicie sesión.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
             return;
-        } else if (!"3".equals(session.getAttribute("rol")) && !"4".equals(session.getAttribute("rol"))){
+        } else if (!"3".equals(session.getAttribute("rol")) && !"4".equals(session.getAttribute("rol"))) {
+            // Verificar si el usuario tiene un rol diferente al de administrador
+            // Si el rol no es el de administrador, redirigir con un mensaje de error
             session.setAttribute("error", "Solo se permite el ingreso de administradores");
             response.sendRedirect("sv_documentos");
             return;
         }
-        
+
+        // Obtener los parámetros action, idUser y rol de la solicitud
         String action = request.getParameter("action");
         String idUser = request.getParameter("idUser");
         String tipoUser = request.getParameter("rol");
+
+        // Determinar el rol numérico a partir del tipo de usuario
         int rol = tipoUser.equals("docente") ? 2 : tipoUser.equals("estudiante") ? 1 : 3;
 
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        UsuarioDAO usuarioDAO = new UsuarioDAO(); // Crear una instancia del DAO para manejar usuarios
 
+        // Verificar si la acción solicitada es editar un usuario
         if (action.equals("edit")) {
+            // Buscar el usuario por su documento y rol
             List<UsuarioClass> usuarios = usuarioDAO.buscarUsuarioPorDocumento(rol, idUser);
 
+            // Si se encuentra el usuario, establecerlo como atributo de la solicitud
             if (!usuarios.isEmpty()) {
                 UsuarioClass usuario = usuarios.get(0);
                 request.setAttribute("usuario", usuario);
             }
+            // Establecer el tipo de usuario como atributo de la solicitud y redirigir a la vista de edición de usuario
             request.setAttribute("tipoUser", tipoUser);
             request.getRequestDispatcher("vistas/vistas_admin/editar_usuario.jsp").forward(request, response);
 
         } else {
+            // Si no se va a editar, se asume que es para registrar un nuevo usuario
+            // Establecer el tipo de usuario como atributo de la solicitud y redirigir a la vista de registro de usuario
             request.setAttribute("tipoUser", tipoUser);
             request.getRequestDispatcher("vistas/vistas_admin/registrar_usuario.jsp").forward(request, response);
         }

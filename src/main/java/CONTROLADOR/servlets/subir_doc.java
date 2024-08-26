@@ -59,18 +59,26 @@ public class subir_doc extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Obtener la sesión existente, pero no crear una nueva si no existe
         HttpSession session = request.getSession(false);
-        
+
+        // Verificar si la sesión es nula o si el usuario no ha iniciado sesión
         if (session == null || session.getAttribute("logueado") == null) {
+            // Si no hay sesión o el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión con un mensaje de error
             request.setAttribute("error", "Por favor, inicie sesión.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
-        } else if(!(session.getAttribute("rol").equals("2")) && !(session.getAttribute("rol").equals("4"))) {
+            return; // Finalizar la ejecución del método para evitar más procesamiento
+        } 
+        // Verificar si el rol del usuario no es "2" (docente) o "4" (otro rol permitido, posiblemente administrador)
+        else if (!(session.getAttribute("rol").equals("2")) && !(session.getAttribute("rol").equals("4"))) {
+            // Si el rol no es "2" (docente) ni "4", establecer un mensaje de error en la sesión
             session.setAttribute("error", "Solo se permite el ingreso de docentes");
+
+            // Redirigir al usuario a la página de documentos
             response.sendRedirect("sv_documentos");
-            return;
+            return; // Finalizar la ejecución del método para evitar más procesamiento
         }
-        
+
         FormDoc formDoc = new FormDoc(); // Instancia a la clase FormDoc que tiene lso metodos para listas las categorias de lso documentos o libros
 
         List<AsignaturaClass> asignaturas = formDoc.obtenerAsignaturas(); // Obtener la lista de asignaturas utilizando el método obtenerAsignaturas() del objeto formDoc
@@ -222,14 +230,23 @@ public class subir_doc extends HttpServlet {
         documento.setMiniaturaPath(rutaMiniatura);
         documento.setArchivoPDF(rutaPDF);
 
-        if (request.getParameter("subirDoc") != null) { // Verifica si el parámetro "subirDoc" está presente en la solicitud
-            // Guardar la información en la base de datos
+        // Verificar si el parámetro "subirDoc" está presente en la solicitud
+        if (request.getParameter("subirDoc") != null) { 
+            // Intentar guardar la información del documento en la base de datos
             try {
+                // Llamar al método SubirDocumento del objeto subirdoc, pasando el objeto documento
                 subirdoc.SubirDocumento(documento);
+
+                // Si la operación es exitosa, establecer un mensaje de éxito en la sesión
                 session.setAttribute("success", "Documento cargado correctamente");
+
+                // Redirigir al usuario a la página de documentos
                 response.sendRedirect("sv_documentos");
             } catch (Exception error) {
-                error.printStackTrace();
+                // Manejar cualquier excepción que ocurra durante el proceso
+                error.printStackTrace(); // Imprimir la traza del error para depuración
+
+                // Enviar el mensaje de error en la respuesta al cliente
                 response.getWriter().print("Error: " + error.getMessage());
             }
         }

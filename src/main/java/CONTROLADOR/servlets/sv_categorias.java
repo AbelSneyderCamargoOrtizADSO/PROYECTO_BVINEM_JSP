@@ -59,17 +59,26 @@ public class sv_categorias extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Obtener la sesión existente, pero no crear una nueva si no existe
         HttpSession session = request.getSession(false);
-        
+
+        // Verificar si la sesión es nula o si el usuario no ha iniciado sesión
         if (session == null || session.getAttribute("logueado") == null) {
+            // Si no hay sesión o el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión con un mensaje de error
             request.setAttribute("error", "Por favor, inicie sesión.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
-        } else if(!(session.getAttribute("rol").equals("3")) && !(session.getAttribute("rol").equals("4"))) {
+            return; // Finalizar la ejecución del método
+        } 
+        // Verificar si el usuario tiene un rol diferente al de administrador
+        else if (!(session.getAttribute("rol").equals("3")) && !(session.getAttribute("rol").equals("4"))) {
+            // Si el rol no es de administrador (ni 3 ni 4), establecer un mensaje de error en la sesión
             session.setAttribute("error", "Solo se permite el ingreso de administradores");
+
+            // Redirigir al usuario a la página de documentos
             response.sendRedirect("sv_documentos");
-            return;
+            return; // Finalizar la ejecución del método
         }
+
         
         // Obtener el parámetro categoria de la solicitud
         String categoria = request.getParameter("categoria");
@@ -146,30 +155,33 @@ public class sv_categorias extends HttpServlet {
         }
 
         try {
-            String successMessage = "";
+            String successMessage = ""; // Variable para almacenar el mensaje de éxito
+            // Evaluar la categoría seleccionada para realizar la operación correspondiente
             switch (categoria) {
                 case "asignatura":
+                    // Crear instancias del DAO y la clase de Asignatura
                     AsignaturasDAO asignaturaDAO = new AsignaturasDAO();
                     AsignaturaClass asignatura = new AsignaturaClass();
                     asignatura.setId(id);
                     asignatura.setNombre(nombre);
-
+                    
+                    // Evaluar la acción a realizar (Agregar, Editar, Habilitar, Inhabilitar)
                     switch (action) {
                         case "Add":
-                            asignaturaDAO.agregarAsignatura(asignatura);
-                            successMessage = "Asignatura agregada exitosamente";
+                            asignaturaDAO.agregarAsignatura(asignatura); // Agregar una nueva asignatura
+                            successMessage = "Asignatura agregada exitosamente"; // Mensaje de éxito
                             break;
                         case "Edit":
-                            asignaturaDAO.editarAsignatura(asignatura);
-                            successMessage = "Asignatura editada exitosamente";
+                            asignaturaDAO.editarAsignatura(asignatura); // Editar la asignatura existente
+                            successMessage = "Asignatura editada exitosamente"; // Mensaje de éxito
                             break;
                         case "habilitar":
-                            asignaturaDAO.habilitarAsignatura(asignatura);
-                            successMessage = "Asignatura habilitada exitosamente";
+                            asignaturaDAO.habilitarAsignatura(asignatura); // Habilitar la asignatura
+                            successMessage = "Asignatura habilitada exitosamente"; // Mensaje de éxito
                             break;
                         case "inhabilitar":
-                            asignaturaDAO.inhabilitarAsignatura(asignatura);
-                            successMessage = "Asignatura inhabilitada exitosamente";
+                            asignaturaDAO.inhabilitarAsignatura(asignatura); // Inhabilitar la asignatura
+                            successMessage = "Asignatura inhabilitada exitosamente"; // Mensaje de éxito
                             break;
                     }
                     break;
@@ -180,22 +192,23 @@ public class sv_categorias extends HttpServlet {
                     idioma.setId(id);
                     idioma.setNombre(nombre);
 
+                    // Evaluar la acción a realizar (Agregar, Editar, Habilitar, Inhabilitar)
                     switch (action) {
                         case "Add":
-                            idiomaDAO.agregarIdioma(idioma);
-                            successMessage = "Idioma agregado exitosamente";
+                            idiomaDAO.agregarIdioma(idioma); // Agregar un nuevo idioma
+                            successMessage = "Idioma agregado exitosamente"; // Mensaje de éxito
                             break;
                         case "Edit":
-                            idiomaDAO.editarIdioma(idioma);
-                            successMessage = "Idioma editado exitosamente";
+                            idiomaDAO.editarIdioma(idioma); // Editar el idioma existente
+                            successMessage = "Idioma editado exitosamente"; // Mensaje de éxito
                             break;
                         case "habilitar":
-                            idiomaDAO.habilitarIdioma(idioma);
-                            successMessage = "Idioma habilitado exitosamente";
+                            idiomaDAO.habilitarIdioma(idioma); // Habilitar el idioma
+                            successMessage = "Idioma habilitado exitosamente"; // Mensaje de éxito
                             break;
                         case "inhabilitar":
-                            idiomaDAO.inhabilitarIdioma(idioma);
-                            successMessage = "Idioma inhabilitado exitosamente";
+                            idiomaDAO.inhabilitarIdioma(idioma); // Inhabilitar el idioma
+                            successMessage = "Idioma inhabilitado exitosamente"; // Mensaje de éxito
                             break;
                     }
                     break;
@@ -206,22 +219,23 @@ public class sv_categorias extends HttpServlet {
                     tipodoc.setId(id);
                     tipodoc.setNombre(nombre);
 
+                    // Evaluar la acción a realizar (Agregar, Editar, Habilitar, Inhabilitar)
                     switch (action) {
                         case "Add":
-                            tipodocDAO.agregarTipoDoc(tipodoc);
-                            successMessage = "Tipo de documento agregado exitosamente";
+                            tipodocDAO.agregarTipoDoc(tipodoc); // Agregar un nuevo tipo de documento
+                            successMessage = "Tipo de documento agregado exitosamente"; // Mensaje de éxito
                             break;
                         case "Edit":
-                            tipodocDAO.editarTipoDoc(tipodoc);
-                            successMessage = "Tipo de documento editado exitosamente";
+                            tipodocDAO.editarTipoDoc(tipodoc); // Editar el tipo de documento existente
+                            successMessage = "Tipo de documento editado exitosamente"; // Mensaje de éxito
                             break;
                         case "habilitar":
-                            tipodocDAO.habilitarTipoDoc(tipodoc);
-                            successMessage = "Tipo de documento habilitado exitosamente";
+                            tipodocDAO.habilitarTipoDoc(tipodoc); // Habilitar el tipo de documento
+                            successMessage = "Tipo de documento habilitado exitosamente"; // Mensaje de éxito
                             break;
                         case "inhabilitar":
-                            tipodocDAO.inhabilitarTipoDoc(tipodoc);
-                            successMessage = "Tipo de documento inhabilitado exitosamente";
+                            tipodocDAO.inhabilitarTipoDoc(tipodoc); // Inhabilitar el tipo de documento
+                            successMessage = "Tipo de documento inhabilitado exitosamente"; // Mensaje de éxito
                             break;
                     }
                     break;
@@ -232,31 +246,34 @@ public class sv_categorias extends HttpServlet {
                     tipoforo.setId(id);
                     tipoforo.setNombre(nombre);
 
+                    // Evaluar la acción a realizar (Agregar, Editar, Habilitar, Inhabilitar)
                     switch (action) {
                         case "Add":
-                            tipoforoDAO.agregarTipoForo(tipoforo);
-                            successMessage = "Tipo de foro agregado exitosamente";
+                            tipoforoDAO.agregarTipoForo(tipoforo); // Agregar un nuevo tipo de foro
+                            successMessage = "Tipo de foro agregado exitosamente"; // Mensaje de éxito
                             break;
                         case "Edit":
-                            tipoforoDAO.editarTipoForo(tipoforo);
-                            successMessage = "Tipo de foro editado exitosamente";
+                            tipoforoDAO.editarTipoForo(tipoforo); // Editar el tipo de foro existente
+                            successMessage = "Tipo de foro editado exitosamente"; // Mensaje de éxito
                             break;
                         case "habilitar":
-                            tipoforoDAO.habilitarTipoForo(tipoforo);
-                            successMessage = "Tipo de foro habilitado exitosamente";
+                            tipoforoDAO.habilitarTipoForo(tipoforo); // Habilitar el tipo de foro
+                            successMessage = "Tipo de foro habilitado exitosamente"; // Mensaje de éxito
                             break;
                         case "inhabilitar":
-                            tipoforoDAO.inhabilitarTipoForo(tipoforo);
-                            successMessage = "Tipo de foro inhabilitado exitosamente";
+                            tipoforoDAO.inhabilitarTipoForo(tipoforo); // Inhabilitar el tipo de foro
+                            successMessage = "Tipo de foro inhabilitado exitosamente"; // Mensaje de éxito
                             break;
                     }
                     break;
             }
+            // Establecer el mensaje de éxito en la sesión y redirigir al usuario a la página anterior
             session.setAttribute("success", successMessage);
             response.sendRedirect(request.getHeader("Referer"));
         } catch (Exception error) {
-            error.printStackTrace();
-            return;
+            // Manejar cualquier excepción que ocurra durante la ejecución
+            error.printStackTrace(); // Imprimir la traza del error para depuración
+            return; // Finalizar la ejecución del método en caso de error
         }
 
     }

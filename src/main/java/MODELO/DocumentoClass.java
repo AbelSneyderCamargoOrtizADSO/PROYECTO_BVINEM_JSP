@@ -7,6 +7,7 @@ package MODELO;
 /**
  * Clase que representa un documento. Contiene los atributos y métodos para
  * gestionar la información de un documento.
+ * @see <a href="https://openwebinars.net/blog/introduccion-a-poo-en-java-objetos-y-clases/">Introducción a POO en Java</a>
  */
 public class DocumentoClass {
 

@@ -10,6 +10,8 @@ package MODELO.categorias;
  *
  * @see IdiomaClass
  * @see TipoClass
+ * @see <a href="https://openwebinars.net/blog/introduccion-a-poo-en-java-objetos-y-clases/">Introducción a POO en Java</a>
+ * @see <a href="https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html">Referencia - Herencia en Java</a>
  */
 public class CategoriaClass {
 

@@ -15,6 +15,7 @@ import java.util.List;
  * de foro al controlador del formulario para agregar el foro.
  *
  * @return Una lista de objetos {@link TipoForoClass} que contiene todos los tipos de foro activos.
+ * @see <a href="https://www.w3schools.com/java/java_arraylist.asp">Referencia - Arraylist en java</a>
  */
 public class FormForo {
     // Crea una nueva lista de objetos TipoForoClass utilizando ArrayList para almacenar los tipos de foro.

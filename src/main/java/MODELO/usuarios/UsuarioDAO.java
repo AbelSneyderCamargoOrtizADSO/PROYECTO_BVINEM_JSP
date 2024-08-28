@@ -19,6 +19,10 @@ import java.util.List;
  * @see HashUtil
  * 
  * @author Abel Camargo
+ * @see <a href="https://www.arquitecturajava.com/dao-vs-repository-y-sus-diferencias/">Referencia - Introducción a POO en Java</a>
+ * @see <a href="https://www.youtube.com/watch?v=tV9tvhrQGOg&t=1225s">Referencia - Crud en java</a>
+ * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/sql/SQLException.html">Referencia - SQLException</a>
+ * @see <a href="https://www.w3schools.com/java/java_arraylist.asp">Referencia - Arraylist en java</a>
  */
 public class UsuarioDAO {
    
@@ -81,6 +85,7 @@ public class UsuarioDAO {
      * @param usuario El objeto {@link UsuarioClass} que contiene los datos actualizados del usuario.
      * @param actualizarDocumentos Indica si se deben actualizar los documentos asociados al usuario.
      * @throws SQLException Si ocurre un error al interactuar con la base de datos.
+     * @see <a href="https://puntocomnoesunlenguaje.blogspot.com/2017/11/java-jdbc-transacciones.html">Transacciones en Java JDBC</a>
      */
     public void editarUsuario(int docAnterior, UsuarioClass usuario, boolean actualizarDocumentos) throws SQLException {
         Connection conex = null;
@@ -188,15 +193,16 @@ public class UsuarioDAO {
         PreparedStatement statUsuario = null;
 
         try {
-            conex = conexion.Conexion();
+            conex = conexion.Conexion(); // Establecer la conexión a la base de datos
+            // Definir la consulta SQL para actualizar el estado del usuario
             String query = "UPDATE tb_usuarios SET id_estado_fk = ? WHERE doc_usua = ?";
-            statUsuario = conex.prepareStatement(query);
-            statUsuario.setInt(1, estado);
-            statUsuario.setInt(2, usuario.getDocUsu());
-            statUsuario.executeUpdate();
+            statUsuario = conex.prepareStatement(query); // Preparar la declaración SQL con la consulta definida
+            statUsuario.setInt(1, estado); // Asignar el valor del estado al primer parámetro de la consulta
+            statUsuario.setInt(2, usuario.getDocUsu()); // Asignar el documento del usuario al segundo parámetro de la consulta
+            statUsuario.executeUpdate();  // Ejecutar la actualización en la base de datos
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprimir la traza del error en caso de que ocurra una excepción SQL
+            throw e; // Relanzar la excepción para que sea manejada por el método que llama
         }
     }
     

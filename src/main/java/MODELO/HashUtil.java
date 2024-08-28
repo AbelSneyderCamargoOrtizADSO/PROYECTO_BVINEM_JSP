@@ -19,6 +19,7 @@ public class HashUtil {
      * @param password La contraseña en texto plano que se desea hashear.
      * @return La contraseña hasheada en formato hexadecimal.
      * @throws RuntimeException Si ocurre un error al obtener la instancia de MessageDigest.
+     * @see <a href="https://www.youtube.com/watch?v=MoDSZFIh34Y&ab_channel=CodeGuide">Code Guide</a>
      */
     public static String hashPassword(String password) {
         try {
@@ -40,5 +41,4 @@ public class HashUtil {
     }
     
     // Método basado en el tutorial de Code Guide
-    // @see <a href="https://www.youtube.com/watch?v=MoDSZFIh34Y&ab_channel=CodeGuide">Code Guide</a>
 }

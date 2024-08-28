@@ -101,40 +101,47 @@ public class sv_login extends HttpServlet {
                 String resultadoValidacion = validar.validarUsuario(usuario); // Recibimos el resultado del metodo validarUsuario
                 switch (resultadoValidacion) { // Dependiendo del resultado retornado guardamos las variables de sesion o redirigimos al index con mensaje de error
                     case "valido":
-                        HttpSession session = request.getSession();
-                        session.setAttribute("logueado", "1");
-                        session.setAttribute("rol", rol);
-                        session.setAttribute("UserDoc", dniStr);
-                        response.sendRedirect("sv_documentos");
+                        // Si las credenciales son válidas, crear una nueva sesión y establecer los atributos de sesión
+                        HttpSession session = request.getSession(); // Crear o obtener la sesión del usuario
+                        session.setAttribute("logueado", "1"); // Establecer la variable de sesión que indica que el usuario está logueado
+                        session.setAttribute("rol", rol); // Establecer el rol del usuario en la sesión
+                        session.setAttribute("UserDoc", dniStr); // Establecer el documento del usuario en la sesión
+                        response.sendRedirect("sv_documentos"); // Redirigir al usuario a la página de documentos
                         break;
                     case "superadmin":
-                        HttpSession sessionSuperadmin = request.getSession();
-                        sessionSuperadmin.setAttribute("logueado", "1");
-                        sessionSuperadmin.setAttribute("rol", "4");
-                        sessionSuperadmin.setAttribute("UserDoc", dniStr);
-                        response.sendRedirect("sv_documentos");
+                        // Si el usuario es un superadministrador, crear una nueva sesión y establecer los atributos de sesión correspondientes
+                        HttpSession sessionSuperadmin = request.getSession(); // Crear o obtener la sesión del usuario
+                        sessionSuperadmin.setAttribute("logueado", "1"); // Establecer la variable de sesión que indica que el usuario está logueado
+                        sessionSuperadmin.setAttribute("rol", "4"); // Establecer el rol del usuario en la sesión
+                        sessionSuperadmin.setAttribute("UserDoc", dniStr); // Establecer el documento del usuario en la sesión
+                        response.sendRedirect("sv_documentos"); // Redirigir al usuario a la página de documentos
                         break;
                     case "inhabilitado":
+                        // Si el usuario está inhabilitado, mostrar un mensaje de error en la página de inicio de sesión
                         request.setAttribute("error", "Usuario inhabilitado");
                         request.getRequestDispatcher("index.jsp").forward(request, response);
                         break;
                     case "contraseña_incorrecta":
+                        // Si la contraseña es incorrecta, mostrar un mensaje de error en la página de inicio de sesión
                         request.setAttribute("error", "Contraseña incorrecta");
                         request.getRequestDispatcher("index.jsp").forward(request, response);
                         break;
                     case "usuario_no_encontrado":
+                        // Si el usuario no se encuentra en la base de datos, mostrar un mensaje de error en la página de inicio de sesión
                         request.setAttribute("error", "Usuario no encontrado");
                         request.getRequestDispatcher("index.jsp").forward(request, response);
                         break;
                     default:
+                        // Si ocurre un error inesperado, mostrar un mensaje de error genérico en la página de inicio de sesión
                         request.setAttribute("error", "Ha ocurrido un error inesperado, intenta nuevamente");
                         request.getRequestDispatcher("index.jsp").forward(request, response);
                         break;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
-                request.setAttribute("error", "Error al conectar con la base de datos");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                // Manejar cualquier excepción que ocurra durante la validación del usuario
+                e.printStackTrace(); // Imprimir la traza del error para depuración
+                request.setAttribute("error", "Error al conectar con la base de datos"); // Establecer un mensaje de error relacionado con la base de datos
+                request.getRequestDispatcher("index.jsp").forward(request, response); // Redirigir a la página de inicio con el mensaje de error
             }
         }
     }

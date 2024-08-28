@@ -17,6 +17,10 @@ import java.util.List;
  * @see Conexion
  * @see RespuestaClass
  * @see ForoClass
+ * @see <a href="https://www.arquitecturajava.com/dao-vs-repository-y-sus-diferencias/">Referencia - Introducción a POO en Java</a>
+ * @see <a href="https://www.youtube.com/watch?v=tV9tvhrQGOg&t=1225s">Referencia - Crud en java</a>
+ * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/sql/SQLException.html">Referencia - SQLException</a>
+ * @see <a href="https://www.w3schools.com/java/java_arraylist.asp">Referencia - Arraylist en java</a>
  */
 
 public class RespuestaForoDAO {
@@ -74,49 +78,53 @@ public class RespuestaForoDAO {
      * @throws SQLException Si ocurre un error al interactuar con la base de datos.
      */
     public List<RespuestaClass> mostrarRespuestasPorForo(ForoClass foro) throws SQLException {
-        List<RespuestaClass> respuestas = new ArrayList<>(); // Crea una nueva lista de objetos RespuestaClass utilizando ArrayList para almacenar las respuestas del foro.
-        Connection conex = null;
-        PreparedStatement stat = null;
-        ResultSet rs = null;
+        // Crea una nueva lista de objetos RespuestaClass utilizando ArrayList para almacenar las respuestas del foro.
+        List<RespuestaClass> respuestas = new ArrayList<>(); 
+        Connection conex = null; // Declaración de la variable para la conexión a la base de datos, inicialmente null
+        PreparedStatement stat = null; // Declaración de la variable para la declaración preparada, inicialmente null
+        ResultSet rs = null; // Declaración de la variable para el conjunto de resultados, inicialmente null
 
         try {
-            conex = conexion.Conexion();
+            conex = conexion.Conexion(); // Establecer la conexión a la base de datos
 
+            // Definir la consulta SQL para obtener las respuestas de un foro específico, incluyendo información de usuario y rol
             String query = "SELECT tb_respuesta_foro.*, tb_usuarios.nom_usua, tb_usuarios.ape_usua, tb_rol.nom_rol "
-                    + "FROM tb_respuesta_foro "
-                    + "JOIN tb_usuarios ON tb_respuesta_foro.doc_usua_fk = tb_usuarios.doc_usua "
-                    + "JOIN tb_rol ON tb_usuarios.id_rol_fk = tb_rol.id_rol "
-                    + "WHERE tb_respuesta_foro.id_foro_fk = ? "
-                    + "ORDER BY tb_respuesta_foro.fecha_public DESC";
+                         + "FROM tb_respuesta_foro "
+                         + "JOIN tb_usuarios ON tb_respuesta_foro.doc_usua_fk = tb_usuarios.doc_usua "
+                         + "JOIN tb_rol ON tb_usuarios.id_rol_fk = tb_rol.id_rol "
+                         + "WHERE tb_respuesta_foro.id_foro_fk = ? "
+                         + "ORDER BY tb_respuesta_foro.fecha_public DESC";
 
-            stat = conex.prepareStatement(query);
-            stat.setInt(1, foro.getId());
+            stat = conex.prepareStatement(query); // Preparar la declaración SQL con la consulta definida
+            stat.setInt(1, foro.getId()); // Asignar el ID del foro al primer parámetro de la consulta
 
-            rs = stat.executeQuery();
+            rs = stat.executeQuery(); // Ejecutar la consulta y obtener el conjunto de resultados
 
+            // Iterar sobre los resultados de la consulta
             while (rs.next()) {
-                int idRespu = rs.getInt("id_respu");
-                String contenido = rs.getString("contenido");
-                String fechaPublic = rs.getString("fecha_public");
-                String nombreUsuario = rs.getString("nom_usua") + " " + rs.getString("ape_usua");
-                String rolUsuario = rs.getString("nom_rol");
-                int usuarioId = rs.getInt("doc_usua_fk");
-                
-                // Crea una nueva instancia del objeto RespuestaClass con los datos obtenidos de la base de datos:
-                // idRespu, contenido, fechaPublic, nombreUsuario, rolUsuario y usuarioId.
+                int idRespu = rs.getInt("id_respu"); // Obtener el ID de la respuesta
+                String contenido = rs.getString("contenido"); // Obtener el contenido de la respuesta
+                String fechaPublic = rs.getString("fecha_public"); // Obtener la fecha de publicación de la respuesta
+                String nombreUsuario = rs.getString("nom_usua") + " " + rs.getString("ape_usua"); // Obtener el nombre completo del usuario que publicó la respuesta
+                String rolUsuario = rs.getString("nom_rol"); // Obtener el rol del usuario
+                int usuarioId = rs.getInt("doc_usua_fk"); // Obtener el ID del usuario
+
+                // Crear una nueva instancia del objeto RespuestaClass con los datos obtenidos de la base de datos
                 RespuestaClass respuesta = new RespuestaClass(idRespu, contenido, fechaPublic, nombreUsuario, rolUsuario, usuarioId);
-                respuestas.add(respuesta); // Añade la respuesta creada a la lista de respuestas.
+                respuestas.add(respuesta); // Añadir la respuesta creada a la lista de respuestas
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprimir la traza del error en caso de que ocurra una excepción SQL
+            throw e; // Relanzar la excepción para que sea manejada por el método que llama
         } finally {
+            // Cerrar los recursos de la base de datos para evitar fugas de memoria
             conexion.close(conex, stat, rs);
         }
 
-        return respuestas;
+        return respuestas; // Retornar la lista de respuestas obtenidas
     }
+
     
     /**
     * Método para editar una respuesta existente en el foro.

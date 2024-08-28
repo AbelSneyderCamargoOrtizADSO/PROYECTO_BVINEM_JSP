@@ -18,6 +18,7 @@ import java.util.List;
  * @see Conexion
  * @see DocumentoClass
  * @see ForoClass
+ * @see <a href="https://www.w3schools.com/java/java_arraylist.asp">Referencia - Arraylist en java</a>
  */
 public class BusquedaClass {
 

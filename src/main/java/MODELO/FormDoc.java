@@ -20,6 +20,9 @@ import java.util.List;
  * @see AsignaturaClass
  * @see IdiomaClass
  * @see TipoClass
+ * @see <a href="https://www.youtube.com/watch?v=tV9tvhrQGOg&t=1225s">Referencia - Crud en java</a>
+ * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/sql/SQLException.html">Referencia - SQLException</a>
+ * @see <a href="https://www.w3schools.com/java/java_arraylist.asp">Referencia - Arraylist en java</a>
  */
 public class FormDoc {
     /**

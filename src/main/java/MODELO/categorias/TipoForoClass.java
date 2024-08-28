@@ -9,6 +9,7 @@ package MODELO.categorias;
  * Extiende de {@link CategoriaClass} e incluye los atributos y métodos específicos de un tipo de foro.
  * 
  * @see CategoriaClass
+ * @see <a href="https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html">Referencia - Herencia en Java</a>
  */
 public class TipoForoClass extends CategoriaClass {
     /**

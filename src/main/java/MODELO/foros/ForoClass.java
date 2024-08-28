@@ -10,6 +10,7 @@ package MODELO.foros;
  * creación, idioma, asignatura, tipo, y más.
  *
  * @author Abel Camargo
+ * @see <a href="https://openwebinars.net/blog/introduccion-a-poo-en-java-objetos-y-clases/">Introducción a POO en Java</a>
  */
 public class ForoClass {
 

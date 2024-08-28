@@ -15,6 +15,10 @@ import java.util.List;
  * 
  * @see Conexion
  * @see TipoForoClass
+ * @see <a href="https://www.arquitecturajava.com/dao-vs-repository-y-sus-diferencias/">Referencia - Introducción a POO en Java</a>
+ * @see <a href="https://www.youtube.com/watch?v=tV9tvhrQGOg&t=1225s">Referencia - Crud en java</a>
+ * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/sql/SQLException.html">Referencia - SQLException</a>
+ * @see <a href="https://www.w3schools.com/java/java_arraylist.asp">Referencia - Arraylist en java</a>
  */
 public class TipoForoDAO {
 
@@ -148,22 +152,22 @@ public class TipoForoDAO {
      * @throws SQLException Si ocurre un error al interactuar con la base de datos.
      */
     public void cambiarEstado(TipoForoClass tipoforo, boolean estado) throws SQLException {
-        Connection conex = null;
-        PreparedStatement statUsuario = null;
+        Connection conex = null; // Declaración de la variable para la conexión a la base de datos, inicialmente null
+        PreparedStatement statUsuario = null; // Declaración de la variable para la declaración preparada, inicialmente null
 
         try {
-            conex = conexion.Conexion();
-            String query = "UPDATE tb_tipo_foro SET estado = ? WHERE id_tp_foro = ?";
-            statUsuario = conex.prepareStatement(query);
-            statUsuario.setBoolean(1, estado);
-            statUsuario.setInt(2, tipoforo.getId());
-            statUsuario.executeUpdate();
+            conex = conexion.Conexion(); // Obtener la conexión a la base de datos utilizando el método Conexion de la clase conexion
+            String query = "UPDATE tb_tipo_foro SET estado = ? WHERE id_tp_foro = ?"; // Definir la consulta SQL para actualizar el estado del tipo de foro
+            statUsuario = conex.prepareStatement(query); // Preparar la declaración SQL con la consulta definida
+            statUsuario.setBoolean(1, estado); // Asignar el valor booleano 'estado' al primer parámetro de la consulta
+            statUsuario.setInt(2, tipoforo.getId()); // Asignar el ID del tipo de foro al segundo parámetro de la consulta
+            statUsuario.executeUpdate(); // Ejecutar la actualización en la base de datos
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace(); // Imprimir la traza del error en caso de que ocurra una excepción SQL
+            throw e; // Relanzar la excepción para que sea manejada por el método que llama
         }
     }
-    
+
     /**
      * Método para inhabilitar un tipo de foro en la base de datos.
      * 

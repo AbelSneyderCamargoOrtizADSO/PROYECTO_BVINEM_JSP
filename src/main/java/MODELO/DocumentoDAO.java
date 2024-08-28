@@ -14,6 +14,9 @@ import java.util.List;
  * 
  * @see Conexion
  * @see DocumentoClass
+ * @see <a href="https://www.arquitecturajava.com/dao-vs-repository-y-sus-diferencias/">Referencia - Introducción a POO en Java</a>
+ * @see <a href="https://www.youtube.com/watch?v=tV9tvhrQGOg&t=1225s">Referencia - Crud en java</a>
+ * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/sql/SQLException.html">Referencia - SQLException</a>
  */
 public class DocumentoDAO {
     private Conexion conexion;
